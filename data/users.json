@@ -1,0 +1,84 @@
+{
+  "users": [
+    {
+      "username": "alice",
+      "password": "pass123"
+    },
+    {
+      "username": "bob",
+      "password": "pass456"
+    },
+    {
+      "username": "charlie",
+      "password": "pass789"
+    },
+    {
+      "username": "diana",
+      "password": "pass101"
+    },
+    {
+      "username": "eve",
+      "password": "pass202"
+    },
+    {
+      "username": "frank",
+      "password": "pass303"
+    },
+    {
+      "username": "grace",
+      "password": "pass404"
+    },
+    {
+      "username": "henry",
+      "password": "pass505"
+    },
+    {
+      "username": "iris",
+      "password": "pass606"
+    },
+    {
+      "username": "jack",
+      "password": "pass707"
+    },
+    {
+      "username": "kate",
+      "password": "pass808"
+    },
+    {
+      "username": "leo",
+      "password": "pass909"
+    },
+    {
+      "username": "mia",
+      "password": "pass010"
+    },
+    {
+      "username": "noah",
+      "password": "pass111"
+    },
+    {
+      "username": "olivia",
+      "password": "pass212"
+    },
+    {
+      "username": "peter",
+      "password": "pass313"
+    },
+    {
+      "username": "quinn",
+      "password": "pass414"
+    },
+    {
+      "username": "ryan",
+      "password": "pass515"
+    },
+    {
+      "username": "sara",
+      "password": "pass616"
+    },
+    {
+      "username": "tom",
+      "password": "pass717"
+    }
+  ]
+}

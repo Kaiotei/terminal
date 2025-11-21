@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AngelGotchi Step Counter Monitor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            font-style: italic;
+            background: #000000;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #ff00ff 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #00ffff 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, #ffff00 0%, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border: 3px solid #ff00ff;
+            border-radius: 0;
+            box-shadow: 
+                0 0 20px #ff00ff,
+                inset 0 0 20px rgba(255, 0, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+            background-size: 400% 400%;
+            animation: rainbow 3s ease infinite;
+            color: #000000;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 3px solid #00ffff;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 
+                2px 2px 0px #ffffff,
+                -2px -2px 0px #ffffff,
+                2px -2px 0px #ffffff,
+                -2px 2px 0px #ffffff;
+            font-weight: bold;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .profile-section {
+            background: #2a2a2a;
+            padding: 20px;
+            border-bottom: 2px solid #ffff00;
+            text-align: center;
+        }
+
+        .profile-select {
+            margin-bottom: 10px;
+        }
+
+        .profile-select select, .profile-input input {
+            background: #000000;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 8px 12px;
+            font-family: Arial, monospace;
+            font-weight: bold;
+            font-style: italic;
+            font-size: 14px;
+            border-radius: 0;
+        }
+
+        .profile-input {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .btn-profile {
+            background: linear-gradient(45deg, #00ff00, #ffff00);
+            color: #000000;
+            border: 2px solid #ffffff;
+            padding: 8px 16px;
+            font-family: Arial, cursive;
+            font-weight: bold;
+            font-style: italic;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-left: 10px;
+        }
+
+        .btn-profile:hover {
+            background: linear-gradient(45deg, #ffff00, #00ff00);
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .status-panel {
+            background: #000000;
+            border: 2px solid #ff0000;
+            border-radius: 0;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #ff0000;
+            font-family: Arial, monospace;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .status-panel.disconnected {
+            border-color: #ff0000;
+            color: #ff0000;
+        }
+
+        .status-panel.connecting {
+            border-color: #ffff00;
+            color: #ffff00;
+        }
+
+        .status-panel.connected {
+            border-color: #00ff00;
+            color: #00ff00;
+        }
+
+        .status-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .step-display {
+            background: #000000;
+            border: 3px solid #00ffff;
+            color: #00ffff;
+            padding: 30px;
+            border-radius: 0;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 
+                0 0 20px #00ffff,
+                inset 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+
+        .step-count {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: Arial, monospace;
+            font-style: italic;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .step-label {
+            font-size: 1.2em;
+            opacity: 0.9;
+            text-transform: uppercase;
+        }
+
+        .total-steps {
+            background: #000000;
+            border: 2px solid #ffff00;
+            color: #ffff00;
+            padding: 15px;
+            border-radius: 0;
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: Arial, monospace;
+            font-weight: bold;
+            font-style: italic;
+            text-shadow: 0 0 10px #ffff00;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            border: 3px solid #ffffff;
+            border-radius: 0;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: Arial, sans-serif;
+            font-style: italic;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            color: #000000;
+            text-shadow: 1px 1px 0px #ffffff;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 20px #ff00ff,
+                0 0 20px #00ffff;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-connect {
+            background: linear-gradient(45deg, #00ff00, #ffff00);
+        }
+
+        .btn-disconnect {
+            background: linear-gradient(45deg, #ff0000, #ff00ff);
+        }
+
+        .btn-read {
+            background: linear-gradient(45deg, #00ffff, #0000ff);
+        }
+
+        .btn-record {
+            background: linear-gradient(45deg, #ffff00, #ff8000);
+        }
+
+        .btn-clear {
+            background: linear-gradient(45deg, #ff00ff, #8000ff);
+        }
+
+        .console {
+            background: #000000;
+            color: #00ff00;
+            font-family: Arial, monospace;
+            font-weight: bold;
+            font-style: italic;
+            padding: 20px;
+            border: 2px solid #00ff00;
+            border-radius: 0;
+            height: 300px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            box-shadow: 
+                0 0 20px #00ff00,
+                inset 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+
+        .console::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .console::-webkit-scrollbar-track {
+            background: #000000;
+            border: 1px solid #00ff00;
+        }
+
+        .console::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 0;
+        }
+
+        .console::-webkit-scrollbar-thumb:hover {
+            background: #00ffff;
+        }
+
+        .records {
+            background: #1a1a1a;
+            border: 2px solid #ffff00;
+            border-radius: 0;
+            padding: 20px;
+            color: #ffff00;
+        }
+
+        .records h3 {
+            margin-bottom: 15px;
+            color: #ffff00;
+            text-shadow: 0 0 10px #ffff00;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            font-style: italic;
+            text-transform: uppercase;
+        }
+
+        .record-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .record-item {
+            background: #000000;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border: 1px solid #ffff00;
+            border-radius: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffff00;
+            font-family: Arial, monospace;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .record-steps {
+            font-weight: bold;
+            color: #00ffff;
+            text-shadow: 0 0 5px #00ffff;
+        }
+
+        .record-time {
+            font-size: 0.9em;
+            color: #ffffff;
+        }
+
+        .leaderboard {
+            background: #1a1a1a;
+            border: 2px solid #ff8000;
+            border-radius: 0;
+            padding: 20px;
+            color: #ff8000;
+            margin-top: 20px;
+        }
+
+        .leaderboard h3 {
+            margin-bottom: 15px;
+            color: #ff8000;
+            text-shadow: 0 0 10px #ff8000;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            font-style: italic;
+            text-transform: uppercase;
+        }
+
+        .leaderboard-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .leaderboard-item {
+            background: #000000;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border: 1px solid #ff8000;
+            border-radius: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ff8000;
+            font-family: Arial, monospace;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .leaderboard-rank {
+            font-size: 1.2em;
+            color: #ffff00;
+            font-weight: bold;
+            min-width: 30px;
+        }
+
+        .leaderboard-name {
+            flex: 1;
+            text-align: left;
+        }
+
+        .leaderboard-steps {
+            font-weight: bold;
+            color: #00ffff;
+            text-shadow: 0 0 5px #00ffff;
+            min-width: 100px;
+            text-align: right;
+        }
+
+        .auth-section {
+            margin-bottom: 10px;
+        }
+
+        .auth-input {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .auth-input input {
+            background: #000000;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 8px 12px;
+            font-family: Arial, monospace;
+            font-weight: bold;
+            font-style: italic;
+            font-size: 14px;
+            border-radius: 0;
+            min-width: 150px;
+        }
+
+        .flash-section {
+            background: #1a1a1a;
+            border: 2px solid #ff00ff;
+            border-radius: 0;
+            padding: 20px;
+            color: #ff00ff;
+            margin-top: 20px;
+        }
+
+        .flash-controls {
+            margin-top: 15px;
+        }
+
+        .footer {
+            background: #2a2a2a;
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            border-top: 2px solid #ff00ff;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .footer a {
+            color: #00ffff;
+            text-decoration: none;
+            text-shadow: 0 0 5px #00ffff;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+            color: #ffff00;
+        }
+
+        .troubleshooting {
+            background: #000000;
+            border: 2px solid #ff0000;
+            border-radius: 0;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #ff0000;
+            font-family: Arial, monospace;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .troubleshooting h3 {
+            color: #ff0000;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .troubleshooting ul {
+            color: #ff0000;
+            line-height: 1.6;
+        }
+
+        .troubleshooting li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👼 AngelGotchi Step Monitor</h1>
+            <p>Connect your device and track your daily steps</p>
+        </div>
+
+        <div class="profile-section">
+            <div class="auth-section" id="authSection">
+                <div class="auth-input">
+                    <label for="usernameInput" style="color: #00ff00; font-family: Arial, monospace; font-weight: bold; font-style: italic;">USERNAME:</label>
+                    <input type="text" id="usernameInput" placeholder="Enter username" maxlength="20" style="margin-left: 10px; background: #000000; color: #00ff00; border: 2px solid #00ff00; padding: 5px; font-family: Arial, monospace; font-weight: bold; font-style: italic;">
+                    <label for="passwordInput" style="color: #00ff00; font-family: Arial, monospace; font-weight: bold; font-style: italic; margin-left: 15px;">PASSWORD:</label>
+                    <input type="password" id="passwordInput" placeholder="Enter password" maxlength="20" style="margin-left: 10px; background: #000000; color: #00ff00; border: 2px solid #00ff00; padding: 5px; font-family: Arial, monospace; font-weight: bold; font-style: italic;">
+                    <button class="btn-profile" onclick="login()" style="margin-left: 10px;">LOGIN</button>
+                    <button class="btn-profile" onclick="register()" style="margin-left: 10px; background: linear-gradient(45deg, #ff8000, #ffaa00);">REGISTER</button>
+                </div>
+            </div>
+            <div class="profile-select" id="profileSection" style="display: none;">
+                <label for="profileSelect" style="color: #00ff00; font-family: Arial, monospace; font-weight: bold; font-style: italic;">CURRENT USER:</label>
+                <span id="currentUserDisplay" style="color: #ffff00; font-family: Arial, monospace; font-weight: bold; font-style: italic; margin-left: 10px;"></span>
+                <button class="btn-profile" onclick="logout()" style="margin-left: 15px;">LOGOUT</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="status-panel disconnected" id="statusPanel">
+                <div class="status-text" id="statusText">Device Disconnected</div>
+                <div id="statusMessage">Click "Connect Device" to start monitoring your steps</div>
+            </div>
+
+            <div class="troubleshooting" id="troubleshooting" style="display: none;">
+                <h3>🔧 Connection Troubleshooting</h3>
+                <ul>
+                    <li><strong>Device not appearing:</strong> Ensure ESP32 is connected and powered on</li>
+                    <li><strong>COM10 in use:</strong> Close Arduino IDE, serial monitors, or other programs</li>
+                    <li><strong>Permission denied:</strong> Click "Allow" when browser prompts for device access</li>
+                    <li><strong>Driver issues:</strong> Check Device Manager for "USB JTAG/Serial" on COM10</li>
+                    <li><strong>Try different USB port</strong> or cable if connection fails</li>
+                    <li><strong>Browser refresh</strong> and try connecting again</li>
+                </ul>
+            </div>
+
+            <div class="step-display">
+                <div class="step-count" id="stepCount">--</div>
+                <div class="step-label">Current Steps</div>
+            </div>
+
+            <div class="total-steps">
+                <div style="font-size: 1.5em; font-weight: bold;">Total Lifetime Steps: <span id="totalSteps">--</span></div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-connect" id="connectBtn" onclick="connectDevice()">
+                    🔌 Connect Device
+                </button>
+                <button class="btn btn-disconnect" id="disconnectBtn" onclick="disconnectDevice()" disabled>
+                    ❌ Disconnect
+                </button>
+                <button class="btn btn-read" id="readBtn" onclick="readStepData()" disabled>
+                    📊 Read Steps
+                </button>
+                <button class="btn btn-record" id="recordBtn" onclick="recordSteps()" disabled>
+                    💾 Record Data
+                </button>
+                <button class="btn btn-clear" id="clearBtn" onclick="clearConsole()">
+                    🗑️ Clear Console
+                </button>
+            </div>
+
+            <div class="console" id="console">
+                <div class="console-line">AngelGotchi Step Monitor initialized...</div>
+                <div class="console-line">Ready to connect to device.</div>
+            </div>
+
+            <div class="records">
+                <h3>📋 Recorded Sessions</h3>
+                <div class="record-list" id="recordList">
+                    <div class="record-item">
+                        <span>No records yet. Connect device and record your first session!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="leaderboard">
+                <h3>🏆 Step Leaderboard</h3>
+                <div class="leaderboard-list" id="leaderboardList">
+                    <div class="leaderboard-item">
+                        <span>Loading leaderboard...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flash-section">
+                <h3 style="color: #ffff00; text-shadow: 0 0 10px #ffff00; font-family: Arial, cursive; font-weight: bold; font-style: italic; text-transform: uppercase;">⚡ Firmware Flashing</h3>
+                <div class="flash-controls">
+                    <div style="margin-bottom: 10px;">
+                        <label for="flashFileInput" style="color: #00ff00; font-family: Arial, monospace; font-weight: bold; font-style: italic;">SELECT BIN FILE:</label>
+                        <input type="file" id="flashFileInput" accept=".bin" style="margin-left: 10px; background: #000000; color: #00ff00; border: 2px solid #00ff00; padding: 5px; font-family: Arial, monospace; font-weight: bold; font-style: italic;">
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <label for="flashOffsetInput" style="color: #00ff00; font-family: Arial, monospace; font-weight: bold; font-style: italic;">FLASH OFFSET:</label>
+                        <input type="text" id="flashOffsetInput" value="0x1000" style="margin-left: 10px; background: #000000; color: #00ff00; border: 2px solid #00ff00; padding: 5px; font-family: Arial, monospace; font-weight: bold; font-style: italic; width: 100px;">
+                    </div>
+                    <div class="controls">
+                        <button class="btn btn-record" id="flashBtn" onclick="flashFirmware()" disabled>
+                            🚀 FLASH FIRMWARE
+                        </button>
+                        <button class="btn btn-clear" id="eraseBtn" onclick="eraseFlash()" disabled>
+                            💥 ERASE FLASH
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Built for AngelGotchi Step Counter | <a href="#" onclick="showInstructions()">📖 Instructions</a></p>
+        </div>
+    </div>
+
+    <!-- Instructions Modal -->
+    <div id="instructionsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1a1a1a; border: 3px solid #ff00ff; padding: 30px; border-radius: 0; max-width: 500px; width: 90%; box-shadow: 0 0 30px #ff00ff;">
+            <h2 style="margin-bottom: 20px; color: #00ffff; text-shadow: 0 0 10px #00ffff; font-family: Arial, cursive; font-weight: bold; font-style: italic; text-transform: uppercase;">📖 How to Use</h2>
+            <ol style="line-height: 1.6; color: #ffffff; font-family: Arial, monospace; font-weight: bold; font-style: italic;">
+                <li><strong style="color: #ffff00;">Create Profile:</strong> Select or create a new user profile to save your data</li>
+                <li><strong style="color: #00ff00;">Connect Device:</strong> Click "Connect Device" and select your AngelGotchi from the USB devices list</li>
+                <li><strong style="color: #00ffff;">Read Steps:</strong> Click "Read Steps" to get current step count from EEPROM</li>
+                <li><strong style="color: #ffff00;">Record Data:</strong> Save your current step count with timestamp to your profile</li>
+                <li><strong style="color: #ff00ff;">Monitor Live:</strong> Watch the console for real-time device communication</li>
+                <li><strong style="color: #00ffff;">View Records:</strong> See all your recorded step sessions below</li>
+                <li><strong style="color: #00ff00;">Flash Firmware:</strong> Upload new .bin files to update device firmware</li>
+                <li><strong style="color: #ff0000;">Erase Flash:</strong> Completely erase device flash memory (use with caution)</li>
+            </ol>
+            <button class="btn btn-connect" style="margin-top: 20px;" onclick="hideInstructions()">Got it!</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/esptool-js/bundle.js"></script>
+    <script>
+        // Global variables
+        let port = null;
+        let reader = null;
+        let isConnected = false;
+        let currentSteps = 0;
+        let currentUser = null;
+        let userData = null;
+        let records = [];
+        let esploader = null;
+        let transport = null;
+        let authToken = null;
+
+        // API configuration - REPLACE WITH YOUR RENDER URL
+        const API_BASE_URL = 'https://your-render-app-url.onrender.com/api';
+
+        // DOM elements
+        const statusPanel = document.getElementById('statusPanel');
+        const statusText = document.getElementById('statusText');
+        const statusMessage = document.getElementById('statusMessage');
+        const stepCount = document.getElementById('stepCount');
+        const totalSteps = document.getElementById('totalSteps');
+        const consoleDiv = document.getElementById('console');
+        const recordList = document.getElementById('recordList');
+        const leaderboardList = document.getElementById('leaderboardList');
+        const connectBtn = document.getElementById('connectBtn');
+        const disconnectBtn = document.getElementById('disconnectBtn');
+        const readBtn = document.getElementById('readBtn');
+        const recordBtn = document.getElementById('recordBtn');
+        const usernameInput = document.getElementById('usernameInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const authSection = document.getElementById('authSection');
+        const profileSection = document.getElementById('profileSection');
+        const currentUserDisplay = document.getElementById('currentUserDisplay');
+        const flashFileInput = document.getElementById('flashFileInput');
+        const flashOffsetInput = document.getElementById('flashOffsetInput');
+        const flashBtn = document.getElementById('flashBtn');
+        const eraseBtn = document.getElementById('eraseBtn');
+
+        // Initialize
+        initializeApp();
+        addToConsole('AngelGotchi Step Monitor initialized. Please login to continue.');
+
+        // Initialize application
+        async function initializeApp() {
+            // Check if user is already logged in
+            const savedToken = localStorage.getItem('angelgotchi_token');
+            const savedUser = localStorage.getItem('angelgotchi_user');
+
+            if (savedToken && savedUser) {
+                authToken = savedToken;
+                currentUser = JSON.parse(savedUser);
+                showProfileSection();
+                await loadUserData();
+                updateRecordsDisplay();
+                updateTotalSteps();
+                loadLeaderboard();
+            } else {
+                showAuthSection();
+            }
+        }
+
+        // Authentication functions
+        async function login() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!username || !password) {
+                addToConsole('❌ Please enter both username and password');
+                return;
+            }
+
+            try {
+                addToConsole('🔄 Logging in...');
+
+                const response = await fetch(`${API_BASE_URL}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    authToken = data.token;
+                    currentUser = data.user;
+                    localStorage.setItem('angelgotchi_token', authToken);
+                    localStorage.setItem('angelgotchi_user', JSON.stringify(currentUser));
+
+                    addToConsole('✅ Login successful! Welcome ' + username);
+                    showProfileSection();
+                    await loadUserData();
+                    updateRecordsDisplay();
+                    updateTotalSteps();
+                    loadLeaderboard();
+                } else {
+                    addToConsole('❌ ' + (data.error || 'Login failed'));
+                }
+            } catch (error) {
+                addToConsole('❌ Login failed: ' + error.message);
+                // Fallback to local mode for development
+                if (confirm('Server not available. Login locally for testing?')) {
+                    currentUser = { id: 1, username: username };
+                    userData = {
+                        username: username,
+                        records: JSON.parse(localStorage.getItem('angelgotchi_records_' + username) || '[]'),
+                        totalSteps: 0
+                    };
+                    records = userData.records;
+                    addToConsole('✅ Local login successful! Welcome ' + username);
+                    showProfileSection();
+                    updateRecordsDisplay();
+                    updateTotalSteps();
+                    loadLeaderboard();
+                }
+            }
+        }
+
+        async function register() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!username || !password) {
+                addToConsole('❌ Please enter both username and password');
+                return;
+            }
+
+            if (username.length < 3) {
+                addToConsole('❌ Username must be at least 3 characters');
+                return;
+            }
+
+            if (password.length < 4) {
+                addToConsole('❌ Password must be at least 4 characters');
+                return;
+            }
+
+            try {
+                addToConsole('🔄 Creating account...');
+
+                const response = await fetch(`${API_BASE_URL}/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    authToken = data.token;
+                    currentUser = data.user;
+                    localStorage.setItem('angelgotchi_token', authToken);
+                    localStorage.setItem('angelgotchi_user', JSON.stringify(currentUser));
+
+                    addToConsole('✅ Account created successfully! Welcome ' + username);
+                    showProfileSection();
+                    await loadUserData();
+                    updateRecordsDisplay();
+                    updateTotalSteps();
+                    loadLeaderboard();
+                } else {
+                    addToConsole('❌ ' + (data.error || 'Registration failed'));
+                }
+            } catch (error) {
+                addToConsole('❌ Registration failed: ' + error.message);
+                // Fallback to local mode for development
+                if (confirm('Server not available. Register locally for testing?')) {
+                    currentUser = { id: Date.now(), username: username };
+                    userData = {
+                        username: username,
+                        records: [],
+                        totalSteps: 0
+                    };
+                    records = userData.records;
+                    localStorage.setItem('angelgotchi_user_' + username, JSON.stringify(userData));
+                    addToConsole('✅ Local account created! Welcome ' + username);
+                    showProfileSection();
+                    updateRecordsDisplay();
+                    updateTotalSteps();
+                    loadLeaderboard();
+                }
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            userData = null;
+            authToken = null;
+            records = [];
+            localStorage.removeItem('angelgotchi_token');
+            localStorage.removeItem('angelgotchi_user');
+            updateRecordsDisplay();
+            updateTotalSteps();
+            showAuthSection();
+            addToConsole('👋 Logged out successfully');
+        }
+            updateTotalSteps();
+            showAuthSection();
+            addToConsole('👋 Logged out successfully');
+        }
+
+        function showAuthSection() {
+            authSection.style.display = 'block';
+            profileSection.style.display = 'none';
+        }
+
+        function showProfileSection() {
+            authSection.style.display = 'none';
+            profileSection.style.display = 'block';
+            if (currentUser) {
+                currentUserDisplay.textContent = currentUser;
+            }
+        }
+
+        // Data management functions
+        async function loadUserData() {
+            if (!currentUser || !authToken) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/user`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                    },
+                });
+
+                if (response.ok) {
+                    userData = await response.json();
+                    records = userData.records || [];
+                } else {
+                    throw new Error('Failed to load user data');
+                }
+            } catch (error) {
+                addToConsole('📁 Loading data from local storage');
+                // Fallback to local storage
+                userData = {
+                    username: currentUser.username,
+                    records: JSON.parse(localStorage.getItem('angelgotchi_records_' + currentUser.username) || '[]'),
+                    totalSteps: 0
+                };
+                records = userData.records;
+            }
+        }
+
+        async function saveUserData() {
+            if (!currentUser || !authToken) {
+                // Save locally if no server connection
+                localStorage.setItem('angelgotchi_records_' + currentUser.username, JSON.stringify(records));
+                addToConsole('💾 Data saved locally');
+                return;
+            }
+
+            // Try to save to server
+            try {
+                if (currentSteps > 0) {
+                    const response = await fetch(`${API_BASE_URL}/steps`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`,
+                        },
+                        body: JSON.stringify({ steps: currentSteps }),
+                    });
+
+                    if (response.ok) {
+                        addToConsole('✅ Steps saved to server');
+                        // Reload user data to get updated totals
+                        await loadUserData();
+                    } else {
+                        throw new Error('Failed to save to server');
+                    }
+                }
+            } catch (error) {
+                addToConsole('⚠️ Server save failed, saving locally');
+                localStorage.setItem('angelgotchi_records_' + currentUser.username, JSON.stringify(records));
+            }
+        }
+
+        async function loadLeaderboard() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/leaderboard`);
+                if (response.ok) {
+                    const leaderboardData = await response.json();
+                    displayLeaderboard(leaderboardData.users);
+                } else {
+                    throw new Error('Leaderboard not available');
+                }
+            } catch (error) {
+                // Fallback: create leaderboard from local data
+                addToConsole('📊 Generating leaderboard from local data');
+                const localUsers = [];
+                
+                // Get all local user data
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith('angelgotchi_records_')) {
+                        const username = key.replace('angelgotchi_records_', '');
+                        const userRecords = JSON.parse(localStorage.getItem(key) || '[]');
+                        const totalSteps = userRecords.reduce((total, record) => total + record.steps, 0);
+                        localUsers.push({
+                            username: username,
+                            totalSteps: totalSteps
+                        });
+                    }
+                }
+
+                // Sort by total steps descending
+                localUsers.sort((a, b) => b.totalSteps - a.totalSteps);
+                displayLeaderboard(localUsers.slice(0, 10));
+            }
+        }
+
+        function displayLeaderboard(users) {
+            leaderboardList.innerHTML = '';
+
+            if (users.length === 0) {
+                const item = document.createElement('div');
+                item.className = 'leaderboard-item';
+                item.innerHTML = '<span>No leaderboard data available</span>';
+                leaderboardList.appendChild(item);
+                return;
+            }
+
+            users.slice(0, 10).forEach((user, index) => {
+                const item = document.createElement('div');
+                item.className = 'leaderboard-item';
+
+                const rank = document.createElement('span');
+                rank.className = 'leaderboard-rank';
+                rank.textContent = `#${index + 1}`;
+
+                const name = document.createElement('span');
+                name.className = 'leaderboard-name';
+                name.textContent = user.username;
+
+                const steps = document.createElement('span');
+                steps.className = 'leaderboard-steps';
+                steps.textContent = user.totalSteps.toLocaleString();
+
+                item.appendChild(rank);
+                item.appendChild(name);
+                item.appendChild(steps);
+                leaderboardList.appendChild(item);
+            });
+        }
+
+        // Record management functions
+        function updateRecordsDisplay() {
+            recordList.innerHTML = '';
+
+            if (records.length === 0) {
+                const item = document.createElement('div');
+                item.className = 'record-item';
+                item.innerHTML = '<span>No records yet. Connect device and record your first session!</span>';
+                recordList.appendChild(item);
+                return;
+            }
+
+            records.forEach((record, index) => {
+                const item = document.createElement('div');
+                item.className = 'record-item';
+
+                const time = new Date(record.timestamp).toLocaleString();
+                const steps = record.steps.toLocaleString();
+
+                item.innerHTML = `
+                    <div>
+                        <div class="record-time">${time}</div>
+                    </div>
+                    <div class="record-steps">${steps} steps</div>
+                `;
+
+                recordList.appendChild(item);
+            });
+        }
+
+        function updateTotalSteps() {
+            if (userData) {
+                userData.totalSteps = records.reduce((total, record) => total + record.steps, 0);
+                totalSteps.textContent = userData.totalSteps.toLocaleString();
+            }
+        }
+
+        // Device connection functions
+        async function connectDevice() {
+            if (!currentUser) {
+                addToConsole('❌ Please login first');
+                return;
+            }
+
+            try {
+                addToConsole('🔄 Requesting serial port...');
+                port = await navigator.serial.requestPort();
+                await port.open({ baudRate: 115200 });
+
+                addToConsole('✅ Device connected successfully!');
+                isConnected = true;
+                updateStatus('connected', 'Device Connected', 'Ready to read steps');
+
+                connectBtn.disabled = true;
+                disconnectBtn.disabled = false;
+                readBtn.disabled = false;
+                recordBtn.disabled = false;
+
+                // Start reading data
+                startReading();
+
+            } catch (error) {
+                addToConsole('❌ Connection failed: ' + error.message);
+            }
+        }
+
+        async function disconnectDevice() {
+            if (port) {
+                try {
+                    await port.close();
+                    port = null;
+                    reader = null;
+                } catch (error) {
+                    addToConsole('⚠️ Error closing port: ' + error.message);
+                }
+            }
+
+            isConnected = false;
+            updateStatus('disconnected', 'Device Disconnected', 'Click "Connect Device" to start monitoring');
+
+            connectBtn.disabled = false;
+            disconnectBtn.disabled = true;
+            readBtn.disabled = true;
+            recordBtn.disabled = true;
+
+            addToConsole('📴 Device disconnected');
+        }
+
+        function updateStatus(status, text, message) {
+            statusPanel.className = `status-panel ${status}`;
+            statusText.textContent = text;
+            statusMessage.textContent = message;
+        }
+
+        async function startReading() {
+            if (!port) return;
+
+            try {
+                const decoder = new TextDecoder();
+                reader = port.readable.getReader();
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+
+                    const data = decoder.decode(value);
+                    processSerialData(data);
+                }
+            } catch (error) {
+                addToConsole('❌ Reading error: ' + error.message);
+            }
+        }
+
+        function processSerialData(data) {
+            // Process incoming serial data from ESP32
+            // This would parse step count data from your device
+            const lines = data.split('\n');
+            lines.forEach(line => {
+                line = line.trim();
+                if (line && !isNaN(line)) {
+                    currentSteps = parseInt(line);
+                    stepCount.textContent = currentSteps.toLocaleString();
+                    addToConsole('📊 Current steps: ' + currentSteps);
+                }
+            });
+        }
+
+        async function readSteps() {
+            if (!isConnected || !port) {
+                addToConsole('❌ Device not connected');
+                return;
+            }
+
+            try {
+                addToConsole('📖 Reading steps from device...');
+                // Send command to read steps from EEPROM
+                const encoder = new TextEncoder();
+                const writer = port.writable.getWriter();
+                await writer.write(encoder.encode('READ_STEPS\n'));
+                writer.releaseLock();
+
+                // Wait a moment for response
+                setTimeout(() => {
+                    addToConsole('✅ Steps read from device');
+                }, 1000);
+
+            } catch (error) {
+                addToConsole('❌ Read failed: ' + error.message);
+            }
+        }
+
+        async function recordSteps() {
+            if (!currentUser) {
+                addToConsole('❌ Please login first');
+                return;
+            }
+
+            if (currentSteps === 0) {
+                addToConsole('❌ No steps to record');
+                return;
+            }
+
+            const record = {
+                timestamp: new Date().toISOString(),
+                steps: currentSteps
+            };
+
+            records.push(record);
+            await saveUserData();
+            updateRecordsDisplay();
+            updateTotalSteps();
+            loadLeaderboard(); // Refresh leaderboard
+
+            addToConsole('✅ Recorded ' + currentSteps + ' steps');
+            currentSteps = 0;
+            stepCount.textContent = '0';
+        }
+
+        // Console functions
+        function addToConsole(message) {
+            const line = document.createElement('div');
+            line.className = 'console-line';
+            line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            consoleDiv.appendChild(line);
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        // Firmware flashing functions
+        async function flashFirmware() {
+            if (!flashFileInput.files.length) {
+                addToConsole('❌ No firmware file selected');
+                return;
+            }
+
+            const file = flashFileInput.files[0];
+            const offset = parseInt(flashOffsetInput.value, 16);
+
+            if (isNaN(offset)) {
+                addToConsole('❌ Invalid flash offset');
+                return;
+            }
+
+            flashBtn.disabled = true;
+            eraseBtn.disabled = true;
+
+            try {
+                addToConsole('🔄 Starting firmware flash...');
+
+                // Read file as array buffer
+                const fileBuffer = await file.arrayBuffer();
+                const fileData = new Uint8Array(fileBuffer);
+
+                // Create flash options
+                const flashOptions = {
+                    fileArray: [{
+                        data: String.fromCharCode(...fileData),
+                        address: offset
+                    }],
+                    flashSize: "detect",
+                    eraseAll: false,
+                    compress: true,
+                    reportProgress: (fileIndex, written, total) => {
+                        const progress = ((written / total) * 100).toFixed(1);
+                        addToConsole(`📊 Flashing progress: ${progress}% (${written}/${total} bytes)`);
+                    }
+                };
+
+                await esploader.writeFlash(flashOptions);
+                addToConsole('✅ Firmware flashed successfully!');
+
+            } catch (error) {
+                addToConsole('❌ Flash failed: ' + error.message);
+            } finally {
+                flashBtn.disabled = false;
+                eraseBtn.disabled = false;
+            }
+        }
+
+        async function eraseFlash() {
+            if (!confirm('⚠️ This will erase all data on the device. Are you sure?')) {
+                return;
+            }
+
+            eraseBtn.disabled = true;
+            flashBtn.disabled = true;
+
+            try {
+                addToConsole('🔄 Erasing flash...');
+                await esploader.eraseFlash();
+                addToConsole('✅ Flash erased successfully!');
+            } catch (error) {
+                addToConsole('❌ Erase failed: ' + error.message);
+            } finally {
+                eraseBtn.disabled = false;
+                flashBtn.disabled = false;
+            }
+        }
+
+        // Check if Web Serial API is supported
+        if (!('serial' in navigator)) {
+            addToConsole('❌ Web Serial API not supported in this browser');
+            addToConsole('Please use Chrome, Edge, or Opera browser');
+            connectBtn.disabled = true;
+            connectBtn.textContent = 'Browser Not Supported';
+        }
+
+        // Handle page unload
+        window.addEventListener('beforeunload', () => {
+            if (port) {
+                port.close();
+            }
+        });
+
+        // Handle browser back/forward
+        window.addEventListener('popstate', () => {
+            if (port) {
+                port.close();
+            }
+        });
+    </script>
+
+        // Hide troubleshooting section
+        function hideTroubleshooting() {
+            const troubleshooting = document.getElementById('troubleshooting');
+            if (troubleshooting) {
+                troubleshooting.style.display = 'none';
+            }
+        }
+
+        async function connectDevice() {
+            try {
+                updateStatus('connecting', 'Connecting...', 'Checking for available devices...');
+
+                // Check if any serial ports are already available
+                const availablePorts = await navigator.serial.getPorts();
+                addToConsole(`📋 Found ${availablePorts.length} previously used device(s)`);
+
+                if (availablePorts.length > 0) {
+                    // Try to use existing port first
+                    addToConsole('🔄 Attempting to use previously connected device...');
+                    try {
+                        port = availablePorts[0];
+                        await port.open({
+                            baudRate: 115200,
+                            dataBits: 8,
+                            stopBits: 1,
+                            parity: 'none'
+                        });
+
+                        isConnected = true;
+                        updateStatus('connected', 'Device Connected', 'Successfully connected to previously used device');
+
+                        // Enable buttons
+                        connectBtn.disabled = true;
+                        disconnectBtn.disabled = false;
+                        readBtn.disabled = false;
+                        recordBtn.disabled = false;
+                        flashBtn.disabled = false;
+                        eraseBtn.disabled = false;
+
+                        addToConsole('✅ Device connected successfully');
+                        addToConsole('🔄 Starting data reader...');
+
+                        // Initialize esptool-js
+                        const { ESPLoader, Transport } = window;
+                        transport = new Transport(port, true);
+                        esploader = new ESPLoader({
+                            transport: transport,
+                            baudrate: 115200,
+                            terminal: {
+                                clean: () => {},
+                                writeLine: (data) => addToConsole('ESPTOOL: ' + data),
+                                write: (data) => {}
+                            }
+                        });
+
+                        addToConsole('🔧 ESPTool initialized');
+
+                        // Hide troubleshooting on successful connection
+                        hideTroubleshooting();
+
+                        // Start reading data
+                        startReading();
+                        return;
+
+                    } catch (existingPortError) {
+                        addToConsole('⚠️ Previously used device not available: ' + existingPortError.message);
+                        addToConsole('🔄 Requesting new device selection...');
+                    }
+                }
+
+                updateStatus('connecting', 'Connecting...', 'Please select your AngelGotchi device from the list...');
+
+                // Request a new port
+                port = await navigator.serial.requestPort();
+
+                // Open the port
+                await port.open({
+                    baudRate: 115200,
+                    dataBits: 8,
+                    stopBits: 1,
+                    parity: 'none'
+                });
+
+                isConnected = true;
+                updateStatus('connected', 'Device Connected', 'Successfully connected to AngelGotchi device');
+
+                // Enable buttons
+                connectBtn.disabled = true;
+                disconnectBtn.disabled = false;
+                readBtn.disabled = false;
+                recordBtn.disabled = false;
+                flashBtn.disabled = false;
+                eraseBtn.disabled = false;
+
+                addToConsole('✅ Device connected successfully');
+                addToConsole('🔄 Starting data reader...');
+
+                // Initialize esptool-js
+                const { ESPLoader, Transport } = window;
+                transport = new Transport(port, true);
+                esploader = new ESPLoader({
+                    transport: transport,
+                    baudrate: 115200,
+                    terminal: {
+                        clean: () => {},
+                        writeLine: (data) => addToConsole('ESPTOOL: ' + data),
+                        write: (data) => {}
+                    }
+                });
+
+                addToConsole('🔧 ESPTool initialized');
+
+                // Hide troubleshooting on successful connection
+                hideTroubleshooting();
+
+                // Start reading data
+                startReading();
+
+            } catch (error) {
+                console.error('Connection error:', error);
+
+                if (error.name === 'NotAllowedError') {
+                    updateStatus('disconnected', 'Permission Denied', 'Please allow access to serial devices and try again');
+                    addToConsole('❌ Permission denied - Please click "Allow" when prompted for device access');
+                    addToConsole('💡 Make sure no other programs are using the serial port');
+                } else if (error.name === 'NotFoundError') {
+                    updateStatus('disconnected', 'No Device Found', 'No compatible devices found. Please check your connection');
+                    addToConsole('❌ No devices found - Please ensure:');
+                    addToConsole('   • Device is connected via USB-C');
+                    addToConsole('   • Device is powered on');
+                    addToConsole('   • No other programs are using COM10');
+                    addToConsole('   • Try refreshing the page and reconnecting');
+                } else if (error.message.includes('No port selected')) {
+                    updateStatus('disconnected', 'No Device Selected', 'Please select your device from the list when prompted');
+                    addToConsole('❌ No device selected - Please:');
+                    addToConsole('   • Click "Connect Device" again');
+                    addToConsole('   • Select your ESP32 device from the list');
+                    addToConsole('   • Make sure "USB JTAG/Serial" appears in the device list');
+                    showTroubleshooting();
+                } else {
+                    updateStatus('disconnected', 'Connection Failed', error.message);
+                    addToConsole('❌ Connection failed: ' + error.message);
+                    showTroubleshooting();
+                }
+
+                addToConsole('🔧 Troubleshooting tips:');
+                addToConsole('   1. Close Arduino IDE or any serial monitor');
+                addToConsole('   2. Unplug and replug the USB-C cable');
+                addToConsole('   3. Try a different USB port');
+                addToConsole('   4. Restart your browser');
+                addToConsole('   5. Check Device Manager for COM10');
+            }
+        }
+
+        async function disconnectDevice() {
+            try {
+                if (reader) {
+                    await reader.cancel();
+                    reader = null;
+                }
+
+                if (port) {
+                    await port.close();
+                    port = null;
+                }
+
+                isConnected = false;
+                updateStatus('disconnected', 'Device Disconnected', 'Click "Connect Device" to reconnect');
+
+                // Reset buttons
+                connectBtn.disabled = false;
+                disconnectBtn.disabled = true;
+                readBtn.disabled = true;
+                recordBtn.disabled = true;
+                flashBtn.disabled = true;
+                eraseBtn.disabled = true;
+
+                addToConsole('🔌 Device disconnected');
+
+                // Clean up esptool
+                esploader = null;
+                transport = null;
+
+                // Hide troubleshooting on disconnect
+                hideTroubleshooting();
+
+            } catch (error) {
+                addToConsole('❌ Error disconnecting: ' + error.message);
+            }
+        }
+
+        async function startReading() {
+            try {
+                while (port && port.readable) {
+                    reader = port.readable.getReader();
+                    const decoder = new TextDecoder();
+
+                    try {
+                        while (true) {
+                            const { value, done } = await reader.read();
+                            if (done) break;
+
+                            const chunk = decoder.decode(value);
+                            processSerialData(chunk);
+                        }
+                    } catch (error) {
+                        addToConsole('⚠️ Reader error: ' + error.message);
+                    } finally {
+                        reader.releaseLock();
+                    }
+                }
+            } catch (error) {
+                addToConsole('❌ Reading error: ' + error.message);
+            }
+        }
+
+        function processSerialData(data) {
+            // Add raw data to console
+            const lines = data.split('\n');
+            lines.forEach(line => {
+                if (line.trim()) {
+                    addToConsole('📥 ' + line.trim());
+                }
+            });
+
+            // Try to extract step count from the data
+            const stepMatch = data.match(/Steps?:\s*(\d+)/i);
+            if (stepMatch) {
+                const steps = parseInt(stepMatch[1]);
+                if (!isNaN(steps)) {
+                    currentSteps = steps;
+                    stepCount.textContent = steps.toLocaleString();
+                    addToConsole('📊 Step count updated: ' + steps);
+                }
+            }
+
+            // Look for other useful data patterns
+            if (data.includes('EEPROM') || data.includes('steps')) {
+                addToConsole('💾 EEPROM/Step data detected');
+            }
+        }
+
+        async function readStepData() {
+            if (!isConnected || !port) {
+                addToConsole('❌ No device connected');
+                return;
+            }
+
+            try {
+                addToConsole('📤 Requesting step data from device...');
+
+                // Send command to request step data
+                const encoder = new TextEncoder();
+                const command = 'READ_STEPS\n';
+                const writer = port.writable.getWriter();
+
+                await writer.write(encoder.encode(command));
+                await writer.close();
+
+                addToConsole('✅ Step data request sent');
+
+            } catch (error) {
+                addToConsole('❌ Error reading step data: ' + error.message);
+            }
+        }
+
+        function recordSteps() {
+            if (currentSteps === 0) {
+                addToConsole('⚠️ No step data to record. Please read steps first.');
+                return;
+            }
+
+            if (!currentProfile) {
+                addToConsole('❌ No profile selected');
+                return;
+            }
+
+            const record = {
+                steps: currentSteps,
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString()
+            };
+
+            records.unshift(record); // Add to beginning of array
+
+            // Keep only last 50 records
+            if (records.length > 50) {
+                records = records.slice(0, 50);
+            }
+
+            // Update profile
+            currentProfile.records = records;
+            updateTotalSteps();
+
+            updateRecordsDisplay();
+            addToConsole('💾 Recorded ' + currentSteps + ' steps at ' + record.time + ' for ' + currentProfile.name);
+        }
+
+        function updateRecordsDisplay() {
+            if (records.length === 0) {
+                recordList.innerHTML = '<div class="record-item"><span>No records yet. Connect device and record your first session!</span></div>';
+                return;
+            }
+
+            recordList.innerHTML = records.map(record => `
+                <div class="record-item">
+                    <div>
+                        <span class="record-steps">${record.steps.toLocaleString()} steps</span>
+                        <div class="record-time">${record.date} at ${record.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStatus(status, title, message) {
+            statusPanel.className = `status-panel ${status}`;
+            statusText.textContent = title;
+            statusMessage.textContent = message;
+        }
+
+        function addToConsole(message) {
+            const line = document.createElement('div');
+            line.className = 'console-line';
+            line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+
+            consoleDiv.appendChild(line);
+            
+            // Limit console to 100 lines
+            while (consoleDiv.children.length > 100) {
+                consoleDiv.removeChild(consoleDiv.firstChild);
+            }
+            
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        function clearConsole() {
+            consoleDiv.innerHTML = '<div class="console-line">Console cleared...</div>';
+        }
+
+        function showInstructions() {
+            document.getElementById('instructionsModal').style.display = 'block';
+        }
+
+        function hideInstructions() {
+            document.getElementById('instructionsModal').style.display = 'none';
+        }
+
+        // Handle page unload
+        window.addEventListener('beforeunload', () => {
+            if (port) {
+                port.close();
+            }
+        });
+
+        // Handle browser back/forward
+        window.addEventListener('popstate', () => {
+            if (port) {
+                port.close();
+            }
+        });
+    </script>
+</body>
+</html>

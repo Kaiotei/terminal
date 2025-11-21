@@ -1,0 +1,22 @@
+{
+  "username": "charlie",
+  "records": [
+    {
+      "timestamp": "2025-11-19T08:00:00.000Z",
+      "steps": 3500
+    },
+    {
+      "timestamp": "2025-11-19T12:00:00.000Z",
+      "steps": 2900
+    },
+    {
+      "timestamp": "2025-11-19T17:00:00.000Z",
+      "steps": 4100
+    },
+    {
+      "timestamp": "2025-11-19T20:00:00.000Z",
+      "steps": 1800
+    }
+  ],
+  "totalSteps": 12300
+}

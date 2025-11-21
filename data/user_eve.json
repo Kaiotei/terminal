@@ -1,0 +1,18 @@
+{
+  "username": "eve",
+  "records": [
+    {
+      "timestamp": "2025-11-19T06:00:00.000Z",
+      "steps": 6500
+    },
+    {
+      "timestamp": "2025-11-19T13:30:00.000Z",
+      "steps": 4800
+    },
+    {
+      "timestamp": "2025-11-19T19:15:00.000Z",
+      "steps": 5200
+    }
+  ],
+  "totalSteps": 16500
+}

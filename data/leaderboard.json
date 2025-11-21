@@ -1,0 +1,45 @@
+{
+  "users": [
+    {
+      "username": "eve",
+      "totalSteps": 16500
+    },
+    {
+      "username": "charlie",
+      "totalSteps": 12300
+    },
+    {
+      "username": "diana",
+      "totalSteps": 8300
+    },
+    {
+      "username": "alice",
+      "totalSteps": 7500
+    },
+    {
+      "username": "bob",
+      "totalSteps": 7000
+    },
+    {
+      "username": "frank",
+      "totalSteps": 6200
+    },
+    {
+      "username": "grace",
+      "totalSteps": 5800
+    },
+    {
+      "username": "henry",
+      "totalSteps": 5400
+    },
+    {
+      "username": "iris",
+      "totalSteps": 5100
+    },
+    {
+      "username": "jack",
+      "totalSteps": 4800
+    }
+  ],
+  "lastUpdated": "2025-11-19T21:00:00.000Z"
+}

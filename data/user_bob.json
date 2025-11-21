@@ -1,0 +1,14 @@
+{
+  "username": "bob",
+  "records": [
+    {
+      "timestamp": "2025-11-19T09:15:00.000Z",
+      "steps": 4200
+    },
+    {
+      "timestamp": "2025-11-19T16:20:00.000Z",
+      "steps": 2800
+    }
+  ],
+  "totalSteps": 7000
+}
