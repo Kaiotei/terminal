@@ -1056,17 +1056,24 @@
         if (window.esptool) return window.esptool;
         try {
             addToFlashConsole('Importing esptool-js from CDN...', 'info');
-            // Using a specific ESM version that is known to work
-            const mod = await import('https://esm.sh/esptool-js@0.5.x');
+            const mod = await import('https://esm.sh/esptool-js@0.5.7');
             
-            // Normalize exports
+            // Log module structure for debugging
+            console.log('esptool-js module keys:', Object.keys(mod));
+            if (mod.default) console.log('esptool-js default keys:', Object.keys(mod.default));
+
+            // Normalize exports — handle both named and default exports
             const Transport = mod.Transport || mod.default?.Transport;
             const ESPLoader = mod.ESPLoader || mod.default?.ESPLoader;
 
             if (!Transport || !ESPLoader) {
-                console.error('Module structure:', mod);
-                throw new Error('Transport or ESPLoader missing from library');
+                console.error('Could not find classes. Full module:', mod);
+                throw new Error('Transport or ESPLoader missing from esptool-js');
             }
+
+            // Verify Transport has getInfo capability
+            console.log('Transport prototype methods:', Object.getOwnPropertyNames(Transport.prototype));
+            console.log('ESPLoader prototype methods:', Object.getOwnPropertyNames(ESPLoader.prototype));
 
             window.esptool = { Transport, ESPLoader };
             return window.esptool;
@@ -1510,14 +1517,19 @@
             const chip = await esploader.main();
             addToFlashConsole('✓ Connected to ' + chip, 'success');
 
-            // 6. Read file and flash
+            // 6. Read file as binary string (required by esptool-js 0.5.x)
             const fileBuffer = await file.arrayBuffer();
             const fileData = new Uint8Array(fileBuffer);
+            // Convert to binary string — esptool-js expects string data
+            let binaryString = '';
+            for (let i = 0; i < fileData.length; i++) {
+                binaryString += String.fromCharCode(fileData[i]);
+            }
 
             addToFlashConsole('Flashing ' + file.name + ' (' + fileData.length + ' bytes) at ' + offsetInput.value + '...', 'info');
 
             await esploader.writeFlash({
-                fileArray: [{ data: fileData, address: offset }],
+                fileArray: [{ data: binaryString, address: offset }],
                 flashSize: 'keep',
                 flashMode: 'keep',
                 flashFreq: 'keep',
@@ -1559,11 +1571,12 @@
                 filters: [{ usbVendorId: 0x303A }, { usbVendorId: 0x10C4 }, { usbVendorId: 0x1A86 }]
             });
 
-            const transport = new esptool.Transport(flashPort, true);
+            const transport = new esptool.Transport(flashPort);
             const esploader = new esptool.ESPLoader({
                 transport: transport,
                 baudrate: 115200,
-                terminal: makeFlashTerminal()
+                terminal: makeFlashTerminal(),
+                rom_baudrate: 115200
             });
 
             addToFlashConsole('Connecting...', 'info');
