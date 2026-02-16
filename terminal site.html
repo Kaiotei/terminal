@@ -1445,6 +1445,26 @@
     // automatically in main() — no BOOT button needed
     // ============================================
 
+    // Helper: close the active serial connection so esptool can re-open the port
+    async function ensurePortClosed() {
+        if (reader) {
+            try { await reader.cancel(); reader.releaseLock(); } catch (e) {}
+            reader = null;
+        }
+        if (port) {
+            try { await port.close(); } catch (e) {}
+            port = null;
+        }
+        isConnected = false;
+        // Update UI to reflect disconnected state
+        document.getElementById('connectBtn').disabled = false;
+        document.getElementById('disconnectBtn').disabled = true;
+        document.getElementById('readBtn').disabled = true;
+        document.getElementById('recordBtn').disabled = true;
+        document.getElementById('resetDeviceBtn').disabled = true;
+        updateStatus('disconnected', 'Disconnected');
+    }
+
     // Terminal interface for esptool-js logging
     function makeFlashTerminal() {
         return {
@@ -1471,6 +1491,13 @@
         }
 
         try {
+            // 0. Close any existing serial connection first
+            if (isConnected || port) {
+                addToFlashConsole('Closing active serial connection...', 'info');
+                addToConsole('Disconnecting for firmware flash...', 'info');
+                await ensurePortClosed();
+            }
+
             addToFlashConsole('Initializing flasher...', 'info');
             showFlashProgress(0);
 
@@ -1563,6 +1590,13 @@
         if (!confirm('WARNING: This will erase ALL data on the ESP32-S3. Continue?')) return;
 
         try {
+            // Close any existing serial connection first
+            if (isConnected || port) {
+                addToFlashConsole('Closing active serial connection...', 'info');
+                addToConsole('Disconnecting for flash erase...', 'info');
+                await ensurePortClosed();
+            }
+
             addToFlashConsole('Starting erase sequence...', 'info');
             const esptool = await getEsptool();
 
