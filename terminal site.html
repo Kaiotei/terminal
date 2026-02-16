@@ -3,1621 +3,1622 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AngelGotchi Step Counter Monitor</title>
+    <title>✨ AngelGotchi Terminal ✨</title>
+    <link rel="shortcut icon" href="https://i.imgur.com/YagJJNS.gif">
     <style>
+        /* ============================================
+           CSS Variables - matching index.html palette
+           ============================================ */
+        :root {
+            --purple-main: #CBA9F4;
+            --purple-dark: #6240c4;
+            --purple-deeper: #3515a5;
+            --purple-gradient-start: rgba(197,189,232,0.9);
+            --purple-gradient-mid: rgba(102,79,189,0.89);
+            --purple-gradient-end: rgba(155,132,222,0.88);
+            --text-dark: #333;
+            --text-white: #fff;
+            --accent-blue: #091ABC;
+            --accent-hover: #6701cd;
+            --neon-green: #BBEC66;
+            --bg-white: rgba(255,255,255,0.85);
+            --panel-bg: radial-gradient(circle, rgba(255,255,255,1) 68%, rgba(236,230,255,1) 91%, rgba(230,211,255,1) 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: url(https://cur.cursors-4u.net/games/gam-10/gam987.png), auto !important;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            font-style: italic;
-            background: #000000;
-            background-image: 
-                radial-gradient(circle at 25% 25%, #ff00ff 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, #00ffff 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, #ffff00 0%, transparent 50%);
+            font-family: 'MS UI Gothic', 'Segoe UI', Arial, sans-serif;
+            font-size: 13px;
+            color: var(--text-dark);
+            background-image: url(https://cinni.net/images/web/bg/sparklecloud.gif);
+            background-size: cover;
             background-attachment: fixed;
             min-height: 100vh;
-            padding: 20px;
-            color: #ffffff;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #1a1a1a;
-            border: 3px solid #ff00ff;
-            border-radius: 0;
-            box-shadow: 
-                0 0 20px #ff00ff,
-                inset 0 0 20px rgba(255, 0, 255, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
-            background-size: 400% 400%;
-            animation: rainbow 3s ease infinite;
-            color: #000000;
-            padding: 30px;
-            text-align: center;
-            border-bottom: 3px solid #00ffff;
-        }
-
-        @keyframes rainbow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 
-                2px 2px 0px #ffffff,
-                -2px -2px 0px #ffffff,
-                2px -2px 0px #ffffff,
-                -2px 2px 0px #ffffff;
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
             font-weight: bold;
         }
 
-        .header p {
-            font-size: 1.1em;
+        a:hover {
+            color: var(--accent-hover);
+            cursor: url(https://64.media.tumblr.com/02607bd0c2963c026075b6793fe19914/tumblr_inline_owbmjr95kQ1ulaagf_75sq.pnj);
+        }
+
+        ::selection {
+            text-shadow: 0 0 10px #5a29c2, 0 0 20px #5a29c2, 0 0 30px #5a29c2;
+            color: white;
+            background: transparent;
+        }
+
+        /* Scrollbar - matching index.html */
+        ::-webkit-scrollbar { width: 15px; height: 10px; }
+        ::-webkit-scrollbar-thumb:vertical {
+            background-color: #fff;
+            background-image: url(https://i.imgur.com/Qtm9Z60.png);
+            border-top: 1px solid #bdbdbd;
+            border-left: 1px solid #bdbdbd;
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+        ::-webkit-scrollbar-track {
+            background-color: #fff;
+            background-image: url(https://i.imgur.com/IGXGYKz.png);
+        }
+        ::-webkit-scrollbar-button:vertical:increment {
+            background-image: url(https://i.imgur.com/WhC8iy3.png);
+            width: 14px; height: 16px;
+            border-top: 1px solid #bdbdbd; border-left: 1px solid #bdbdbd;
+            border-right: 1px solid black; border-bottom: 1px solid black;
+        }
+        ::-webkit-scrollbar-button:vertical:decrement {
+            background-image: url(https://i.imgur.com/fQ18mrR.png);
+            width: 14px; height: 16px;
+            border-top: 1px solid #bdbdbd; border-left: 1px solid #bdbdbd;
+            border-right: 1px solid black; border-bottom: 1px solid black;
+        }
+
+        /* ============================================
+           Top Navigation - matching index.html
+           ============================================ */
+        .topnav {
+            background-image: url(https://i.imgur.com/jyUf9kN.gif);
+            background-size: repeat;
+            border-radius: 25px;
+            border: 3px ridge var(--purple-main);
+            box-shadow: 0px 0px 10px white;
+            margin: 10px 20px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+
+        .topnav ul {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 0;
+            padding: 8px 15px;
+            list-style: none;
+        }
+
+        .topnav a, .topnav button {
+            color: #E0DEFF;
+            text-align: center;
+            padding: 8px 12px;
+            display: inline-block;
+            text-shadow: -1px 0 #9933ff, 0 1px #9933ff, 1px 0 #9933ff, 0 -1px #9933ff;
+            font-family: 'MS UI Gothic', Arial, sans-serif;
+            font-size: 11px;
+            background: transparent;
+            border: none;
+            cursor: pointer !important;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .topnav button:hover, .topnav a:hover {
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px white, 0 0 40px white;
+        }
+
+        .topnav button.active {
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px white;
+            font-weight: bold;
+        }
+
+        /* ============================================
+           Main Container
+           ============================================ */
+        .main-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        /* ============================================
+           Header - matching index.html style
+           ============================================ */
+        .header-title {
+            background: linear-gradient(180deg, var(--purple-gradient-start) 5%, var(--purple-gradient-mid) 39%, var(--purple-gradient-end) 92%);
+            box-shadow: #ffffff8a 0px 0px 2px 3px inset;
+            border-bottom: #b3b3b3 solid 1px;
+            text-shadow: 1px 1px 2px #f1baff, -1px -1px 2px #8691eb, 0px -1px 2px #cfeeff;
+            padding: 15px 20px;
+            color: white;
+            text-align: center;
+            border-radius: 60px 0px 0px 0px;
+            border: 3px ridge var(--purple-main);
+            margin-bottom: 15px;
+        }
+
+        .header-title h1 {
+            font-size: 22px;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .header-title p {
+            font-size: 12px;
             opacity: 0.9;
         }
 
-        .profile-section {
-            background: #2a2a2a;
-            padding: 20px;
-            border-bottom: 2px solid #ffff00;
-            text-align: center;
+        .esp32-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.3);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 10px;
+            margin-top: 8px;
+            border: 2px solid rgba(255,255,255,0.6);
+            animation: badge-pulse 2s infinite;
+            text-shadow: none;
         }
 
-        .profile-select {
-            margin-bottom: 10px;
+        @keyframes badge-pulse {
+            0%, 100% { box-shadow: 0 0 8px rgba(255,255,255,0.4); }
+            50% { box-shadow: 0 0 16px rgba(203,169,244,0.8); }
         }
 
-        .profile-select select, .profile-input input {
-            background: #000000;
-            color: #00ff00;
-            border: 2px solid #00ff00;
-            padding: 8px 12px;
-            font-family: Arial, monospace;
-            font-weight: bold;
-            font-style: italic;
-            font-size: 14px;
-            border-radius: 0;
-        }
-
-        .profile-input {
-            display: none;
-            margin-top: 10px;
-        }
-
-        .btn-profile {
-            background: linear-gradient(45deg, #00ff00, #ffff00);
-            color: #000000;
-            border: 2px solid #ffffff;
-            padding: 8px 16px;
-            font-family: Arial, cursive;
-            font-weight: bold;
-            font-style: italic;
-            cursor: pointer;
-            text-transform: uppercase;
-            margin-left: 10px;
-        }
-
-        .btn-profile:hover {
-            background: linear-gradient(45deg, #ffff00, #00ff00);
-            box-shadow: 0 0 10px #00ff00;
-        }
-
-        .content {
-            padding: 30px;
-        }
-
-        .status-panel {
-            background: #000000;
-            border: 2px solid #ff0000;
-            border-radius: 0;
+        /* ============================================
+           Content Panels - matching index.html
+           ============================================ */
+        .panel {
+            background: var(--panel-bg);
+            border: 3px ridge var(--purple-main);
+            border-radius: 0px 0px 0px 60px;
             padding: 20px;
             margin-bottom: 20px;
-            color: #ff0000;
-            font-family: Arial, monospace;
+            position: relative;
+        }
+
+        .panel-alt {
+            background: var(--panel-bg);
+            border: 3px ridge var(--purple-main);
+            border-radius: 60px 0px 0px 0px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .panel-header {
+            background: linear-gradient(180deg, var(--purple-gradient-start) 5%, var(--purple-gradient-mid) 39%, var(--purple-gradient-end) 92%);
+            box-shadow: #ffffff8a 0px 0px 2px 3px inset;
+            border-bottom: #b3b3b3 solid 1px;
+            text-shadow: 1px 1px 2px #f1baff, -1px -1px 2px #8691eb, 0px -1px 2px #cfeeff;
+            padding: 8px 15px;
+            color: white;
+            font-size: 14px;
             font-weight: bold;
-            font-style: italic;
+            margin: -20px -20px 15px -20px;
+            border-radius: 57px 0px 0px 0px;
         }
 
-        .status-panel.disconnected {
-            border-color: #ff0000;
-            color: #ff0000;
+        .panel .panel-header {
+            border-radius: 0;
+            margin: -20px -20px 15px -20px;
         }
 
-        .status-panel.connecting {
-            border-color: #ffff00;
-            color: #ffff00;
+        /* Tab content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ============================================
+           Instruction Steps
+           ============================================ */
+        .instruction-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(203,169,244,0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--purple-main);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, var(--purple-dark), var(--purple-main));
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+            font-size: 13px;
+        }
+
+        .step-content h3 {
+            color: var(--purple-dark);
+            margin-bottom: 4px;
+            font-size: 13px;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        .step-content p {
+            color: var(--text-dark);
+            line-height: 1.5;
+            font-size: 12px;
+        }
+
+        .step-content code {
+            background: rgba(203,169,244,0.2);
+            color: var(--purple-dark);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+        }
+
+        /* ============================================
+           Requirements Box
+           ============================================ */
+        .requirements-box {
+            background: rgba(203,169,244,0.08);
+            border: 2px dashed var(--purple-main);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .requirements-box h3 {
+            color: var(--purple-dark);
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        .requirements-box ul {
+            list-style: none;
+            padding-left: 5px;
+        }
+
+        .requirements-box li {
+            padding: 5px 0;
+            font-size: 12px;
+        }
+
+        .requirements-box li::before {
+            content: "✦ ";
+            color: var(--purple-main);
+        }
+
+        /* ============================================
+           Status Panel
+           ============================================ */
+        .status-panel {
+            background: rgba(203,169,244,0.1);
+            border: 2px ridge var(--purple-main);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
         }
 
         .status-panel.connected {
-            border-color: #00ff00;
-            color: #00ff00;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(187,236,102,0.3);
+        }
+
+        .status-panel.connecting {
+            border-color: var(--purple-main);
+            animation: connecting-pulse 1s infinite;
+        }
+
+        @keyframes connecting-pulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(203,169,244,0.3); }
+            50% { box-shadow: 0 0 20px rgba(203,169,244,0.6); }
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff4444;
+            box-shadow: 0 0 8px #ff4444;
+        }
+
+        .status-dot.connected {
+            background: var(--neon-green);
+            box-shadow: 0 0 8px var(--neon-green);
+        }
+
+        .status-dot.connecting {
+            background: var(--purple-main);
+            animation: blink 0.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         .status-text {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 14px;
+            color: var(--purple-dark);
             text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #f1baff;
         }
 
+        .status-panel.connected .status-text {
+            color: #4a8f00;
+        }
+
+        /* ============================================
+           Step Display
+           ============================================ */
         .step-display {
-            background: #000000;
-            border: 3px solid #00ffff;
-            color: #00ffff;
+            background: linear-gradient(180deg, var(--purple-gradient-start) 5%, var(--purple-gradient-mid) 39%, var(--purple-gradient-end) 92%);
+            border: 3px ridge var(--purple-main);
+            color: white;
             padding: 30px;
-            border-radius: 0;
             text-align: center;
             margin-bottom: 20px;
-            box-shadow: 
-                0 0 20px #00ffff,
-                inset 0 0 20px rgba(0, 255, 255, 0.1);
+            border-radius: 0px 60px 0px 0px;
+            box-shadow: #ffffff8a 0px 0px 2px 3px inset;
         }
 
         .step-count {
             font-size: 3em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-family: Arial, monospace;
-            font-style: italic;
-            text-shadow: 0 0 10px #00ffff;
+            text-shadow: 0 0 15px rgba(255,255,255,0.8);
+            margin-bottom: 5px;
+            letter-spacing: 4px;
         }
 
         .step-label {
-            font-size: 1.2em;
-            opacity: 0.9;
+            font-size: 12px;
             text-transform: uppercase;
+            opacity: 0.9;
         }
 
-        .total-steps {
-            background: #000000;
-            border: 2px solid #ffff00;
-            color: #ffff00;
+        .total-steps-display {
+            background: rgba(203,169,244,0.15);
+            border: 2px ridge var(--purple-main);
             padding: 15px;
-            border-radius: 0;
             text-align: center;
             margin-bottom: 20px;
-            font-family: Arial, monospace;
-            font-weight: bold;
-            font-style: italic;
-            text-shadow: 0 0 10px #ffff00;
+            border-radius: 8px;
         }
 
+        .total-steps-display span {
+            color: var(--purple-dark);
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        /* ============================================
+           Buttons
+           ============================================ */
         .controls {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
             margin-bottom: 20px;
         }
 
         .btn {
-            padding: 15px 25px;
-            border: 3px solid #ffffff;
-            border-radius: 0;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            padding: 12px 18px;
+            border: 2px ridge var(--purple-main);
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-family: Arial, sans-serif;
-            font-style: italic;
-            background: linear-gradient(45deg, #ff00ff, #00ffff);
-            color: #000000;
-            text-shadow: 1px 1px 0px #ffffff;
+            font-family: 'MS UI Gothic', Arial, sans-serif;
+            font-size: 11px;
+            background: linear-gradient(180deg, var(--purple-gradient-start) 5%, var(--purple-gradient-mid) 39%, var(--purple-gradient-end) 92%);
+            color: white;
+            text-shadow: 1px 1px 2px #f1baff, -1px -1px 2px #8691eb;
+            box-shadow: #ffffff8a 0px 0px 2px 2px inset;
+            cursor: pointer !important;
+            transition: all 0.3s ease;
+            border-radius: 5px;
         }
 
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 
-                0 0 20px #ff00ff,
-                0 0 20px #00ffff;
-            background: linear-gradient(45deg, #00ffff, #ff00ff);
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(203,169,244,0.5), #ffffff8a 0px 0px 2px 2px inset;
         }
 
         .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+            opacity: 0.4;
+            cursor: not-allowed !important;
             transform: none;
-            box-shadow: none;
         }
 
         .btn-connect {
-            background: linear-gradient(45deg, #00ff00, #ffff00);
+            background: linear-gradient(180deg, #c8f0a0, #7ec850);
+            color: #2d5a0a;
+            text-shadow: none;
+            border-color: #7ec850;
         }
 
-        .btn-disconnect {
-            background: linear-gradient(45deg, #ff0000, #ff00ff);
+        .btn-danger {
+            background: linear-gradient(180deg, #ffaaaa, #cc4444);
+            color: white;
+            text-shadow: none;
+            border-color: #cc4444;
         }
 
-        .btn-read {
-            background: linear-gradient(45deg, #00ffff, #0000ff);
+        .btn-flash {
+            background: linear-gradient(180deg, #f1baff, var(--purple-dark));
+            border-color: #f1baff;
         }
 
-        .btn-record {
-            background: linear-gradient(45deg, #ffff00, #ff8000);
-        }
-
-        .btn-clear {
-            background: linear-gradient(45deg, #ff00ff, #8000ff);
-        }
-
+        /* ============================================
+           Console
+           ============================================ */
         .console {
-            background: #000000;
-            color: #00ff00;
-            font-family: Arial, monospace;
-            font-weight: bold;
-            font-style: italic;
-            padding: 20px;
-            border: 2px solid #00ff00;
-            border-radius: 0;
-            height: 300px;
+            background: rgba(30,10,50,0.9);
+            color: var(--purple-main);
+            font-family: 'Courier New', monospace;
+            padding: 15px;
+            border: 2px ridge var(--purple-main);
+            height: 200px;
             overflow-y: auto;
-            font-size: 14px;
-            line-height: 1.4;
+            font-size: 11px;
+            line-height: 1.5;
+            border-radius: 0px 0px 0px 30px;
+        }
+
+        .console-line { margin-bottom: 4px; }
+        .console-line.error { color: #ff6b6b; }
+        .console-line.success { color: var(--neon-green); }
+        .console-line.info { color: #f1baff; }
+
+        /* ============================================
+           Username Input (Scoreboard)
+           ============================================ */
+        .username-section {
+            background: rgba(203,169,244,0.1);
+            border: 2px dashed var(--purple-main);
+            border-radius: 10px;
+            padding: 15px 20px;
             margin-bottom: 20px;
-            box-shadow: 
-                0 0 20px #00ff00,
-                inset 0 0 20px rgba(0, 255, 0, 0.1);
-        }
-
-        .console::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .console::-webkit-scrollbar-track {
-            background: #000000;
-            border: 1px solid #00ff00;
-        }
-
-        .console::-webkit-scrollbar-thumb {
-            background: #00ff00;
-            border-radius: 0;
-        }
-
-        .console::-webkit-scrollbar-thumb:hover {
-            background: #00ffff;
-        }
-
-        .records {
-            background: #1a1a1a;
-            border: 2px solid #ffff00;
-            border-radius: 0;
-            padding: 20px;
-            color: #ffff00;
-        }
-
-        .records h3 {
-            margin-bottom: 15px;
-            color: #ffff00;
-            text-shadow: 0 0 10px #ffff00;
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            font-style: italic;
-            text-transform: uppercase;
-        }
-
-        .record-list {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .record-item {
-            background: #000000;
-            padding: 10px 15px;
-            margin-bottom: 8px;
-            border: 1px solid #ffff00;
-            border-radius: 0;
+            text-align: center;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #ffff00;
-            font-family: Arial, monospace;
-            font-weight: bold;
-            font-style: italic;
-        }
-
-        .record-steps {
-            font-weight: bold;
-            color: #00ffff;
-            text-shadow: 0 0 5px #00ffff;
-        }
-
-        .record-time {
-            font-size: 0.9em;
-            color: #ffffff;
-        }
-
-        .leaderboard {
-            background: #1a1a1a;
-            border: 2px solid #ff8000;
-            border-radius: 0;
-            padding: 20px;
-            color: #ff8000;
-            margin-top: 20px;
-        }
-
-        .leaderboard h3 {
-            margin-bottom: 15px;
-            color: #ff8000;
-            text-shadow: 0 0 10px #ff8000;
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            font-style: italic;
-            text-transform: uppercase;
-        }
-
-        .leaderboard-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .leaderboard-item {
-            background: #000000;
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            border: 1px solid #ff8000;
-            border-radius: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #ff8000;
-            font-family: Arial, monospace;
-            font-weight: bold;
-            font-style: italic;
-        }
-
-        .leaderboard-rank {
-            font-size: 1.2em;
-            color: #ffff00;
-            font-weight: bold;
-            min-width: 30px;
-        }
-
-        .leaderboard-name {
-            flex: 1;
-            text-align: left;
-        }
-
-        .leaderboard-steps {
-            font-weight: bold;
-            color: #00ffff;
-            text-shadow: 0 0 5px #00ffff;
-            min-width: 100px;
-            text-align: right;
-        }
-
-        .auth-section {
-            margin-bottom: 10px;
-        }
-
-        .auth-input {
-            display: flex;
-            align-items: center;
             flex-wrap: wrap;
             gap: 10px;
+            align-items: center;
+            justify-content: center;
         }
 
-        .auth-input input {
-            background: #000000;
-            color: #00ff00;
-            border: 2px solid #00ff00;
-            padding: 8px 12px;
-            font-family: Arial, monospace;
+        .username-section label {
+            color: var(--purple-dark);
             font-weight: bold;
-            font-style: italic;
-            font-size: 14px;
-            border-radius: 0;
-            min-width: 150px;
+            font-size: 13px;
+            text-shadow: 1px 1px 2px #f1baff;
         }
 
-        .flash-section {
-            background: #1a1a1a;
-            border: 2px solid #ff00ff;
-            border-radius: 0;
-            padding: 20px;
-            color: #ff00ff;
+        .username-section input {
+            background: white;
+            color: var(--text-dark);
+            border: 2px ridge var(--purple-main);
+            padding: 10px 14px;
+            border-radius: 5px;
+            font-family: 'MS UI Gothic', Arial, sans-serif;
+            font-size: 12px;
+            min-width: 160px;
+        }
+
+        .username-section input::placeholder {
+            color: rgba(100,64,196,0.5);
+        }
+
+        .username-section input:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(203,169,244,0.5);
+        }
+
+        .username-info {
+            font-size: 11px;
+            color: #888;
+            width: 100%;
+        }
+
+        /* ============================================
+           Data Panels (Records & Leaderboard)
+           ============================================ */
+        .data-panel {
+            background: rgba(203,169,244,0.08);
+            border: 2px ridge var(--purple-main);
+            border-radius: 8px;
+            padding: 15px;
             margin-top: 20px;
         }
 
-        .flash-controls {
-            margin-top: 15px;
+        .data-panel h3 {
+            color: var(--purple-dark);
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 2px #f1baff;
+            font-size: 14px;
         }
 
-        .footer {
-            background: #2a2a2a;
-            padding: 20px;
-            text-align: center;
-            color: #ffffff;
-            border-top: 2px solid #ff00ff;
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            font-style: italic;
+        .data-list {
+            max-height: 250px;
+            overflow-y: auto;
         }
 
-        .footer a {
-            color: #00ffff;
-            text-decoration: none;
-            text-shadow: 0 0 5px #00ffff;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-            color: #ffff00;
-        }
-
-        .troubleshooting {
-            background: #000000;
-            border: 2px solid #ff0000;
-            border-radius: 0;
-            padding: 20px;
-            margin-bottom: 20px;
-            color: #ff0000;
-            font-family: Arial, monospace;
-            font-weight: bold;
-            font-style: italic;
-        }
-
-        .troubleshooting h3 {
-            color: #ff0000;
-            margin-bottom: 15px;
-            text-shadow: 0 0 10px #ff0000;
-        }
-
-        .troubleshooting ul {
-            color: #ff0000;
-            line-height: 1.6;
-        }
-
-        .troubleshooting li {
+        .data-item {
+            background: white;
+            padding: 10px 15px;
             margin-bottom: 8px;
+            border: 1px solid rgba(203,169,244,0.4);
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
         }
+
+        .data-item .rank {
+            background: linear-gradient(135deg, var(--purple-dark), var(--purple-main));
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .data-item .steps {
+            color: var(--purple-dark);
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        /* ============================================
+           Flash Section
+           ============================================ */
+        .flash-section {
+            background: rgba(241,186,255,0.1);
+            border: 2px ridge #f1baff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .flash-section h3 {
+            color: var(--purple-dark);
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        .flash-input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 12px;
+        }
+
+        .flash-input-group label {
+            color: var(--purple-dark);
+            font-weight: bold;
+        }
+
+        .flash-input-group input[type="file"] {
+            background: white;
+            color: var(--text-dark);
+            border: 2px ridge var(--purple-main);
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 11px;
+        }
+
+        .flash-input-group input[type="text"] {
+            background: white;
+            color: var(--text-dark);
+            border: 2px ridge var(--purple-main);
+            padding: 8px 12px;
+            border-radius: 5px;
+            width: 100px;
+            font-family: monospace;
+            font-size: 11px;
+        }
+
+        .flash-progress {
+            background: white;
+            border: 2px ridge var(--purple-main);
+            border-radius: 10px;
+            height: 25px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .flash-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--purple-main), #f1baff);
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        /* ============================================
+           Warning Box
+           ============================================ */
+        .warning-box {
+            background: rgba(255,100,100,0.08);
+            border: 2px dashed #ff6b6b;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            color: #cc4444;
+            font-size: 12px;
+        }
+
+        .warning-box strong { color: #ff4444; }
+        .warning-box ul { margin-top: 8px; padding-left: 18px; }
+        .warning-box li { margin-bottom: 4px; }
+
+        /* ============================================
+           Browser Warning
+           ============================================ */
+        .browser-warning {
+            background: rgba(255,100,100,0.15);
+            border: 2px ridge #ff4444;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .browser-warning h3 { color: #ff4444; margin-bottom: 8px; }
+        .browser-warning p { color: #cc4444; font-size: 12px; }
+
+        /* ============================================
+           Footer
+           ============================================ */
+        .site-footer {
+            text-align: center;
+            padding: 15px;
+            color: white;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px white;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .site-footer a { color: #d4ceff; }
+
+        /* ============================================
+           Responsive
+           ============================================ */
+        @media (max-width: 768px) {
+            .topnav ul { flex-direction: column; gap: 0; padding: 8px; }
+            .topnav button { width: 100%; padding: 12px; }
+            .step-count { font-size: 2em; }
+            .controls { grid-template-columns: 1fr; }
+            .header-title h1 { font-size: 18px; }
+            .main-container { padding: 0 10px; }
+        }
+
+        /* ============================================
+           Snowflakes - matching index.html
+           ============================================ */
+        @keyframes snowflakes-fall { 0% { top: -10%; } 100% { top: 100%; } }
+        @keyframes snowflakes-shake { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(80px); } }
+        .snowflake {
+            position: fixed; top: -10%; z-index: 9999;
+            user-select: none; cursor: default; font-size: 18px;
+            animation-name: snowflakes-fall, snowflakes-shake;
+            animation-duration: 10s, 3s;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite, infinite;
+            pointer-events: none;
+        }
+        .snowflake:nth-of-type(1) { left: 10%; animation-delay: 1s, 1s; }
+        .snowflake:nth-of-type(2) { left: 20%; animation-delay: 6s, .5s; }
+        .snowflake:nth-of-type(3) { left: 30%; animation-delay: 4s, 2s; }
+        .snowflake:nth-of-type(4) { left: 40%; animation-delay: 2s, 2s; }
+        .snowflake:nth-of-type(5) { left: 50%; animation-delay: 8s, 3s; }
+        .snowflake:nth-of-type(6) { left: 60%; animation-delay: 6s, 2s; }
+        .snowflake:nth-of-type(7) { left: 70%; animation-delay: 2.5s, 1s; }
+        .snowflake:nth-of-type(8) { left: 80%; animation-delay: 1s, 0s; }
+        .snowflake:nth-of-type(9) { left: 90%; animation-delay: 3s, 1.5s; }
+        .snowflake:nth-of-type(10) { left: 25%; animation-delay: 2s, 0s; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>👼 AngelGotchi Step Monitor</h1>
-            <p>Connect your device and track your daily steps</p>
-        </div>
 
-        <div class="profile-section">
-            <div class="auth-section" id="authSection">
-                <div class="auth-input">
-                    <label for="usernameInput" style="color: #00ff00; font-family: Arial, monospace; font-weight: bold; font-style: italic;">USERNAME:</label>
-                    <input type="text" id="usernameInput" placeholder="Enter username" maxlength="20" style="margin-left: 10px; background: #000000; color: #00ff00; border: 2px solid #00ff00; padding: 5px; font-family: Arial, monospace; font-weight: bold; font-style: italic;">
-                    <label for="passwordInput" style="color: #00ff00; font-family: Arial, monospace; font-weight: bold; font-style: italic; margin-left: 15px;">PASSWORD:</label>
-                    <input type="password" id="passwordInput" placeholder="Enter password" maxlength="20" style="margin-left: 10px; background: #000000; color: #00ff00; border: 2px solid #00ff00; padding: 5px; font-family: Arial, monospace; font-weight: bold; font-style: italic;">
-                    <button class="btn-profile" onclick="login()" style="margin-left: 10px;">LOGIN</button>
-                    <button class="btn-profile" onclick="register()" style="margin-left: 10px; background: linear-gradient(45deg, #ff8000, #ffaa00);">REGISTER</button>
-                </div>
-            </div>
-            <div class="profile-select" id="profileSection" style="display: none;">
-                <label for="profileSelect" style="color: #00ff00; font-family: Arial, monospace; font-weight: bold; font-style: italic;">CURRENT USER:</label>
-                <span id="currentUserDisplay" style="color: #ffff00; font-family: Arial, monospace; font-weight: bold; font-style: italic; margin-left: 10px;"></span>
-                <button class="btn-profile" onclick="logout()" style="margin-left: 15px;">LOGOUT</button>
-            </div>
-        </div>
+<!-- Snowflakes -->
+<div class="snowflakes">
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+</div>
 
-        <div class="content">
-            <div class="status-panel disconnected" id="statusPanel">
-                <div class="status-text" id="statusText">Device Disconnected</div>
-                <div id="statusMessage">Click "Connect Device" to start monitoring your steps</div>
-            </div>
+<!-- Top Navigation -->
+<nav class="topnav">
+    <ul>
+        <li><a href="https://1333covenant.com/">home</a></li>
+        <li><button class="active" onclick="showTab('instructions', this)">📖 instructions</button></li>
+        <li><button onclick="showTab('connect', this)">🔌 connect</button></li>
+        <li><button onclick="showTab('steps', this)">👟 steps</button></li>
+        <li><button onclick="showTab('flash', this)">⚡ flash</button></li>
+        <li><a href="https://1333covenant.com/shop">shop</a></li>
+    </ul>
+</nav>
 
-            <div class="troubleshooting" id="troubleshooting" style="display: none;">
-                <h3>🔧 Connection Troubleshooting</h3>
+<div class="main-container">
+
+    <!-- Header -->
+    <div class="header-title">
+        <h1>✨ AngelGotchi Terminal ✨</h1>
+        <p>ESP32-S3 Step Counter & Device Manager</p>
+        <div class="esp32-badge">ESP32-S3 Native USB</div>
+    </div>
+
+    <!-- Browser Warning -->
+    <div class="browser-warning" id="browserWarning">
+        <h3>⚠️ Browser Not Supported</h3>
+        <p>Web Serial API is required. Please use <strong>Google Chrome</strong>, <strong>Microsoft Edge</strong>, or <strong>Opera</strong>.</p>
+    </div>
+
+    <!-- ================================ -->
+    <!-- Tab 1: Instructions              -->
+    <!-- ================================ -->
+    <div class="tab-content active" id="tab-instructions">
+        <div class="panel-alt">
+            <div class="panel-header">📋 Requirements</div>
+            <div class="requirements-box">
                 <ul>
-                    <li><strong>Device not appearing:</strong> Ensure ESP32 is connected and powered on</li>
-                    <li><strong>COM10 in use:</strong> Close Arduino IDE, serial monitors, or other programs</li>
-                    <li><strong>Permission denied:</strong> Click "Allow" when browser prompts for device access</li>
-                    <li><strong>Driver issues:</strong> Check Device Manager for "USB JTAG/Serial" on COM10</li>
-                    <li><strong>Try different USB port</strong> or cable if connection fails</li>
-                    <li><strong>Browser refresh</strong> and try connecting again</li>
+                    <li><strong>ESP32-S3</strong> development board with native USB</li>
+                    <li><strong>USB-C cable</strong> (data cable, not charge-only)</li>
+                    <li><strong>Chrome, Edge, or Opera</strong> browser (Web Serial API)</li>
+                    <li><strong>AngelGotchi firmware</strong> flashed on your device</li>
                 </ul>
             </div>
+        </div>
 
-            <div class="step-display">
-                <div class="step-count" id="stepCount">--</div>
-                <div class="step-label">Current Steps</div>
-            </div>
+        <div class="panel">
+            <div class="panel-header">🚀 Getting Started with ESP32-S3</div>
 
-            <div class="total-steps">
-                <div style="font-size: 1.5em; font-weight: bold;">Total Lifetime Steps: <span id="totalSteps">--</span></div>
-            </div>
-
-            <div class="controls">
-                <button class="btn btn-connect" id="connectBtn" onclick="connectDevice()">
-                    🔌 Connect Device
-                </button>
-                <button class="btn btn-disconnect" id="disconnectBtn" onclick="disconnectDevice()" disabled>
-                    ❌ Disconnect
-                </button>
-                <button class="btn btn-read" id="readBtn" onclick="readStepData()" disabled>
-                    📊 Read Steps
-                </button>
-                <button class="btn btn-record" id="recordBtn" onclick="recordSteps()" disabled>
-                    💾 Record Data
-                </button>
-                <button class="btn btn-clear" id="clearBtn" onclick="clearConsole()">
-                    🗑️ Clear Console
-                </button>
-            </div>
-
-            <div class="console" id="console">
-                <div class="console-line">AngelGotchi Step Monitor initialized...</div>
-                <div class="console-line">Ready to connect to device.</div>
-            </div>
-
-            <div class="records">
-                <h3>📋 Recorded Sessions</h3>
-                <div class="record-list" id="recordList">
-                    <div class="record-item">
-                        <span>No records yet. Connect device and record your first session!</span>
-                    </div>
+            <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Connect Your ESP32-S3</h3>
+                    <p>Plug your ESP32-S3 into your computer using a USB-C data cable. The ESP32-S3 uses <strong>native USB</strong> — no external USB-UART chip needed!</p>
                 </div>
             </div>
 
-            <div class="leaderboard">
-                <h3>🏆 Step Leaderboard</h3>
-                <div class="leaderboard-list" id="leaderboardList">
-                    <div class="leaderboard-item">
-                        <span>Loading leaderboard...</span>
-                    </div>
+            <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Check Device Manager (Windows)</h3>
+                    <p>Open Device Manager → <code>Ports (COM & LPT)</code> → look for "USB JTAG/serial debug unit". Note the COM port (e.g., <code>COM10</code>).</p>
                 </div>
             </div>
 
-            <div class="flash-section">
-                <h3 style="color: #ffff00; text-shadow: 0 0 10px #ffff00; font-family: Arial, cursive; font-weight: bold; font-style: italic; text-transform: uppercase;">⚡ Firmware Flashing</h3>
-                <div class="flash-controls">
-                    <div style="margin-bottom: 10px;">
-                        <label for="flashFileInput" style="color: #00ff00; font-family: Arial, monospace; font-weight: bold; font-style: italic;">SELECT BIN FILE:</label>
-                        <input type="file" id="flashFileInput" accept=".bin" style="margin-left: 10px; background: #000000; color: #00ff00; border: 2px solid #00ff00; padding: 5px; font-family: Arial, monospace; font-weight: bold; font-style: italic;">
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <label for="flashOffsetInput" style="color: #00ff00; font-family: Arial, monospace; font-weight: bold; font-style: italic;">FLASH OFFSET:</label>
-                        <input type="text" id="flashOffsetInput" value="0x1000" style="margin-left: 10px; background: #000000; color: #00ff00; border: 2px solid #00ff00; padding: 5px; font-family: Arial, monospace; font-weight: bold; font-style: italic; width: 100px;">
-                    </div>
-                    <div class="controls">
-                        <button class="btn btn-record" id="flashBtn" onclick="flashFirmware()" disabled>
-                            🚀 FLASH FIRMWARE
-                        </button>
-                        <button class="btn btn-clear" id="eraseBtn" onclick="eraseFlash()" disabled>
-                            💥 ERASE FLASH
-                        </button>
-                    </div>
+            <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Navigate to Connect Tab</h3>
+                    <p>Click the <strong>"Connect"</strong> tab above. Close Arduino IDE or any serial monitors first — only one app can use the port at a time!</p>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Grant Browser Permission</h3>
+                    <p>Click "Connect" and your browser will show a popup to select a serial port. Choose your ESP32-S3 device and click <strong>"Connect"</strong>.</p>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>Read Your Steps!</h3>
+                    <p>Go to the <strong>"Steps"</strong> tab to read step data from your device's EEPROM. Save sessions and compete on the leaderboard!</p>
                 </div>
             </div>
         </div>
 
-        <div class="footer">
-            <p>Built for AngelGotchi Step Counter | <a href="#" onclick="showInstructions()">📖 Instructions</a></p>
-        </div>
-    </div>
+        <div class="panel-alt">
+            <div class="panel-header">⚡ Flashing New Firmware</div>
 
-    <!-- Instructions Modal -->
-    <div id="instructionsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000;">
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1a1a1a; border: 3px solid #ff00ff; padding: 30px; border-radius: 0; max-width: 500px; width: 90%; box-shadow: 0 0 30px #ff00ff;">
-            <h2 style="margin-bottom: 20px; color: #00ffff; text-shadow: 0 0 10px #00ffff; font-family: Arial, cursive; font-weight: bold; font-style: italic; text-transform: uppercase;">📖 How to Use</h2>
-            <ol style="line-height: 1.6; color: #ffffff; font-family: Arial, monospace; font-weight: bold; font-style: italic;">
-                <li><strong style="color: #ffff00;">Create Profile:</strong> Select or create a new user profile to save your data</li>
-                <li><strong style="color: #00ff00;">Connect Device:</strong> Click "Connect Device" and select your AngelGotchi from the USB devices list</li>
-                <li><strong style="color: #00ffff;">Read Steps:</strong> Click "Read Steps" to get current step count from EEPROM</li>
-                <li><strong style="color: #ffff00;">Record Data:</strong> Save your current step count with timestamp to your profile</li>
-                <li><strong style="color: #ff00ff;">Monitor Live:</strong> Watch the console for real-time device communication</li>
-                <li><strong style="color: #00ffff;">View Records:</strong> See all your recorded step sessions below</li>
-                <li><strong style="color: #00ff00;">Flash Firmware:</strong> Upload new .bin files to update device firmware</li>
-                <li><strong style="color: #ff0000;">Erase Flash:</strong> Completely erase device flash memory (use with caution)</li>
-            </ol>
-            <button class="btn btn-connect" style="margin-top: 20px;" onclick="hideInstructions()">Got it!</button>
+            <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Plug in Your Device</h3>
+                    <p>Connect your ESP32-S3 via USB-C. No need to press BOOT — the flasher resets the chip into download mode automatically.</p>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Select Your Firmware File</h3>
+                    <p>Go to the <strong>"Flash"</strong> tab and select your <code>.bin</code> file. Default offset: <code>0x0</code> for merged, <code>0x10000</code> for app-only.</p>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Flash & Go</h3>
+                    <p>Click "Flash Firmware" and wait. The device auto-resets when done — your new firmware starts immediately!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Troubleshooting Tips:</strong>
+            <ul>
+                <li>Device doesn't appear? Try a different USB port or cable</li>
+                <li>Connection fails? Close Arduino IDE or any serial monitors</li>
+                <li>"Permission denied"? Make sure you clicked "Allow" in the browser popup</li>
+                <li>Flashing issues? Try unplugging and replugging USB, then flash again</li>
+                <li>Still stuck? Try unplugging and replugging the device</li>
+            </ul>
         </div>
     </div>
 
-    <script src="https://unpkg.com/esptool-js/bundle.js"></script>
-    <script>
-        // Global variables
-        let port = null;
-        let reader = null;
-        let isConnected = false;
-        let currentSteps = 0;
-        let currentUser = null;
-        let userData = null;
-        let records = [];
-        let esploader = null;
-        let transport = null;
-        let authToken = null;
+    <!-- ================================ -->
+    <!-- Tab 2: Connect Device            -->
+    <!-- ================================ -->
+    <div class="tab-content" id="tab-connect">
+        <!-- Username for Scoreboard -->
+        <div class="username-section">
+            <label>✦ Display Name:</label>
+            <input type="text" id="usernameInput" placeholder="Enter your name" maxlength="20">
+            <div class="username-info">Your name will appear on the leaderboard when you save steps</div>
+        </div>
 
-        // API configuration - REPLACE WITH YOUR RENDER URL
-        const API_BASE_URL = 'https://your-render-app-url.onrender.com/api';
+        <!-- Connection Status -->
+        <div class="status-panel" id="statusPanel">
+            <div class="status-indicator">
+                <div class="status-dot" id="statusDot"></div>
+                <div class="status-text" id="statusText">Disconnected</div>
+            </div>
+            <div id="statusMessage" style="font-size: 12px; margin-top: 5px;">Click "Connect ESP32-S3" to begin</div>
+        </div>
 
-        // DOM elements
-        const statusPanel = document.getElementById('statusPanel');
-        const statusText = document.getElementById('statusText');
-        const statusMessage = document.getElementById('statusMessage');
-        const stepCount = document.getElementById('stepCount');
-        const totalSteps = document.getElementById('totalSteps');
-        const consoleDiv = document.getElementById('console');
-        const recordList = document.getElementById('recordList');
-        const leaderboardList = document.getElementById('leaderboardList');
-        const connectBtn = document.getElementById('connectBtn');
-        const disconnectBtn = document.getElementById('disconnectBtn');
-        const readBtn = document.getElementById('readBtn');
-        const recordBtn = document.getElementById('recordBtn');
-        const usernameInput = document.getElementById('usernameInput');
-        const passwordInput = document.getElementById('passwordInput');
-        const authSection = document.getElementById('authSection');
-        const profileSection = document.getElementById('profileSection');
-        const currentUserDisplay = document.getElementById('currentUserDisplay');
-        const flashFileInput = document.getElementById('flashFileInput');
-        const flashOffsetInput = document.getElementById('flashOffsetInput');
-        const flashBtn = document.getElementById('flashBtn');
-        const eraseBtn = document.getElementById('eraseBtn');
+        <div class="controls">
+            <button class="btn btn-connect" id="connectBtn" onclick="connectDevice()">
+                🔌 Connect ESP32-S3
+            </button>
+            <button class="btn btn-danger" id="disconnectBtn" onclick="disconnectDevice()" disabled>
+                ❌ Disconnect
+            </button>
+        </div>
 
-        // Initialize
+        <div class="console" id="console">
+            <div class="console-line info">[System] AngelGotchi Terminal initialized</div>
+            <div class="console-line">[System] Ready to connect to ESP32-S3 device</div>
+        </div>
+    </div>
+
+    <!-- ================================ -->
+    <!-- Tab 3: Step Counter              -->
+    <!-- ================================ -->
+    <div class="tab-content" id="tab-steps">
+        <div class="step-display">
+            <div class="step-count" id="stepCount">--</div>
+            <div class="step-label">Current Session Steps</div>
+        </div>
+
+        <div class="total-steps-display">
+            <div>Total Lifetime Steps: <span id="totalSteps">--</span></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="readBtn" onclick="readStepData()" disabled>
+                📖 Read Steps from Device
+            </button>
+            <button class="btn" id="recordBtn" onclick="recordSteps()" disabled>
+                💾 Save to Scoreboard
+            </button>
+            <button class="btn btn-danger" id="resetDeviceBtn" onclick="resetDeviceSteps()" disabled>
+                🔄 Reset Device Counter
+            </button>
+        </div>
+
+        <div class="data-panel">
+            <h3>📊 Your Recent Sessions</h3>
+            <div class="data-list" id="recordList">
+                <div class="data-item"><span>No records yet — connect device to start tracking!</span></div>
+            </div>
+        </div>
+
+        <div class="data-panel">
+            <h3>🏆 Leaderboard</h3>
+            <div class="data-list" id="leaderboardList">
+                <div class="data-item"><span>Loading leaderboard...</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================ -->
+    <!-- Tab 4: Flash Firmware            -->
+    <!-- ================================ -->
+    <div class="tab-content" id="tab-flash">
+        <div class="panel-alt">
+            <div class="panel-header">⚡ ESP32-S3 Web Flasher</div>
+            <p style="font-size: 13px; margin-bottom: 15px; color: #bb86fc;">Flash firmware directly from your browser. Recommended file: <strong>angelgotchi2.bin</strong></p>
+
+            <div class="warning-box">
+                <strong style="display: block; margin-bottom: 5px;">☆ How to flash without the BOOT button:</strong>
+                <ol style="margin-left: 20px; font-size: 11px; line-height: 1.6;">
+                    <li>Connect the device via USB-C.</li>
+                    <li>Select the <strong>angelgotchi2.bin</strong> file in the picker below.</li>
+                    <li>Click <strong>Flash Firmware</strong>. If the device is running, the terminal will auto-trigger "CDC Reset" to enter bootloader mode for you.</li>
+                    <li>If it fails, try the "Full Erase" first.</li>
+                </ol>
+                <div style="font-size: 10px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 5px;">
+                    <em>Note:</em> Only use the BOOT + RESET button combo if the terminal cannot find the device automatically.
+                </div>
+            </div>
+        </div>
+
+        <div class="flash-section">
+            <h3>📤 Upload Firmware</h3>
+
+            <div class="flash-input-group">
+                <label>Firmware File (.bin):</label>
+                <input type="file" id="flashFileInput" accept=".bin">
+            </div>
+
+            <div class="flash-input-group">
+                <label>Flash Offset:</label>
+                <input type="text" id="flashOffsetInput" value="0x0" placeholder="0x0">
+                <span style="font-size: 11px; color: #888;">(Use 0x0 for S3 merged binaries)</span>
+            </div>
+
+            <div class="flash-progress" id="flashProgress" style="display: none;">
+                <div class="flash-progress-bar" id="flashProgressBar">0%</div>
+            </div>
+
+            <div class="controls" style="margin-top: 15px;">
+                <button class="btn btn-flash" id="flashBtn" onclick="flashFirmware()">
+                    ⚡ Flash Firmware
+                </button>
+                <button class="btn btn-danger" id="eraseBtn" onclick="eraseFlash()">
+                    🗑️ Erase Flash
+                </button>
+            </div>
+        </div>
+
+        <div class="console" id="flashConsole" style="margin-top: 15px;">
+            <div class="console-line info">[Flash] ESP32-S3 Web Flasher ready</div>
+            <div class="console-line">[Flash] Select a .bin file and click Flash to begin</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="site-footer">
+    ☆ 2025 - 1333 | AngelGotchi Terminal | <a href="https://1333covenant.com/">1333covenant.com</a> ☆
+</div>
+
+<script>
+    // ============================================
+    // ESPTool logic
+    // ============================================
+    async function getEsptool() {
+        if (window.esptool) return window.esptool;
+        try {
+            addToFlashConsole('Importing esptool-js from CDN...', 'info');
+            // Using a specific ESM version that is known to work
+            const mod = await import('https://esm.sh/esptool-js@0.5.x');
+            
+            // Normalize exports
+            const Transport = mod.Transport || mod.default?.Transport;
+            const ESPLoader = mod.ESPLoader || mod.default?.ESPLoader;
+
+            if (!Transport || !ESPLoader) {
+                console.error('Module structure:', mod);
+                throw new Error('Transport or ESPLoader missing from library');
+            }
+
+            window.esptool = { Transport, ESPLoader };
+            return window.esptool;
+        } catch (e) {
+            console.error('Loader error:', e);
+            throw new Error('Failed to load esptool-js: ' + e.message);
+        }
+    }
+
+    // ============================================
+    // Global Variables
+    // ============================================
+    let port = null;
+    let reader = null;
+    let isConnected = false;
+    let currentSteps = 0;
+    let records = [];
+
+    // API Configuration - Your Render backend URL
+    const API_BASE_URL = 'https://angelterminal.onrender.com/api';
+
+    // ============================================
+    // Initialization
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        checkBrowserSupport();
         initializeApp();
-        addToConsole('AngelGotchi Step Monitor initialized. Please login to continue.');
+    });
 
-        // Initialize application
-        async function initializeApp() {
-            // Check if user is already logged in
-            const savedToken = localStorage.getItem('angelgotchi_token');
-            const savedUser = localStorage.getItem('angelgotchi_user');
-
-            if (savedToken && savedUser) {
-                authToken = savedToken;
-                currentUser = JSON.parse(savedUser);
-                showProfileSection();
-                await loadUserData();
-                updateRecordsDisplay();
-                updateTotalSteps();
-                loadLeaderboard();
-            } else {
-                showAuthSection();
-            }
-        }
-
-        // Authentication functions
-        async function login() {
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value.trim();
-
-            if (!username || !password) {
-                addToConsole('❌ Please enter both username and password');
-                return;
-            }
-
-            try {
-                addToConsole('🔄 Logging in...');
-
-                const response = await fetch(`${API_BASE_URL}/login`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ username, password }),
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    authToken = data.token;
-                    currentUser = data.user;
-                    localStorage.setItem('angelgotchi_token', authToken);
-                    localStorage.setItem('angelgotchi_user', JSON.stringify(currentUser));
-
-                    addToConsole('✅ Login successful! Welcome ' + username);
-                    showProfileSection();
-                    await loadUserData();
-                    updateRecordsDisplay();
-                    updateTotalSteps();
-                    loadLeaderboard();
-                } else {
-                    addToConsole('❌ ' + (data.error || 'Login failed'));
-                }
-            } catch (error) {
-                addToConsole('❌ Login failed: ' + error.message);
-                // Fallback to local mode for development
-                if (confirm('Server not available. Login locally for testing?')) {
-                    currentUser = { id: 1, username: username };
-                    userData = {
-                        username: username,
-                        records: JSON.parse(localStorage.getItem('angelgotchi_records_' + username) || '[]'),
-                        totalSteps: 0
-                    };
-                    records = userData.records;
-                    addToConsole('✅ Local login successful! Welcome ' + username);
-                    showProfileSection();
-                    updateRecordsDisplay();
-                    updateTotalSteps();
-                    loadLeaderboard();
-                }
-            }
-        }
-
-        async function register() {
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value.trim();
-
-            if (!username || !password) {
-                addToConsole('❌ Please enter both username and password');
-                return;
-            }
-
-            if (username.length < 3) {
-                addToConsole('❌ Username must be at least 3 characters');
-                return;
-            }
-
-            if (password.length < 4) {
-                addToConsole('❌ Password must be at least 4 characters');
-                return;
-            }
-
-            try {
-                addToConsole('🔄 Creating account...');
-
-                const response = await fetch(`${API_BASE_URL}/register`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ username, password }),
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    authToken = data.token;
-                    currentUser = data.user;
-                    localStorage.setItem('angelgotchi_token', authToken);
-                    localStorage.setItem('angelgotchi_user', JSON.stringify(currentUser));
-
-                    addToConsole('✅ Account created successfully! Welcome ' + username);
-                    showProfileSection();
-                    await loadUserData();
-                    updateRecordsDisplay();
-                    updateTotalSteps();
-                    loadLeaderboard();
-                } else {
-                    addToConsole('❌ ' + (data.error || 'Registration failed'));
-                }
-            } catch (error) {
-                addToConsole('❌ Registration failed: ' + error.message);
-                // Fallback to local mode for development
-                if (confirm('Server not available. Register locally for testing?')) {
-                    currentUser = { id: Date.now(), username: username };
-                    userData = {
-                        username: username,
-                        records: [],
-                        totalSteps: 0
-                    };
-                    records = userData.records;
-                    localStorage.setItem('angelgotchi_user_' + username, JSON.stringify(userData));
-                    addToConsole('✅ Local account created! Welcome ' + username);
-                    showProfileSection();
-                    updateRecordsDisplay();
-                    updateTotalSteps();
-                    loadLeaderboard();
-                }
-            }
-        }
-
-        function logout() {
-            currentUser = null;
-            userData = null;
-            authToken = null;
-            records = [];
-            localStorage.removeItem('angelgotchi_token');
-            localStorage.removeItem('angelgotchi_user');
-            updateRecordsDisplay();
-            updateTotalSteps();
-            showAuthSection();
-            addToConsole('👋 Logged out successfully');
-        }
-            updateTotalSteps();
-            showAuthSection();
-            addToConsole('👋 Logged out successfully');
-        }
-
-        function showAuthSection() {
-            authSection.style.display = 'block';
-            profileSection.style.display = 'none';
-        }
-
-        function showProfileSection() {
-            authSection.style.display = 'none';
-            profileSection.style.display = 'block';
-            if (currentUser) {
-                currentUserDisplay.textContent = currentUser;
-            }
-        }
-
-        // Data management functions
-        async function loadUserData() {
-            if (!currentUser || !authToken) return;
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/user`, {
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`,
-                    },
-                });
-
-                if (response.ok) {
-                    userData = await response.json();
-                    records = userData.records || [];
-                } else {
-                    throw new Error('Failed to load user data');
-                }
-            } catch (error) {
-                addToConsole('📁 Loading data from local storage');
-                // Fallback to local storage
-                userData = {
-                    username: currentUser.username,
-                    records: JSON.parse(localStorage.getItem('angelgotchi_records_' + currentUser.username) || '[]'),
-                    totalSteps: 0
-                };
-                records = userData.records;
-            }
-        }
-
-        async function saveUserData() {
-            if (!currentUser || !authToken) {
-                // Save locally if no server connection
-                localStorage.setItem('angelgotchi_records_' + currentUser.username, JSON.stringify(records));
-                addToConsole('💾 Data saved locally');
-                return;
-            }
-
-            // Try to save to server
-            try {
-                if (currentSteps > 0) {
-                    const response = await fetch(`${API_BASE_URL}/steps`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${authToken}`,
-                        },
-                        body: JSON.stringify({ steps: currentSteps }),
-                    });
-
-                    if (response.ok) {
-                        addToConsole('✅ Steps saved to server');
-                        // Reload user data to get updated totals
-                        await loadUserData();
-                    } else {
-                        throw new Error('Failed to save to server');
-                    }
-                }
-            } catch (error) {
-                addToConsole('⚠️ Server save failed, saving locally');
-                localStorage.setItem('angelgotchi_records_' + currentUser.username, JSON.stringify(records));
-            }
-        }
-
-        async function loadLeaderboard() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/leaderboard`);
-                if (response.ok) {
-                    const leaderboardData = await response.json();
-                    displayLeaderboard(leaderboardData.users);
-                } else {
-                    throw new Error('Leaderboard not available');
-                }
-            } catch (error) {
-                // Fallback: create leaderboard from local data
-                addToConsole('📊 Generating leaderboard from local data');
-                const localUsers = [];
-                
-                // Get all local user data
-                for (let i = 0; i < localStorage.length; i++) {
-                    const key = localStorage.key(i);
-                    if (key.startsWith('angelgotchi_records_')) {
-                        const username = key.replace('angelgotchi_records_', '');
-                        const userRecords = JSON.parse(localStorage.getItem(key) || '[]');
-                        const totalSteps = userRecords.reduce((total, record) => total + record.steps, 0);
-                        localUsers.push({
-                            username: username,
-                            totalSteps: totalSteps
-                        });
-                    }
-                }
-
-                // Sort by total steps descending
-                localUsers.sort((a, b) => b.totalSteps - a.totalSteps);
-                displayLeaderboard(localUsers.slice(0, 10));
-            }
-        }
-
-        function displayLeaderboard(users) {
-            leaderboardList.innerHTML = '';
-
-            if (users.length === 0) {
-                const item = document.createElement('div');
-                item.className = 'leaderboard-item';
-                item.innerHTML = '<span>No leaderboard data available</span>';
-                leaderboardList.appendChild(item);
-                return;
-            }
-
-            users.slice(0, 10).forEach((user, index) => {
-                const item = document.createElement('div');
-                item.className = 'leaderboard-item';
-
-                const rank = document.createElement('span');
-                rank.className = 'leaderboard-rank';
-                rank.textContent = `#${index + 1}`;
-
-                const name = document.createElement('span');
-                name.className = 'leaderboard-name';
-                name.textContent = user.username;
-
-                const steps = document.createElement('span');
-                steps.className = 'leaderboard-steps';
-                steps.textContent = user.totalSteps.toLocaleString();
-
-                item.appendChild(rank);
-                item.appendChild(name);
-                item.appendChild(steps);
-                leaderboardList.appendChild(item);
-            });
-        }
-
-        // Record management functions
-        function updateRecordsDisplay() {
-            recordList.innerHTML = '';
-
-            if (records.length === 0) {
-                const item = document.createElement('div');
-                item.className = 'record-item';
-                item.innerHTML = '<span>No records yet. Connect device and record your first session!</span>';
-                recordList.appendChild(item);
-                return;
-            }
-
-            records.forEach((record, index) => {
-                const item = document.createElement('div');
-                item.className = 'record-item';
-
-                const time = new Date(record.timestamp).toLocaleString();
-                const steps = record.steps.toLocaleString();
-
-                item.innerHTML = `
-                    <div>
-                        <div class="record-time">${time}</div>
-                    </div>
-                    <div class="record-steps">${steps} steps</div>
-                `;
-
-                recordList.appendChild(item);
-            });
-        }
-
-        function updateTotalSteps() {
-            if (userData) {
-                userData.totalSteps = records.reduce((total, record) => total + record.steps, 0);
-                totalSteps.textContent = userData.totalSteps.toLocaleString();
-            }
-        }
-
-        // Device connection functions
-        async function connectDevice() {
-            if (!currentUser) {
-                addToConsole('❌ Please login first');
-                return;
-            }
-
-            try {
-                addToConsole('🔄 Requesting serial port...');
-                port = await navigator.serial.requestPort();
-                await port.open({ baudRate: 115200 });
-
-                addToConsole('✅ Device connected successfully!');
-                isConnected = true;
-                updateStatus('connected', 'Device Connected', 'Ready to read steps');
-
-                connectBtn.disabled = true;
-                disconnectBtn.disabled = false;
-                readBtn.disabled = false;
-                recordBtn.disabled = false;
-
-                // Start reading data
-                startReading();
-
-            } catch (error) {
-                addToConsole('❌ Connection failed: ' + error.message);
-            }
-        }
-
-        async function disconnectDevice() {
-            if (port) {
-                try {
-                    await port.close();
-                    port = null;
-                    reader = null;
-                } catch (error) {
-                    addToConsole('⚠️ Error closing port: ' + error.message);
-                }
-            }
-
-            isConnected = false;
-            updateStatus('disconnected', 'Device Disconnected', 'Click "Connect Device" to start monitoring');
-
-            connectBtn.disabled = false;
-            disconnectBtn.disabled = true;
-            readBtn.disabled = true;
-            recordBtn.disabled = true;
-
-            addToConsole('📴 Device disconnected');
-        }
-
-        function updateStatus(status, text, message) {
-            statusPanel.className = `status-panel ${status}`;
-            statusText.textContent = text;
-            statusMessage.textContent = message;
-        }
-
-        async function startReading() {
-            if (!port) return;
-
-            try {
-                const decoder = new TextDecoder();
-                reader = port.readable.getReader();
-
-                while (true) {
-                    const { value, done } = await reader.read();
-                    if (done) break;
-
-                    const data = decoder.decode(value);
-                    processSerialData(data);
-                }
-            } catch (error) {
-                addToConsole('❌ Reading error: ' + error.message);
-            }
-        }
-
-        function processSerialData(data) {
-            // Process incoming serial data from ESP32
-            // This would parse step count data from your device
-            const lines = data.split('\n');
-            lines.forEach(line => {
-                line = line.trim();
-                if (line && !isNaN(line)) {
-                    currentSteps = parseInt(line);
-                    stepCount.textContent = currentSteps.toLocaleString();
-                    addToConsole('📊 Current steps: ' + currentSteps);
-                }
-            });
-        }
-
-        async function readSteps() {
-            if (!isConnected || !port) {
-                addToConsole('❌ Device not connected');
-                return;
-            }
-
-            try {
-                addToConsole('📖 Reading steps from device...');
-                // Send command to read steps from EEPROM
-                const encoder = new TextEncoder();
-                const writer = port.writable.getWriter();
-                await writer.write(encoder.encode('READ_STEPS\n'));
-                writer.releaseLock();
-
-                // Wait a moment for response
-                setTimeout(() => {
-                    addToConsole('✅ Steps read from device');
-                }, 1000);
-
-            } catch (error) {
-                addToConsole('❌ Read failed: ' + error.message);
-            }
-        }
-
-        async function recordSteps() {
-            if (!currentUser) {
-                addToConsole('❌ Please login first');
-                return;
-            }
-
-            if (currentSteps === 0) {
-                addToConsole('❌ No steps to record');
-                return;
-            }
-
-            const record = {
-                timestamp: new Date().toISOString(),
-                steps: currentSteps
-            };
-
-            records.push(record);
-            await saveUserData();
-            updateRecordsDisplay();
-            updateTotalSteps();
-            loadLeaderboard(); // Refresh leaderboard
-
-            addToConsole('✅ Recorded ' + currentSteps + ' steps');
-            currentSteps = 0;
-            stepCount.textContent = '0';
-        }
-
-        // Console functions
-        function addToConsole(message) {
-            const line = document.createElement('div');
-            line.className = 'console-line';
-            line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-            consoleDiv.appendChild(line);
-            consoleDiv.scrollTop = consoleDiv.scrollHeight;
-        }
-
-        // Firmware flashing functions
-        async function flashFirmware() {
-            if (!flashFileInput.files.length) {
-                addToConsole('❌ No firmware file selected');
-                return;
-            }
-
-            const file = flashFileInput.files[0];
-            const offset = parseInt(flashOffsetInput.value, 16);
-
-            if (isNaN(offset)) {
-                addToConsole('❌ Invalid flash offset');
-                return;
-            }
-
-            flashBtn.disabled = true;
-            eraseBtn.disabled = true;
-
-            try {
-                addToConsole('🔄 Starting firmware flash...');
-
-                // Read file as array buffer
-                const fileBuffer = await file.arrayBuffer();
-                const fileData = new Uint8Array(fileBuffer);
-
-                // Create flash options
-                const flashOptions = {
-                    fileArray: [{
-                        data: String.fromCharCode(...fileData),
-                        address: offset
-                    }],
-                    flashSize: "detect",
-                    eraseAll: false,
-                    compress: true,
-                    reportProgress: (fileIndex, written, total) => {
-                        const progress = ((written / total) * 100).toFixed(1);
-                        addToConsole(`📊 Flashing progress: ${progress}% (${written}/${total} bytes)`);
-                    }
-                };
-
-                await esploader.writeFlash(flashOptions);
-                addToConsole('✅ Firmware flashed successfully!');
-
-            } catch (error) {
-                addToConsole('❌ Flash failed: ' + error.message);
-            } finally {
-                flashBtn.disabled = false;
-                eraseBtn.disabled = false;
-            }
-        }
-
-        async function eraseFlash() {
-            if (!confirm('⚠️ This will erase all data on the device. Are you sure?')) {
-                return;
-            }
-
-            eraseBtn.disabled = true;
-            flashBtn.disabled = true;
-
-            try {
-                addToConsole('🔄 Erasing flash...');
-                await esploader.eraseFlash();
-                addToConsole('✅ Flash erased successfully!');
-            } catch (error) {
-                addToConsole('❌ Erase failed: ' + error.message);
-            } finally {
-                eraseBtn.disabled = false;
-                flashBtn.disabled = false;
-            }
-        }
-
-        // Check if Web Serial API is supported
+    function checkBrowserSupport() {
         if (!('serial' in navigator)) {
-            addToConsole('❌ Web Serial API not supported in this browser');
-            addToConsole('Please use Chrome, Edge, or Opera browser');
-            connectBtn.disabled = true;
-            connectBtn.textContent = 'Browser Not Supported';
+            document.getElementById('browserWarning').style.display = 'block';
+            document.getElementById('connectBtn').disabled = true;
+            document.getElementById('flashBtn').disabled = true;
+            addToConsole('Web Serial API not supported in this browser', 'error');
+        }
+    }
+
+    async function initializeApp() {
+        // Load local records and leaderboard
+        records = JSON.parse(localStorage.getItem('angelgotchi_records') || '[]');
+        updateRecordsDisplay();
+        updateTotalSteps();
+        loadLeaderboard();
+
+        // Restore saved username
+        const savedName = localStorage.getItem('angelgotchi_username');
+        if (savedName) {
+            document.getElementById('usernameInput').value = savedName;
         }
 
-        // Handle page unload
-        window.addEventListener('beforeunload', () => {
-            if (port) {
-                port.close();
-            }
-        });
+        addToConsole('AngelGotchi Terminal ready', 'success');
+    }
 
-        // Handle browser back/forward
-        window.addEventListener('popstate', () => {
-            if (port) {
-                port.close();
-            }
-        });
-    </script>
+    // ============================================
+    // Tab Navigation
+    // ============================================
+    function showTab(tabName, btnEl) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.topnav button').forEach(btn => btn.classList.remove('active'));
 
-        // Hide troubleshooting section
-        function hideTroubleshooting() {
-            const troubleshooting = document.getElementById('troubleshooting');
-            if (troubleshooting) {
-                troubleshooting.style.display = 'none';
-            }
-        }
+        document.getElementById('tab-' + tabName).classList.add('active');
+        if (btnEl) btnEl.classList.add('active');
+    }
 
-        async function connectDevice() {
+
+
+    // ============================================
+    // ESP32-S3 Device Connection (Web Serial API)
+    // ============================================
+    async function connectDevice() {
+        try {
+            addToConsole('Requesting ESP32-S3 serial port...', 'info');
+            updateStatus('connecting', 'Connecting...');
+
+            // Request port with filters for ESP32-S3 and common USB-UART chips
+            let selectedPort;
             try {
-                updateStatus('connecting', 'Connecting...', 'Checking for available devices...');
-
-                // Check if any serial ports are already available
-                const availablePorts = await navigator.serial.getPorts();
-                addToConsole(`📋 Found ${availablePorts.length} previously used device(s)`);
-
-                if (availablePorts.length > 0) {
-                    // Try to use existing port first
-                    addToConsole('🔄 Attempting to use previously connected device...');
-                    try {
-                        port = availablePorts[0];
-                        await port.open({
-                            baudRate: 115200,
-                            dataBits: 8,
-                            stopBits: 1,
-                            parity: 'none'
-                        });
-
-                        isConnected = true;
-                        updateStatus('connected', 'Device Connected', 'Successfully connected to previously used device');
-
-                        // Enable buttons
-                        connectBtn.disabled = true;
-                        disconnectBtn.disabled = false;
-                        readBtn.disabled = false;
-                        recordBtn.disabled = false;
-                        flashBtn.disabled = false;
-                        eraseBtn.disabled = false;
-
-                        addToConsole('✅ Device connected successfully');
-                        addToConsole('🔄 Starting data reader...');
-
-                        // Initialize esptool-js
-                        const { ESPLoader, Transport } = window;
-                        transport = new Transport(port, true);
-                        esploader = new ESPLoader({
-                            transport: transport,
-                            baudrate: 115200,
-                            terminal: {
-                                clean: () => {},
-                                writeLine: (data) => addToConsole('ESPTOOL: ' + data),
-                                write: (data) => {}
-                            }
-                        });
-
-                        addToConsole('🔧 ESPTool initialized');
-
-                        // Hide troubleshooting on successful connection
-                        hideTroubleshooting();
-
-                        // Start reading data
-                        startReading();
-                        return;
-
-                    } catch (existingPortError) {
-                        addToConsole('⚠️ Previously used device not available: ' + existingPortError.message);
-                        addToConsole('🔄 Requesting new device selection...');
-                    }
-                }
-
-                updateStatus('connecting', 'Connecting...', 'Please select your AngelGotchi device from the list...');
-
-                // Request a new port
-                port = await navigator.serial.requestPort();
-
-                // Open the port
-                await port.open({
-                    baudRate: 115200,
-                    dataBits: 8,
-                    stopBits: 1,
-                    parity: 'none'
+                selectedPort = await navigator.serial.requestPort({
+                    filters: [
+                        { usbVendorId: 0x303A },                       // Espressif ESP32-S3 native USB
+                        { usbVendorId: 0x303A, usbProductId: 0x1001 }, // ESP32-S3 CDC
+                        { usbVendorId: 0x10C4 },                       // CP210x (common ESP boards)
+                        { usbVendorId: 0x1A86 },                       // CH340 (common ESP boards)
+                        { usbVendorId: 0x0403 },                       // FTDI (some ESP boards)
+                    ]
                 });
-
-                isConnected = true;
-                updateStatus('connected', 'Device Connected', 'Successfully connected to AngelGotchi device');
-
-                // Enable buttons
-                connectBtn.disabled = true;
-                disconnectBtn.disabled = false;
-                readBtn.disabled = false;
-                recordBtn.disabled = false;
-                flashBtn.disabled = false;
-                eraseBtn.disabled = false;
-
-                addToConsole('✅ Device connected successfully');
-                addToConsole('🔄 Starting data reader...');
-
-                // Initialize esptool-js
-                const { ESPLoader, Transport } = window;
-                transport = new Transport(port, true);
-                esploader = new ESPLoader({
-                    transport: transport,
-                    baudrate: 115200,
-                    terminal: {
-                        clean: () => {},
-                        writeLine: (data) => addToConsole('ESPTOOL: ' + data),
-                        write: (data) => {}
-                    }
-                });
-
-                addToConsole('🔧 ESPTool initialized');
-
-                // Hide troubleshooting on successful connection
-                hideTroubleshooting();
-
-                // Start reading data
-                startReading();
-
-            } catch (error) {
-                console.error('Connection error:', error);
-
-                if (error.name === 'NotAllowedError') {
-                    updateStatus('disconnected', 'Permission Denied', 'Please allow access to serial devices and try again');
-                    addToConsole('❌ Permission denied - Please click "Allow" when prompted for device access');
-                    addToConsole('💡 Make sure no other programs are using the serial port');
-                } else if (error.name === 'NotFoundError') {
-                    updateStatus('disconnected', 'No Device Found', 'No compatible devices found. Please check your connection');
-                    addToConsole('❌ No devices found - Please ensure:');
-                    addToConsole('   • Device is connected via USB-C');
-                    addToConsole('   • Device is powered on');
-                    addToConsole('   • No other programs are using COM10');
-                    addToConsole('   • Try refreshing the page and reconnecting');
-                } else if (error.message.includes('No port selected')) {
-                    updateStatus('disconnected', 'No Device Selected', 'Please select your device from the list when prompted');
-                    addToConsole('❌ No device selected - Please:');
-                    addToConsole('   • Click "Connect Device" again');
-                    addToConsole('   • Select your ESP32 device from the list');
-                    addToConsole('   • Make sure "USB JTAG/Serial" appears in the device list');
-                    showTroubleshooting();
+            } catch (filterErr) {
+                // If no matching device, show all ports
+                if (filterErr.name === 'NotFoundError') {
+                    addToConsole('No matching device with filters, showing all ports...', 'info');
+                    selectedPort = await navigator.serial.requestPort();
                 } else {
-                    updateStatus('disconnected', 'Connection Failed', error.message);
-                    addToConsole('❌ Connection failed: ' + error.message);
-                    showTroubleshooting();
+                    throw filterErr;
                 }
-
-                addToConsole('🔧 Troubleshooting tips:');
-                addToConsole('   1. Close Arduino IDE or any serial monitor');
-                addToConsole('   2. Unplug and replug the USB-C cable');
-                addToConsole('   3. Try a different USB port');
-                addToConsole('   4. Restart your browser');
-                addToConsole('   5. Check Device Manager for COM10');
             }
+
+            port = selectedPort;
+
+            // Open with standard ESP32-S3 serial parameters
+            await port.open({
+                baudRate: 115200,
+                dataBits: 8,
+                stopBits: 1,
+                parity: 'none',
+                flowControl: 'none'
+            });
+
+            // Log device info
+            const info = port.getInfo();
+            if (info.usbVendorId) {
+                addToConsole(`Device — VID: 0x${info.usbVendorId.toString(16).toUpperCase()}, PID: 0x${info.usbProductId.toString(16).toUpperCase()}`, 'info');
+                if (info.usbVendorId === 0x303A) {
+                    addToConsole('✓ Espressif ESP32-S3 native USB confirmed!', 'success');
+                }
+            }
+
+            addToConsole('ESP32-S3 connected successfully!', 'success');
+            isConnected = true;
+            updateStatus('connected', 'Connected');
+
+            document.getElementById('connectBtn').disabled = true;
+            document.getElementById('disconnectBtn').disabled = false;
+            document.getElementById('readBtn').disabled = false;
+            document.getElementById('recordBtn').disabled = false;
+            document.getElementById('resetDeviceBtn').disabled = false;
+
+            startReading();
+
+        } catch (error) {
+            if (error.name === 'NotAllowedError') {
+                addToConsole('Connection cancelled by user', 'info');
+            } else {
+                addToConsole('Connection failed: ' + error.message, 'error');
+            }
+            updateStatus('disconnected', 'Connection Failed');
+        }
+    }
+
+    async function disconnectDevice() {
+        if (reader) {
+            try { await reader.cancel(); reader.releaseLock(); } catch (e) {}
+            reader = null;
         }
 
-        async function disconnectDevice() {
+        if (port) {
+            try { await port.close(); } catch (e) {}
+            port = null;
+        }
+
+        isConnected = false;
+        updateStatus('disconnected', 'Disconnected');
+
+        document.getElementById('connectBtn').disabled = false;
+        document.getElementById('disconnectBtn').disabled = true;
+        document.getElementById('readBtn').disabled = true;
+        document.getElementById('recordBtn').disabled = true;
+        document.getElementById('resetDeviceBtn').disabled = true;
+
+        addToConsole('Device disconnected', 'info');
+    }
+
+    function updateStatus(status, text) {
+        const panel = document.getElementById('statusPanel');
+        const dot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const message = document.getElementById('statusMessage');
+
+        panel.className = 'status-panel ' + status;
+        dot.className = 'status-dot ' + status;
+        statusText.textContent = text;
+
+        if (status === 'connected') {
+            message.textContent = 'Device ready — go to Steps tab to read data';
+        } else if (status === 'connecting') {
+            message.textContent = 'Establishing connection...';
+        } else {
+            message.textContent = 'Click "Connect ESP32-S3" to begin';
+        }
+    }
+
+    async function startReading() {
+        if (!port || !port.readable) return;
+
+        const decoder = new TextDecoder();
+        reader = port.readable.getReader();
+
+        try {
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) { reader.releaseLock(); break; }
+                processSerialData(decoder.decode(value));
+            }
+        } catch (error) {
+            if (isConnected) {
+                addToConsole('Read error: ' + error.message, 'error');
+            }
+        } finally {
+            if (reader) { try { reader.releaseLock(); } catch (e) {} }
+        }
+    }
+
+    let serialBuffer = '';
+
+    function processSerialData(data) {
+        serialBuffer += data;
+        const lines = serialBuffer.split('\n');
+        serialBuffer = lines.pop(); // keep incomplete line
+
+        lines.forEach(line => {
+            line = line.trim();
+            if (!line) return;
+
+            addToConsole('[Device] ' + line);
+
+            // Parse step count — "steps: 1234", "STEPS:1234", or plain number
+            const match = line.match(/steps?[\s:=]*(\d+)/i);
+            if (match) {
+                currentSteps = parseInt(match[1]);
+                document.getElementById('stepCount').textContent = currentSteps.toLocaleString();
+            } else if (/^\d+$/.test(line)) {
+                currentSteps = parseInt(line);
+                document.getElementById('stepCount').textContent = currentSteps.toLocaleString();
+            }
+        });
+    }
+
+    // ============================================
+    // Step Data Functions
+    // ============================================
+    async function readStepData() {
+        if (!isConnected || !port) {
+            addToConsole('Device not connected', 'error');
+            return;
+        }
+
+        try {
+            addToConsole('Reading steps from EEPROM...', 'info');
+            const encoder = new TextEncoder();
+            const w = port.writable.getWriter();
+            await w.write(encoder.encode('READ_STEPS\n'));
+            w.releaseLock();
+            addToConsole('Read command sent — waiting for response...', 'info');
+        } catch (error) {
+            addToConsole('Read failed: ' + error.message, 'error');
+        }
+    }
+
+    async function recordSteps() {
+        if (currentSteps === 0) { addToConsole('No steps to record', 'error'); return; }
+
+        const username = document.getElementById('usernameInput').value.trim();
+        if (!username) {
+            addToConsole('Please enter a display name first', 'error');
+            return;
+        }
+
+        // Save username for next time
+        localStorage.setItem('angelgotchi_username', username);
+
+        // Save locally
+        const record = { timestamp: new Date().toISOString(), steps: currentSteps, username: username };
+        records.push(record);
+        localStorage.setItem('angelgotchi_records', JSON.stringify(records));
+
+        // Submit to scoreboard
+        try {
+            await fetch(`${API_BASE_URL}/score`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, steps: currentSteps })
+            });
+            addToConsole('Score submitted to leaderboard!', 'success');
+        } catch (error) {
+            addToConsole('Could not reach server — saved locally', 'info');
+        }
+
+        updateRecordsDisplay();
+        updateTotalSteps();
+        loadLeaderboard();
+        addToConsole('Recorded ' + currentSteps.toLocaleString() + ' steps for ' + username + '!', 'success');
+    }
+
+    async function resetDeviceSteps() {
+        if (!isConnected || !port) { addToConsole('Device not connected', 'error'); return; }
+        if (!confirm('Reset step counter on device to 0?')) return;
+
+        try {
+            const encoder = new TextEncoder();
+            const w = port.writable.getWriter();
+            await w.write(encoder.encode('RESET_STEPS\n'));
+            w.releaseLock();
+            currentSteps = 0;
+            document.getElementById('stepCount').textContent = '0';
+            addToConsole('Device step counter reset', 'success');
+        } catch (error) {
+            addToConsole('Reset failed: ' + error.message, 'error');
+        }
+    }
+
+    // ============================================
+    // Data Management (local storage only)
+    // ============================================
+
+    function updateRecordsDisplay() {
+        const recordList = document.getElementById('recordList');
+        recordList.innerHTML = '';
+
+        if (records.length === 0) {
+            recordList.innerHTML = '<div class="data-item"><span>No records yet — connect device to start tracking!</span></div>';
+            return;
+        }
+
+        records.slice(-10).reverse().forEach((record) => {
+            const item = document.createElement('div');
+            item.className = 'data-item';
+            const time = new Date(record.timestamp).toLocaleString();
+            item.innerHTML = `<span>${time}</span><span class="steps">${record.steps.toLocaleString()} steps</span>`;
+            recordList.appendChild(item);
+        });
+    }
+
+    function updateTotalSteps() {
+        const total = records.reduce((sum, r) => sum + r.steps, 0);
+        document.getElementById('totalSteps').textContent = total.toLocaleString();
+    }
+
+    async function loadLeaderboard() {
+        const leaderboardList = document.getElementById('leaderboardList');
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/leaderboard`);
+            if (response.ok) {
+                const data = await response.json();
+                displayLeaderboard(data.users || []);
+                return;
+            }
+        } catch (error) {
+            console.error('Leaderboard error:', error);
+        }
+
+        leaderboardList.innerHTML = '<div class="data-item"><span>Leaderboard waking up... please wait 30s and refresh.</span></div>';
+    }
+
+    function displayLeaderboard(users) {
+        const leaderboardList = document.getElementById('leaderboardList');
+        leaderboardList.innerHTML = '';
+
+        if (users.length === 0) {
+            leaderboardList.innerHTML = '<div class="data-item"><span>No leaderboard data</span></div>';
+            return;
+        }
+
+        users.slice(0, 10).forEach((user, index) => {
+            const item = document.createElement('div');
+            item.className = 'data-item';
+            item.innerHTML = `
+                <span class="rank">#${index + 1}</span>
+                <span>${user.username}</span>
+                <span class="steps">${user.totalSteps.toLocaleString()}</span>
+            `;
+            leaderboardList.appendChild(item);
+        });
+    }
+
+    // ============================================
+    // Firmware Flashing Functions
+    // esptool-js handles DTR/RTS reset into bootloader
+    // automatically in main() — no BOOT button needed
+    // ============================================
+
+    // Terminal interface for esptool-js logging
+    function makeFlashTerminal() {
+        return {
+            clean() {},
+            writeLine(data) { addToFlashConsole(data); },
+            write(data) { addToFlashConsole(data); }
+        };
+    }
+
+    async function flashFirmware() {
+        const fileInput = document.getElementById('flashFileInput');
+        const offsetInput = document.getElementById('flashOffsetInput');
+
+        if (!fileInput.files.length) { 
+            addToFlashConsole('Please select a firmware file', 'error'); 
+            return; 
+        }
+
+        const file = fileInput.files[0];
+        const offset = parseInt(offsetInput.value, 16);
+        if (isNaN(offset)) { 
+            addToFlashConsole('Invalid flash offset. Use 0x0 or 0x10000', 'error'); 
+            return; 
+        }
+
+        try {
+            addToFlashConsole('Initializing flasher...', 'info');
+            showFlashProgress(0);
+
+            // 1. Load library first
+            const esptool = await getEsptool();
+
+            // 2. Request port
+            addToFlashConsole('Select your ESP32-S3 and click Connect...', 'info');
+            let flashPort;
             try {
-                if (reader) {
-                    await reader.cancel();
-                    reader = null;
+                flashPort = await navigator.serial.requestPort({
+                    filters: [
+                        { usbVendorId: 0x303A }, // ESP32-S3 Native USB
+                        { usbVendorId: 0x10C4 }, // CP210x
+                        { usbVendorId: 0x1A86 }, // CH340
+                        { usbVendorId: 0x0403 }, // FTDI
+                    ]
+                });
+            } catch (err) {
+                if (err.name === 'NotFoundError') {
+                    addToFlashConsole('No port selected.', 'error');
+                    return;
                 }
-
-                if (port) {
-                    await port.close();
-                    port = null;
-                }
-
-                isConnected = false;
-                updateStatus('disconnected', 'Device Disconnected', 'Click "Connect Device" to reconnect');
-
-                // Reset buttons
-                connectBtn.disabled = false;
-                disconnectBtn.disabled = true;
-                readBtn.disabled = true;
-                recordBtn.disabled = true;
-                flashBtn.disabled = true;
-                eraseBtn.disabled = true;
-
-                addToConsole('🔌 Device disconnected');
-
-                // Clean up esptool
-                esploader = null;
-                transport = null;
-
-                // Hide troubleshooting on disconnect
-                hideTroubleshooting();
-
-            } catch (error) {
-                addToConsole('❌ Error disconnecting: ' + error.message);
+                throw err;
             }
-        }
 
-        async function startReading() {
-            try {
-                while (port && port.readable) {
-                    reader = port.readable.getReader();
-                    const decoder = new TextDecoder();
+            if (!flashPort) throw new Error('Could not get port access');
 
-                    try {
-                        while (true) {
-                            const { value, done } = await reader.read();
-                            if (done) break;
+            // 3. Initialize Transport
+            // Some versions of esptool-js require only the port
+            const transport = new esptool.Transport(flashPort);
+            
+            // 4. Initialize Loader
+            const esploader = new esptool.ESPLoader({
+                transport: transport,
+                baudrate: 115200,
+                terminal: makeFlashTerminal(),
+                rom_baudrate: 115200
+            });
 
-                            const chunk = decoder.decode(value);
-                            processSerialData(chunk);
-                        }
-                    } catch (error) {
-                        addToConsole('⚠️ Reader error: ' + error.message);
-                    } finally {
-                        reader.releaseLock();
-                    }
-                }
-            } catch (error) {
-                addToConsole('❌ Reading error: ' + error.message);
-            }
-        }
+            addToFlashConsole('Connecting to device (auto-reset entering bootloader)...', 'info');
+            
+            // 5. Connect
+            const chip = await esploader.main();
+            addToFlashConsole('✓ Connected to ' + chip, 'success');
 
-        function processSerialData(data) {
-            // Add raw data to console
-            const lines = data.split('\n');
-            lines.forEach(line => {
-                if (line.trim()) {
-                    addToConsole('📥 ' + line.trim());
+            // 6. Read file and flash
+            const fileBuffer = await file.arrayBuffer();
+            const fileData = new Uint8Array(fileBuffer);
+
+            addToFlashConsole('Flashing ' + file.name + ' (' + fileData.length + ' bytes) at ' + offsetInput.value + '...', 'info');
+
+            await esploader.writeFlash({
+                fileArray: [{ data: fileData, address: offset }],
+                flashSize: 'keep',
+                flashMode: 'keep',
+                flashFreq: 'keep',
+                compress: true,
+                reportProgress: (fileIndex, written, total) => {
+                    const percent = Math.round((written / total) * 100);
+                    showFlashProgress(percent);
+                    if (percent % 10 === 0) console.log('Flash progress: ' + percent + '%');
                 }
             });
 
-            // Try to extract step count from the data
-            const stepMatch = data.match(/Steps?:\s*(\d+)/i);
-            if (stepMatch) {
-                const steps = parseInt(stepMatch[1]);
-                if (!isNaN(steps)) {
-                    currentSteps = steps;
-                    stepCount.textContent = steps.toLocaleString();
-                    addToConsole('📊 Step count updated: ' + steps);
-                }
-            }
+            showFlashProgress(100);
+            addToFlashConsole('✨ Firmware flashed successfully!', 'success');
+            addToFlashConsole('Your AngelGotchi is rebooting now...', 'info');
 
-            // Look for other useful data patterns
-            if (data.includes('EEPROM') || data.includes('steps')) {
-                addToConsole('💾 EEPROM/Step data detected');
+            // 7. Cleanup
+            try { await esploader.after(); } catch (e) {}
+            await transport.disconnect();
+
+        } catch (error) {
+            console.error('Flash error:', error);
+            addToFlashConsole('Flash failed: ' + error.message, 'error');
+            if (error.message.includes('getInfo')) {
+                addToFlashConsole('Tip: This usually means the library is still initializing. Try refreshing the page.', 'info');
             }
+            hideFlashProgress();
         }
+    }
 
-        async function readStepData() {
-            if (!isConnected || !port) {
-                addToConsole('❌ No device connected');
-                return;
-            }
+    async function eraseFlash() {
+        if (!confirm('WARNING: This will erase ALL data on the ESP32-S3. Continue?')) return;
 
-            try {
-                addToConsole('📤 Requesting step data from device...');
+        try {
+            addToFlashConsole('Starting erase sequence...', 'info');
+            const esptool = await getEsptool();
 
-                // Send command to request step data
-                const encoder = new TextEncoder();
-                const command = 'READ_STEPS\n';
-                const writer = port.writable.getWriter();
+            addToFlashConsole('Please select your device...', 'info');
+            const flashPort = await navigator.serial.requestPort({
+                filters: [{ usbVendorId: 0x303A }, { usbVendorId: 0x10C4 }, { usbVendorId: 0x1A86 }]
+            });
 
-                await writer.write(encoder.encode(command));
-                await writer.close();
+            const transport = new esptool.Transport(flashPort, true);
+            const esploader = new esptool.ESPLoader({
+                transport: transport,
+                baudrate: 115200,
+                terminal: makeFlashTerminal()
+            });
 
-                addToConsole('✅ Step data request sent');
+            addToFlashConsole('Connecting...', 'info');
+            await esploader.main();
+            addToFlashConsole('Connected. Erasing...', 'info');
+            await esploader.eraseFlash();
+            addToFlashConsole('✓ Flash erased successfully!', 'success');
 
-            } catch (error) {
-                addToConsole('❌ Error reading step data: ' + error.message);
-            }
+            try { await esploader.after(); } catch (e) {}
+            await transport.disconnect();
+        } catch (error) {
+            addToFlashConsole('Erase failed: ' + error.message, 'error');
         }
+    }
 
-        function recordSteps() {
-            if (currentSteps === 0) {
-                addToConsole('⚠️ No step data to record. Please read steps first.');
-                return;
-            }
+    function showFlashProgress(percent) {
+        const progress = document.getElementById('flashProgress');
+        const bar = document.getElementById('flashProgressBar');
+        progress.style.display = 'block';
+        bar.style.width = percent + '%';
+        bar.textContent = percent + '%';
+    }
 
-            if (!currentProfile) {
-                addToConsole('❌ No profile selected');
-                return;
-            }
+    function hideFlashProgress() {
+        document.getElementById('flashProgress').style.display = 'none';
+    }
 
-            const record = {
-                steps: currentSteps,
-                timestamp: new Date().toISOString(),
-                date: new Date().toLocaleDateString(),
-                time: new Date().toLocaleTimeString()
-            };
+    // ============================================
+    // Console Functions
+    // ============================================
+    function addToConsole(message, type = '') {
+        const consoleEl = document.getElementById('console');
+        const line = document.createElement('div');
+        line.className = 'console-line ' + type;
+        line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+        consoleEl.appendChild(line);
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
 
-            records.unshift(record); // Add to beginning of array
+    function addToFlashConsole(message, type = '') {
+        const consoleEl = document.getElementById('flashConsole');
+        const line = document.createElement('div');
+        line.className = 'console-line ' + type;
+        line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+        consoleEl.appendChild(line);
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
 
-            // Keep only last 50 records
-            if (records.length > 50) {
-                records = records.slice(0, 50);
-            }
-
-            // Update profile
-            currentProfile.records = records;
-            updateTotalSteps();
-
-            updateRecordsDisplay();
-            addToConsole('💾 Recorded ' + currentSteps + ' steps at ' + record.time + ' for ' + currentProfile.name);
-        }
-
-        function updateRecordsDisplay() {
-            if (records.length === 0) {
-                recordList.innerHTML = '<div class="record-item"><span>No records yet. Connect device and record your first session!</span></div>';
-                return;
-            }
-
-            recordList.innerHTML = records.map(record => `
-                <div class="record-item">
-                    <div>
-                        <span class="record-steps">${record.steps.toLocaleString()} steps</span>
-                        <div class="record-time">${record.date} at ${record.time}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function updateStatus(status, title, message) {
-            statusPanel.className = `status-panel ${status}`;
-            statusText.textContent = title;
-            statusMessage.textContent = message;
-        }
-
-        function addToConsole(message) {
-            const line = document.createElement('div');
-            line.className = 'console-line';
-            line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-
-            consoleDiv.appendChild(line);
-            
-            // Limit console to 100 lines
-            while (consoleDiv.children.length > 100) {
-                consoleDiv.removeChild(consoleDiv.firstChild);
-            }
-            
-            consoleDiv.scrollTop = consoleDiv.scrollHeight;
-        }
-
-        function clearConsole() {
-            consoleDiv.innerHTML = '<div class="console-line">Console cleared...</div>';
-        }
-
-        function showInstructions() {
-            document.getElementById('instructionsModal').style.display = 'block';
-        }
-
-        function hideInstructions() {
-            document.getElementById('instructionsModal').style.display = 'none';
-        }
-
-        // Handle page unload
-        window.addEventListener('beforeunload', () => {
-            if (port) {
-                port.close();
-            }
-        });
-
-        // Handle browser back/forward
-        window.addEventListener('popstate', () => {
-            if (port) {
-                port.close();
-            }
-        });
-    </script>
+    // ============================================
+    // Cleanup on page unload
+    // ============================================
+    window.addEventListener('beforeunload', async () => {
+        if (reader) { try { await reader.cancel(); reader.releaseLock(); } catch (e) {} }
+        if (port) { try { await port.close(); } catch (e) {} }
+    });
+</script>
 </body>
 </html>
