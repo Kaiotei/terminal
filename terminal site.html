@@ -1048,39 +1048,29 @@
     ☆ 2025 - 1333 | AngelGotchi Terminal | <a href="https://1333covenant.com/">1333covenant.com</a> ☆
 </div>
 
+<!-- Load esptool-js UMD bundle (avoids ESM/atob issues) -->
+<script src="https://unpkg.com/esptool-js@0.5.7/bundle.js"></script>
+
 <script>
     // ============================================
     // ESPTool logic
     // ============================================
-    async function getEsptool() {
-        if (window.esptool) return window.esptool;
-        try {
-            addToFlashConsole('Importing esptool-js from CDN...', 'info');
-            const mod = await import('https://esm.sh/esptool-js@0.5.7');
-            
-            // Log module structure for debugging
-            console.log('esptool-js module keys:', Object.keys(mod));
-            if (mod.default) console.log('esptool-js default keys:', Object.keys(mod.default));
-
-            // Normalize exports — handle both named and default exports
-            const Transport = mod.Transport || mod.default?.Transport;
-            const ESPLoader = mod.ESPLoader || mod.default?.ESPLoader;
-
-            if (!Transport || !ESPLoader) {
-                console.error('Could not find classes. Full module:', mod);
-                throw new Error('Transport or ESPLoader missing from esptool-js');
-            }
-
-            // Verify Transport has getInfo capability
-            console.log('Transport prototype methods:', Object.getOwnPropertyNames(Transport.prototype));
-            console.log('ESPLoader prototype methods:', Object.getOwnPropertyNames(ESPLoader.prototype));
-
-            window.esptool = { Transport, ESPLoader };
-            return window.esptool;
-        } catch (e) {
-            console.error('Loader error:', e);
-            throw new Error('Failed to load esptool-js: ' + e.message);
+    function getEsptool() {
+        // The UMD bundle sets window.esptool automatically
+        const mod = window.esptool || window.EspLoader;
+        if (!mod) {
+            throw new Error('esptool-js library not loaded. Check your internet connection.');
         }
+
+        const Transport = mod.Transport;
+        const ESPLoader = mod.ESPLoader;
+
+        if (!Transport || !ESPLoader) {
+            console.error('esptool-js module contents:', mod);
+            throw new Error('Transport or ESPLoader not found in esptool-js bundle');
+        }
+
+        return { Transport, ESPLoader };
     }
 
     // ============================================
@@ -1501,8 +1491,8 @@
             addToFlashConsole('Initializing flasher...', 'info');
             showFlashProgress(0);
 
-            // 1. Load library first
-            const esptool = await getEsptool();
+            // 1. Load library (synchronous — UMD bundle already loaded)
+            const esptool = getEsptool();
 
             // 2. Request port
             addToFlashConsole('Select your ESP32-S3 and click Connect...', 'info');
@@ -1598,7 +1588,7 @@
             }
 
             addToFlashConsole('Starting erase sequence...', 'info');
-            const esptool = await getEsptool();
+            const esptool = getEsptool();
 
             addToFlashConsole('Please select your device...', 'info');
             const flashPort = await navigator.serial.requestPort({
