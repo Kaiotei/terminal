@@ -1048,12 +1048,12 @@
     ☆ 2025 - 1333 | AngelGotchi Terminal | <a href="https://1333covenant.com/">1333covenant.com</a> ☆
 </div>
 
-<!-- Load esptool-js from local bundle (ESM) -->
+<!-- Load esptool-js from jsdelivr (serves original Espressif build, no rebundling) -->
 <script type="module">
-    // Import from local ESM bundle and expose to window for use by flash functions
-    import { Transport, ESPLoader } from './esptool-bundle.js';
+    // jsdelivr serves the ORIGINAL npm file — unlike esm.sh which rebundles and corrupts base64 stub data
+    import { Transport, ESPLoader } from 'https://cdn.jsdelivr.net/npm/esptool-js@0.5.7/bundle.js';
     window._esptool = { Transport, ESPLoader };
-    console.log('esptool-js loaded locally. Transport:', typeof Transport, 'ESPLoader:', typeof ESPLoader);
+    console.log('esptool-js loaded OK. Transport:', typeof Transport, 'ESPLoader:', typeof ESPLoader);
 </script>
 
 <script>
@@ -1061,21 +1061,11 @@
     // ESPTool logic
     // ============================================
     function getEsptool() {
-        // Loaded via the module script above → window._esptool
         const mod = window._esptool;
         if (!mod) {
-            throw new Error('esptool-js not ready yet. Please wait a moment and try again.');
+            throw new Error('esptool-js not ready yet — please wait a few seconds for the library to load, then try again.');
         }
-
-        const Transport = mod.Transport;
-        const ESPLoader = mod.ESPLoader;
-
-        if (!Transport || !ESPLoader) {
-            console.error('esptool-js module contents:', mod);
-            throw new Error('Transport or ESPLoader not found in esptool-js');
-        }
-
-        return { Transport, ESPLoader };
+        return { Transport: mod.Transport, ESPLoader: mod.ESPLoader };
     }
 
     // ============================================
