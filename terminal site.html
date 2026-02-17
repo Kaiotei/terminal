@@ -1048,18 +1048,23 @@
     ☆ 2025 - 1333 | AngelGotchi Terminal | <a href="https://1333covenant.com/">1333covenant.com</a> ☆
 </div>
 
-<!-- Load esptool-js UMD bundle (avoids ESM/atob issues) -->
-<script src="https://unpkg.com/esptool-js@0.5.7/bundle.js"></script>
+<!-- Load esptool-js from local bundle (ESM) -->
+<script type="module">
+    // Import from local ESM bundle and expose to window for use by flash functions
+    import { Transport, ESPLoader } from './esptool-bundle.js';
+    window._esptool = { Transport, ESPLoader };
+    console.log('esptool-js loaded locally. Transport:', typeof Transport, 'ESPLoader:', typeof ESPLoader);
+</script>
 
 <script>
     // ============================================
     // ESPTool logic
     // ============================================
     function getEsptool() {
-        // The UMD bundle sets window.esptool automatically
-        const mod = window.esptool || window.EspLoader;
+        // Loaded via the module script above → window._esptool
+        const mod = window._esptool;
         if (!mod) {
-            throw new Error('esptool-js library not loaded. Check your internet connection.');
+            throw new Error('esptool-js not ready yet. Please wait a moment and try again.');
         }
 
         const Transport = mod.Transport;
@@ -1067,7 +1072,7 @@
 
         if (!Transport || !ESPLoader) {
             console.error('esptool-js module contents:', mod);
-            throw new Error('Transport or ESPLoader not found in esptool-js bundle');
+            throw new Error('Transport or ESPLoader not found in esptool-js');
         }
 
         return { Transport, ESPLoader };
