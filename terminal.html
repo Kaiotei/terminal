@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ AngelGotchi Terminal ✨</title>
+    <link rel="shortcut icon" href="https://i.imgur.com/YagJJNS.gif">
+    <style>
+        /* ============================================
+           CSS Variables - matching index.html palette
+           ============================================ */
+        :root {
+            --purple-main: #CBA9F4;
+            --purple-dark: #cbb3f5;
+            --purple-deeper: #a07def;
+            --purple-gradient-start: rgba(197,189,232,0.9);
+            --purple-gradient-mid: rgba(102,79,189,0.89);
+            --purple-gradient-end: rgba(155,132,222,0.88);
+            --text-dark: #333;
+            --text-white: #fff;
+            --accent-blue: #091ABC;
+            --accent-hover: #6701cd;
+            --neon-green: #BBEC66;
+            --bg-white: rgba(255,255,255,0.85);
+            --panel-bg: rgba(0, 0, 0, 0.45);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url(https://cur.cursors-4u.net/games/gam-10/gam987.png), auto !important;
+        }
+
+        body {
+            font-family: 'MS UI Gothic', 'Segoe UI', Arial, sans-serif;
+            font-size: 13px;
+            color: var(--text-dark);
+            background-image: url(terminalback.gif);
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            cursor: url(https://64.media.tumblr.com/02607bd0c2963c026075b6793fe19914/tumblr_inline_owbmjr95kQ1ulaagf_75sq.pnj);
+        }
+
+        ::selection {
+            text-shadow: 0 0 10px #5a29c2, 0 0 20px #5a29c2, 0 0 30px #5a29c2;
+            color: white;
+            background: transparent;
+        }
+
+        /* Scrollbar - matching index.html */
+        ::-webkit-scrollbar { width: 15px; height: 10px; }
+        ::-webkit-scrollbar-thumb:vertical {
+            background-color: #fff;
+            background-image: url(https://i.imgur.com/Qtm9Z60.png);
+            border-top: 1px solid #bdbdbd;
+            border-left: 1px solid #bdbdbd;
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+        ::-webkit-scrollbar-track {
+            background-color: #fff;
+            background-image: url(https://i.imgur.com/IGXGYKz.png);
+        }
+        ::-webkit-scrollbar-button:vertical:increment {
+            background-image: url(https://i.imgur.com/WhC8iy3.png);
+            width: 14px; height: 16px;
+            border-top: 1px solid #bdbdbd; border-left: 1px solid #bdbdbd;
+            border-right: 1px solid black; border-bottom: 1px solid black;
+        }
+        ::-webkit-scrollbar-button:vertical:decrement {
+            background-image: url(https://i.imgur.com/fQ18mrR.png);
+            width: 14px; height: 16px;
+            border-top: 1px solid #bdbdbd; border-left: 1px solid #bdbdbd;
+            border-right: 1px solid black; border-bottom: 1px solid black;
+        }
+
+        /* ============================================
+           Top Navigation - matching index.html
+           ============================================ */
+        .topnav {
+            background-image: url(https://i.imgur.com/jyUf9kN.gif);
+            background-size: repeat;
+            border-radius: 25px;
+            border: 3px ridge var(--purple-main);
+            box-shadow: 0px 0px 10px white;
+            margin: 10px 20px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+
+        .topnav ul {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 0;
+            padding: 8px 15px;
+            list-style: none;
+        }
+
+        .topnav a, .topnav button {
+            color: #E0DEFF;
+            text-align: center;
+            padding: 8px 12px;
+            display: inline-block;
+            text-shadow: -1px 0 #9933ff, 0 1px #9933ff, 1px 0 #9933ff, 0 -1px #9933ff;
+            font-family: 'MS UI Gothic', Arial, sans-serif;
+            font-size: 11px;
+            background: transparent;
+            border: none;
+            cursor: pointer !important;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .topnav button:hover, .topnav a:hover {
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px white, 0 0 40px white;
+        }
+
+        .topnav button.active {
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px white;
+            font-weight: bold;
+        }
+
+        /* ============================================
+           Main Container
+           ============================================ */
+        .main-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        /* ============================================
+           Header - matching index.html style
+           ============================================ */
+        .header-title {
+            background: linear-gradient(180deg, var(--purple-gradient-start) 5%, var(--purple-gradient-mid) 39%, var(--purple-gradient-end) 92%);
+            box-shadow: #ffffff8a 0px 0px 2px 3px inset;
+            border-bottom: #b3b3b3 solid 1px;
+            text-shadow: 1px 1px 2px #f1baff, -1px -1px 2px #8691eb, 0px -1px 2px #cfeeff;
+            padding: 15px 20px;
+            color: white;
+            text-align: center;
+            border-radius: 60px 0px 0px 0px;
+            border: 3px ridge var(--purple-main);
+            margin-bottom: 15px;
+        }
+
+        .header-title h1 {
+            font-size: 22px;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .header-title p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .esp32-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.3);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 10px;
+            margin-top: 8px;
+            border: 2px solid rgba(255,255,255,0.6);
+            animation: badge-pulse 2s infinite;
+            text-shadow: none;
+        }
+
+        @keyframes badge-pulse {
+            0%, 100% { box-shadow: 0 0 8px rgba(255,255,255,0.4); }
+            50% { box-shadow: 0 0 16px rgba(203,169,244,0.8); }
+        }
+
+        /* ============================================
+           Content Panels - matching index.html
+           ============================================ */
+        .panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 3px ridge var(--purple-main);
+            border-radius: 0px 0px 0px 60px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            color: #fff;
+        }
+
+        .panel-alt {
+            background: var(--panel-bg);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 3px ridge var(--purple-main);
+            border-radius: 60px 0px 0px 0px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .panel-header {
+            background: linear-gradient(180deg, var(--purple-gradient-start) 5%, var(--purple-gradient-mid) 39%, var(--purple-gradient-end) 92%);
+            box-shadow: #ffffff8a 0px 0px 2px 3px inset;
+            border-bottom: #b3b3b3 solid 1px;
+            text-shadow: 1px 1px 2px #f1baff, -1px -1px 2px #8691eb, 0px -1px 2px #cfeeff;
+            padding: 8px 15px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            margin: -20px -20px 15px -20px;
+            border-radius: 57px 0px 0px 0px;
+        }
+
+        .panel .panel-header {
+            border-radius: 0;
+            margin: -20px -20px 15px -20px;
+        }
+
+        /* White text for transparent-background containers */
+        .panel, .panel-alt {
+            color: #fff;
+        }
+        .panel a, .panel-alt a {
+            color: #a8c0ff;
+        }
+        .panel strong, .panel-alt strong {
+            color: #e0d0ff;
+        }
+        .panel .points, .panel-alt .points {
+            color: var(--neon-green);
+        }
+
+        /* Tab content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ============================================
+           Instruction Steps
+           ============================================ */
+        .instruction-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(203,169,244,0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--purple-main);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, var(--purple-dark), var(--purple-main));
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+            font-size: 13px;
+        }
+
+        .step-content h3 {
+            color: var(--purple-dark);
+            margin-bottom: 4px;
+            font-size: 13px;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        .step-content p {
+            color: #fff;
+            line-height: 1.5;
+            font-size: 12px;
+        }
+
+        .step-content code {
+            background: rgba(203,169,244,0.2);
+            color: var(--purple-dark);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+        }
+
+        /* ============================================
+           Requirements Box
+           ============================================ */
+        .requirements-box {
+            background: rgba(203,169,244,0.08);
+            border: 2px dashed var(--purple-main);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .requirements-box h3 {
+            color: var(--purple-dark);
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        .requirements-box ul {
+            list-style: none;
+            padding-left: 5px;
+        }
+
+        .requirements-box li {
+            padding: 5px 0;
+            font-size: 12px;
+        }
+
+        .requirements-box li::before {
+            content: "✦ ";
+            color: var(--purple-main);
+        }
+
+        /* ============================================
+           Status Panel
+           ============================================ */
+        .status-panel {
+            background: rgba(203,169,244,0.1);
+            border: 2px ridge var(--purple-main);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .status-panel.connected {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(187,236,102,0.3);
+        }
+
+        .status-panel.connecting {
+            border-color: var(--purple-main);
+            animation: connecting-pulse 1s infinite;
+        }
+
+        @keyframes connecting-pulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(203,169,244,0.3); }
+            50% { box-shadow: 0 0 20px rgba(203,169,244,0.6); }
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff4444;
+            box-shadow: 0 0 8px #ff4444;
+        }
+
+        .status-dot.connected {
+            background: var(--neon-green);
+            box-shadow: 0 0 8px var(--neon-green);
+        }
+
+        .status-dot.connecting {
+            background: var(--purple-main);
+            animation: blink 0.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .status-text {
+            font-size: 14px;
+            color: var(--purple-dark);
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        .status-panel.connected .status-text {
+            color: #4a8f00;
+        }
+
+        /* ============================================
+           Step Display
+           ============================================ */
+        .step-display {
+            background: linear-gradient(180deg, var(--purple-gradient-start) 5%, var(--purple-gradient-mid) 39%, var(--purple-gradient-end) 92%);
+            border: 3px ridge var(--purple-main);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 0px 60px 0px 0px;
+            box-shadow: #ffffff8a 0px 0px 2px 3px inset;
+        }
+
+        .step-count {
+            font-size: 3em;
+            text-shadow: 0 0 15px rgba(255,255,255,0.8);
+            margin-bottom: 5px;
+            letter-spacing: 4px;
+        }
+
+        .step-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .total-steps-display {
+            background: rgba(203,169,244,0.15);
+            border: 2px ridge var(--purple-main);
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .total-steps-display span {
+            color: var(--purple-dark);
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        /* ============================================
+           Buttons
+           ============================================ */
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 18px;
+            border: 2px ridge var(--purple-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'MS UI Gothic', Arial, sans-serif;
+            font-size: 11px;
+            background: linear-gradient(180deg, var(--purple-gradient-start) 5%, var(--purple-gradient-mid) 39%, var(--purple-gradient-end) 92%);
+            color: white;
+            text-shadow: 1px 1px 2px #f1baff, -1px -1px 2px #8691eb;
+            box-shadow: #ffffff8a 0px 0px 2px 2px inset;
+            cursor: pointer !important;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(203,169,244,0.5), #ffffff8a 0px 0px 2px 2px inset;
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed !important;
+            transform: none;
+        }
+
+        .btn-connect {
+            background: linear-gradient(180deg, #c8f0a0, #7ec850);
+            color: #2d5a0a;
+            text-shadow: none;
+            border-color: #7ec850;
+        }
+
+        .btn-danger {
+            background: linear-gradient(180deg, #ffaaaa, #cc4444);
+            color: white;
+            text-shadow: none;
+            border-color: #cc4444;
+        }
+
+        .btn-flash {
+            background: linear-gradient(180deg, #f1baff, var(--purple-dark));
+            border-color: #f1baff;
+        }
+
+        .btn-download {
+            background: linear-gradient(180deg, #a0d8f0, #4a90c8);
+            color: white;
+            text-shadow: none;
+            border-color: #4a90c8;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .download-section {
+            background: rgba(160,216,240,0.12);
+            border: 2px ridge #a0d8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .download-section h3 {
+            color: var(--purple-dark);
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        .download-section p {
+            font-size: 12px;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        /* ============================================
+           Console
+           ============================================ */
+        .console {
+            background: rgba(30,10,50,0.9);
+            color: var(--purple-main);
+            font-family: 'Courier New', monospace;
+            padding: 15px;
+            border: 2px ridge var(--purple-main);
+            height: 200px;
+            overflow-y: auto;
+            font-size: 11px;
+            line-height: 1.5;
+            border-radius: 0px 0px 0px 30px;
+        }
+
+        .console-line { margin-bottom: 4px; }
+        .console-line.error { color: #ff6b6b; }
+        .console-line.success { color: var(--neon-green); }
+        .console-line.info { color: #f1baff; }
+
+        /* ============================================
+           Username Input (Scoreboard)
+           ============================================ */
+        .username-section {
+            background: rgba(203,169,244,0.1);
+            border: 2px dashed var(--purple-main);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .username-section label {
+            color: var(--purple-dark);
+            font-weight: bold;
+            font-size: 13px;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        .username-section input {
+            background: white;
+            color: #333;
+            border: 2px ridge var(--purple-main);
+            padding: 10px 14px;
+            border-radius: 5px;
+            font-family: 'MS UI Gothic', Arial, sans-serif;
+            font-size: 12px;
+            min-width: 160px;
+        }
+
+        .username-section input::placeholder {
+            color: rgba(100,64,196,0.5);
+        }
+
+        .username-section input:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(203,169,244,0.5);
+        }
+
+        .username-info {
+            font-size: 11px;
+            color: #888;
+            width: 100%;
+        }
+
+        /* ============================================
+           Data Panels (Records & Leaderboard)
+           ============================================ */
+        .data-panel {
+            background: rgba(0,0,0,0.3);
+            border: 2px ridge var(--purple-main);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        .data-panel h3 {
+            color: #e0d0ff;
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 2px #f1baff;
+            font-size: 14px;
+        }
+
+        .data-list {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .data-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(203,169,244,0.4);
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .data-item .rank {
+            background: linear-gradient(135deg, var(--purple-dark), var(--purple-main));
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .data-item .steps {
+            color: var(--purple-dark);
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        /* ============================================
+           Flash Section
+           ============================================ */
+        .flash-section {
+            background: rgba(0,0,0,0.3);
+            border: 2px ridge #f1baff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        .flash-section h3 {
+            color: #e0d0ff;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        .flash-input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 12px;
+        }
+
+        .flash-input-group label {
+            color: #e0d0ff;
+            font-weight: bold;
+        }
+
+        .flash-input-group input[type="file"] {
+            background: white;
+            color: #333;
+            border: 2px ridge var(--purple-main);
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 11px;
+        }
+
+        .flash-input-group input[type="text"] {
+            background: white;
+            color: #333;
+            border: 2px ridge var(--purple-main);
+            padding: 8px 12px;
+            border-radius: 5px;
+            width: 100px;
+            font-family: monospace;
+            font-size: 11px;
+        }
+
+        .flash-progress {
+            background: white;
+            border: 2px ridge var(--purple-main);
+            border-radius: 10px;
+            height: 25px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .flash-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--purple-main), #f1baff);
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        /* ============================================
+           Warning Box
+           ============================================ */
+        .warning-box {
+            background: rgba(255,100,100,0.15);
+            border: 2px dashed #ff6b6b;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            color: #ffaaaa;
+            font-size: 12px;
+        }
+
+        .warning-box strong { color: #ff6666; }
+        .warning-box ul { margin-top: 8px; padding-left: 18px; }
+        .warning-box li { margin-bottom: 4px; color: #ffaaaa; }
+
+        /* ============================================
+           Browser Warning
+           ============================================ */
+        .browser-warning {
+            background: rgba(255,100,100,0.15);
+            border: 2px ridge #ff4444;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .browser-warning h3 { color: #ff4444; margin-bottom: 8px; }
+        .browser-warning p { color: #cc4444; font-size: 12px; }
+
+        /* ============================================
+           Footer
+           ============================================ */
+        .site-footer {
+            text-align: center;
+            padding: 15px;
+            color: white;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px white;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .site-footer a { color: #d4ceff; }
+
+        /* ============================================
+           Auth / Account Section
+           ============================================ */
+        .auth-section {
+            max-width: 380px;
+            margin: 0 auto 20px;
+            text-align: center;
+        }
+
+        .auth-section h3 {
+            color: var(--purple-dark);
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .auth-form input {
+            background: white;
+            color: #333;
+            border: 2px ridge var(--purple-main);
+            padding: 10px 14px;
+            border-radius: 5px;
+            font-size: 13px;
+            font-family: 'MS UI Gothic', Arial, sans-serif;
+        }
+
+        .auth-form input:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(203,169,244,0.6);
+        }
+
+        .auth-toggle {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        /* Dark text for solid-background sub-elements inside panels */
+        .hunt-upload select,
+        .hunt-upload input[type="file"],
+        .flash-input-group input,
+        .auth-form input {
+            color: #333 !important;
+        }
+
+        .auth-toggle a {
+            color: var(--purple-dark);
+            cursor: pointer !important;
+            text-decoration: underline;
+        }
+
+        .auth-error {
+            color: #ff4444;
+            font-size: 12px;
+            min-height: 18px;
+        }
+
+        .auth-welcome {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .auth-welcome h2 {
+            color: var(--purple-dark);
+            text-shadow: 1px 1px 2px #f1baff;
+            margin-bottom: 10px;
+        }
+
+        /* Profile Section */
+        .profile-card {
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 3px ridge var(--purple-main);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            color: #fff;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .stat-box {
+            background: rgba(203,169,244,0.15);
+            border: 2px ridge var(--purple-main);
+            border-radius: 10px;
+            padding: 15px 10px;
+            text-align: center;
+        }
+
+        .stat-box .stat-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        .stat-box .stat-label {
+            font-size: 10px;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* Hunt Upload */
+        .hunt-upload {
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 2px ridge var(--neon-green);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .hunt-upload h3 {
+            color: #e0d0ff;
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 2px #f1baff;
+        }
+
+        .hunt-upload select {
+            width: 100%;
+            padding: 10px;
+            border: 2px ridge var(--purple-main);
+            border-radius: 5px;
+            font-family: 'MS UI Gothic', Arial, sans-serif;
+            font-size: 13px;
+            background: white;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .hunt-upload input[type="file"] {
+            background: white;
+            border: 2px ridge var(--purple-main);
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 11px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .hunt-status {
+            font-size: 12px;
+            min-height: 20px;
+            margin-top: 8px;
+        }
+
+        .btn-hunt {
+            background: linear-gradient(180deg, #d4f0a0, #88c850);
+            color: #2d5a0a;
+            text-shadow: none;
+            border-color: #88c850;
+        }
+
+        /* Hunt Checklist */
+        .hunt-checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .hunt-item {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+
+        .hunt-item.completed {
+            background: rgba(187,236,102,0.15);
+            border-color: var(--neon-green);
+        }
+
+        .hunt-item .points {
+            font-weight: bold;
+            color: var(--purple-dark);
+            font-size: 11px;
+        }
+
+        .hunt-item .check {
+            color: var(--neon-green);
+            font-weight: bold;
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .gallery-card {
+            background: rgba(0,0,0,0.4);
+            border: 2px ridge var(--purple-main);
+            border-radius: 10px;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .gallery-card .gallery-info {
+            padding: 8px 10px;
+            font-size: 11px;
+        }
+
+        .gallery-card .gallery-info strong {
+            color: var(--purple-dark);
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .gallery-card .gallery-info span {
+            color: #ccc;
+        }
+
+        /* ============================================
+           Responsive
+           ============================================ */
+        @media (max-width: 768px) {
+            .topnav ul { flex-direction: column; gap: 0; padding: 8px; }
+            .topnav button { width: 100%; padding: 12px; }
+            .step-count { font-size: 2em; }
+            .controls { grid-template-columns: 1fr; }
+            .header-title h1 { font-size: 18px; }
+            .main-container { padding: 0 10px; }
+            .profile-stats { grid-template-columns: 1fr; }
+            .hunt-checklist { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+        }
+
+        /* ============================================
+           Snowflakes - matching index.html
+           ============================================ */
+        @keyframes snowflakes-fall { 0% { top: -10%; } 100% { top: 100%; } }
+        @keyframes snowflakes-shake { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(80px); } }
+        .snowflake {
+            position: fixed; top: -10%; z-index: 9999;
+            user-select: none; cursor: default; font-size: 18px;
+            animation-name: snowflakes-fall, snowflakes-shake;
+            animation-duration: 10s, 3s;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite, infinite;
+            pointer-events: none;
+        }
+        .snowflake:nth-of-type(1) { left: 10%; animation-delay: 1s, 1s; }
+        .snowflake:nth-of-type(2) { left: 20%; animation-delay: 6s, .5s; }
+        .snowflake:nth-of-type(3) { left: 30%; animation-delay: 4s, 2s; }
+        .snowflake:nth-of-type(4) { left: 40%; animation-delay: 2s, 2s; }
+        .snowflake:nth-of-type(5) { left: 50%; animation-delay: 8s, 3s; }
+        .snowflake:nth-of-type(6) { left: 60%; animation-delay: 6s, 2s; }
+        .snowflake:nth-of-type(7) { left: 70%; animation-delay: 2.5s, 1s; }
+        .snowflake:nth-of-type(8) { left: 80%; animation-delay: 1s, 0s; }
+        .snowflake:nth-of-type(9) { left: 90%; animation-delay: 3s, 1.5s; }
+        .snowflake:nth-of-type(10) { left: 25%; animation-delay: 2s, 0s; }
+    </style>
+</head>
+<body>
+
+<!-- Snowflakes -->
+<div class="snowflakes">
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+    <div class="snowflake">🩶</div>
+</div>
+
+<!-- Top Navigation -->
+<nav class="topnav">
+    <ul>
+        <li><a href="https://1333covenant.com/">home</a></li>
+        <li><button class="active" onclick="showTab('instructions', this)">📖 instructions</button></li>
+        <li><button onclick="showTab('connect', this)">🔌 connect</button></li>
+        <li><button onclick="showTab('steps', this)">👟 steps</button></li>
+        <li><button onclick="showTab('flash', this)">⚡ flash</button></li>
+        <li><button onclick="showTab('account', this)">👤 account</button></li>
+        <li><button onclick="showTab('hunt', this)">🏕️ hunt</button></li>
+        <li id="adminNavItem" style="display:none;"><button onclick="showTab('admin', this)">🔒 admin</button></li>
+        <li><a href="https://1333covenant.com/shop">shop</a></li>
+    </ul>
+</nav>
+
+<div class="main-container">
+
+    <!-- Header -->
+    <div class="header-title">
+        <h1>✨ AngelGotchi Terminal ✨</h1>
+        <p>ESP32-S3 Step Counter & Device Manager</p>
+        <div class="esp32-badge">ESP32-S3 Native USB</div>
+    </div>
+
+    <!-- Browser Warning -->
+    <div class="browser-warning" id="browserWarning">
+        <h3>⚠️ Browser Not Supported</h3>
+        <p>Web Serial API is required. Please use <strong>Google Chrome</strong>, <strong>Microsoft Edge</strong>, or <strong>Opera</strong>.</p>
+    </div>
+
+    <!-- ================================ -->
+    <!-- Tab 1: Instructions              -->
+    <!-- ================================ -->
+    <div class="tab-content active" id="tab-instructions">
+        <div class="panel-alt">
+            <div class="panel-header">📋 Requirements</div>
+            <div class="requirements-box">
+                <ul>
+                    <li><strong>ESP32-S3</strong> development board with native USB</li>
+                    <li><strong>USB-C cable</strong> (data cable, not charge-only)</li>
+                    <li><strong>Chrome, Edge, or Opera</strong> browser (Web Serial API)</li>
+                    <li><strong>2026update1.bin</strong> firmware (download from the Flash tab)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">🚀 Getting Started with ESP32-S3</div>
+
+            <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Connect Your ESP32-S3</h3>
+                    <p>Plug your ESP32-S3 into your computer using a USB-C data cable. The ESP32-S3 uses <strong>native USB</strong> — no external USB-UART chip needed!</p>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Check Device Manager (Windows)</h3>
+                    <p>Open Device Manager → <code>Ports (COM & LPT)</code> → look for "USB JTAG/serial debug unit". Note the COM port (e.g., <code>COM10</code>).</p>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Navigate to Connect Tab</h3>
+                    <p>Click the <strong>"Connect"</strong> tab above. Close Arduino IDE or any serial monitors first — only one app can use the port at a time!</p>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Grant Browser Permission</h3>
+                    <p>Click "Connect" and your browser will show a popup to select a serial port. Choose your ESP32-S3 device and click <strong>"Connect"</strong>.</p>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>Read Your Steps!</h3>
+                    <p>Go to the <strong>"Steps"</strong> tab to read step data from your device's EEPROM. Save sessions and compete on the leaderboard!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-alt">
+            <div class="panel-header">⚡ Flashing New Firmware</div>
+
+            <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Download the Firmware</h3>
+                    <p>Go to the <strong>"Flash"</strong> tab and click the <strong>"Download 2026update1.bin"</strong> button. Save the file somewhere you can find it (e.g., your Downloads folder).</p>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Plug in Your Device</h3>
+                    <p>Connect your ESP32-S3 via USB-C. No need to press BOOT — the flasher resets the chip into download mode automatically.</p>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Upload the Firmware File</h3>
+                    <p>In the <strong>"Flash"</strong> tab, click <strong>"Choose File"</strong> under Upload Firmware and select the <code>2026update1.bin</code> file you just downloaded. Leave the offset at <code>0x0</code>.</p>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Flash & Go</h3>
+                    <p>Click <strong>"⚡ Flash Firmware"</strong> and wait. The device auto-resets when done — your new firmware starts immediately!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Troubleshooting Tips:</strong>
+            <ul>
+                <li>Device doesn't appear? Try a different USB port or cable</li>
+                <li>Connection fails? Close Arduino IDE or any serial monitors</li>
+                <li>"Permission denied"? Make sure you clicked "Allow" in the browser popup</li>
+                <li>Flashing issues? Try unplugging and replugging USB, then flash again</li>
+                <li>Still stuck? Try unplugging and replugging the device</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ================================ -->
+    <!-- Tab 2: Connect Device            -->
+    <!-- ================================ -->
+    <div class="tab-content" id="tab-connect">
+        <!-- Username for Scoreboard -->
+        <div class="username-section">
+            <label>✦ Display Name:</label>
+            <input type="text" id="usernameInput" placeholder="Enter your name" maxlength="20">
+            <div class="username-info">Your name will appear on the leaderboard when you save steps</div>
+        </div>
+
+        <!-- Connection Status -->
+        <div class="status-panel" id="statusPanel">
+            <div class="status-indicator">
+                <div class="status-dot" id="statusDot"></div>
+                <div class="status-text" id="statusText">Disconnected</div>
+            </div>
+            <div id="statusMessage" style="font-size: 12px; margin-top: 5px;">Click "Connect ESP32-S3" to begin</div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-connect" id="connectBtn" onclick="connectDevice()">
+                🔌 Connect ESP32-S3
+            </button>
+            <button class="btn btn-danger" id="disconnectBtn" onclick="disconnectDevice()" disabled>
+                ❌ Disconnect
+            </button>
+        </div>
+
+        <div class="console" id="console">
+            <div class="console-line info">[System] AngelGotchi Terminal initialized</div>
+            <div class="console-line">[System] Ready to connect to ESP32-S3 device</div>
+        </div>
+    </div>
+
+    <!-- ================================ -->
+    <!-- Tab 3: Step Counter              -->
+    <!-- ================================ -->
+    <div class="tab-content" id="tab-steps">
+        <div class="step-display">
+            <div class="step-count" id="stepCount">--</div>
+            <div class="step-label">Current Session Steps</div>
+        </div>
+
+        <div class="total-steps-display">
+            <div>Total Lifetime Steps: <span id="totalSteps">--</span></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="readBtn" onclick="readStepData()" disabled>
+                📖 Read Steps from Device
+            </button>
+            <button class="btn" id="recordBtn" onclick="recordSteps()" disabled>
+                💾 Save to Scoreboard
+            </button>
+            <button class="btn btn-danger" id="resetDeviceBtn" onclick="resetDeviceSteps()" disabled>
+                🔄 Reset Device Counter
+            </button>
+        </div>
+
+        <div class="data-panel">
+            <h3>📊 Your Recent Sessions</h3>
+            <div class="data-list" id="recordList">
+                <div class="data-item"><span>No records yet — connect device to start tracking!</span></div>
+            </div>
+        </div>
+
+        <div class="data-panel">
+            <h3>🏆 Leaderboard</h3>
+            <div class="data-list" id="leaderboardList">
+                <div class="data-item"><span>Loading leaderboard...</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================ -->
+    <!-- Tab 4: Flash Firmware            -->
+    <!-- ================================ -->
+    <div class="tab-content" id="tab-flash">
+        <div class="panel-alt">
+            <div class="panel-header">⚡ ESP32-S3 Web Flasher</div>
+            <p style="font-size: 13px; margin-bottom: 15px; color: #bb86fc;">Flash firmware directly from your browser. Latest firmware: <strong>2026update1.bin</strong></p>
+
+            <div class="warning-box">
+                <strong style="display: block; margin-bottom: 5px;">☆ How to flash:</strong>
+                <ol style="margin-left: 20px; font-size: 11px; line-height: 1.6;">
+                    <li>Click <strong>"Download 2026update1.bin"</strong> below to save the latest firmware to your computer.</li>
+                    <li>Connect your device via USB-C.</li>
+                    <li>Click <strong>"Choose File"</strong> under Upload Firmware and select the <strong>2026update1.bin</strong> you downloaded.</li>
+                    <li>Click <strong>"⚡ Flash Firmware"</strong>. The terminal will auto-reset the device into bootloader mode.</li>
+                    <li>If it fails, try <strong>"🗑️ Erase Flash"</strong> first, then flash again.</li>
+                </ol>
+                <div style="font-size: 10px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 5px;">
+                    <em>Note:</em> Only use the BOOT + RESET button combo if the terminal cannot find the device automatically.
+                </div>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <h3>📥 Download Latest Firmware</h3>
+            <p>Get the latest AngelGotchi firmware update, then select it in the uploader below to flash.</p>
+            <a href="https://github.com/Kaiotei/2026new/raw/main/2026update1.bin" download="2026update1.bin" class="btn btn-download">
+                📥 Download 2026update1.bin
+            </a>
+        </div>
+
+        <div class="flash-section">
+            <h3>📤 Upload Firmware</h3>
+
+            <div class="flash-input-group">
+                <label>Firmware File (.bin):</label>
+                <input type="file" id="flashFileInput" accept=".bin">
+            </div>
+
+            <div class="flash-input-group">
+                <label>Flash Offset:</label>
+                <input type="text" id="flashOffsetInput" value="0x0" placeholder="0x0">
+                <span style="font-size: 11px; color: #ccc;">(Use 0x0 for S3 merged binaries)</span>
+            </div>
+
+            <div class="flash-progress" id="flashProgress" style="display: none;">
+                <div class="flash-progress-bar" id="flashProgressBar">0%</div>
+            </div>
+
+            <div class="controls" style="margin-top: 15px;">
+                <button class="btn btn-flash" id="flashBtn" onclick="flashFirmware()">
+                    ⚡ Flash Firmware
+                </button>
+                <button class="btn btn-danger" id="eraseBtn" onclick="eraseFlash()">
+                    🗑️ Erase Flash
+                </button>
+            </div>
+        </div>
+
+        <div class="console" id="flashConsole" style="margin-top: 15px;">
+            <div class="console-line info">[Flash] ESP32-S3 Web Flasher ready</div>
+            <div class="console-line">[Flash] Select a .bin file and click Flash to begin</div>
+        </div>
+    </div>
+
+    <!-- ================================ -->
+    <!-- Tab 5: Account                   -->
+    <!-- ================================ -->
+    <div class="tab-content" id="tab-account">
+        <!-- Login/Register form (shown when logged out) -->
+        <div id="authPanel">
+            <div class="panel-alt">
+                <div class="panel-header">👤 Account</div>
+                <div class="auth-section">
+                    <h3 id="authTitle">✦ Log In</h3>
+                    <div class="auth-error" id="authError"></div>
+                    <div class="auth-form">
+                        <input type="text" id="authUsername" placeholder="Username" maxlength="20" autocomplete="username">
+                        <input type="password" id="authPassword" placeholder="Password" autocomplete="current-password">
+                        <input type="text" id="authInviteCode" placeholder="Invite Code" maxlength="30" style="display:none;">
+                        <button class="btn" id="authSubmitBtn" onclick="handleAuth()">Log In</button>
+                    </div>
+                    <div class="auth-toggle">
+                        <span id="authToggleText">Don't have an account?</span>
+                        <a id="authToggleLink" onclick="toggleAuthMode()">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile (shown when logged in) -->
+        <div id="profilePanel" style="display:none;">
+            <div class="panel-alt">
+                <div class="panel-header">👤 Welcome back!</div>
+                <div class="auth-welcome">
+                    <h2 id="profileGreeting">✨ Hello!</h2>
+                    <p style="font-size:12px; color:#ccc;">Member since <span id="profileJoined">—</span></p>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="profileSteps">0</div>
+                        <div class="stat-label">Total Steps</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="profileHuntScore">0</div>
+                        <div class="stat-label">Hunt Points</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="profileOverall">0</div>
+                        <div class="stat-label">Overall Score</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-panel">
+                <h3>📸 Your Hunt Submissions</h3>
+                <div class="data-list" id="profileSubmissions">
+                    <div class="data-item"><span>No submissions yet — go to the Hunt tab!</span></div>
+                </div>
+            </div>
+
+            <div class="controls" style="margin-top: 15px;">
+                <button class="btn btn-danger" onclick="logout()">🚪 Log Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================ -->
+    <!-- Tab 6: Scavenger Hunt            -->
+    <!-- ================================ -->
+    <div class="tab-content" id="tab-hunt">
+        <div class="panel-alt">
+            <div class="panel-header">🏕️ AngelGotchi Scavenger Hunt</div>
+            <div style="padding: 5px 0; font-size: 13px; line-height: 1.7; color: #fff;">
+                <p style="margin-bottom: 10px;"><strong>🎯 The Challenge:</strong> Grab your AngelGotchi, head outside, and photograph as many items from the checklist as you can! <strong>All photos must be taken using the AngelGotchi device camera</strong> — no phone photos allowed!</p>
+                <p style="margin-bottom: 10px;">📸 <strong>How it works:</strong> Use your AngelGotchi to snap a photo in the wild, transfer it to your computer, then come back here to upload and claim your points. Each item can only be submitted once per user — no duplicates!</p>
+                <p style="margin-bottom: 6px; font-size: 12px; color: #ffaaaa;"><em>⚠️ Submissions not taken with the AngelGotchi device will be disqualified.</em></p>
+                <p style="margin-bottom: 10px;">🏆 <strong>Scoring:</strong> Items are worth different amounts based on how hard they are to find. Your hunt points combine with your step count for an overall score on the leaderboard.</p>
+                <div style="background: rgba(203,169,244,0.12); border: 2px ridge var(--purple-main); border-radius: 8px; padding: 12px; margin-top: 10px;">
+                    <strong style="color: #e0d0ff;">⭐ Rarity Tiers:</strong>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; margin-top: 8px; font-size: 12px;">
+                        <span>🟢 <strong>Common</strong> — 5 pts</span>
+                        <span>🟡 <strong>Uncommon</strong> — 10 pts</span>
+                        <span>🟠 <strong>Rare</strong> — 20 pts</span>
+                        <span>🔴 <strong>Epic</strong> — 35 pts</span>
+                        <span>🟣 <strong>Legendary</strong> — 50 pts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Section (requires login) -->
+        <div class="hunt-upload" id="huntUploadSection">
+            <h3>📤 Submit a Photo</h3>
+            <div id="huntLoginPrompt" style="text-align:center; padding:10px; font-size:12px; color:#ccc;">
+                Please <a onclick="showTab('account', document.querySelector('.topnav button:nth-child(5)'))">log in</a> to submit photos.
+            </div>
+            <div id="huntUploadForm" style="display:none;">
+                <label style="font-weight:bold; font-size:12px; color:#e0d0ff; display:block; margin-bottom:5px;">What did you find?</label>
+                <select id="huntItemSelect">
+                    <option value="">— Select a scavenger hunt item —</option>
+                </select>
+                <label style="font-weight:bold; font-size:12px; color:#e0d0ff; display:block; margin-bottom:5px;">Photo from your device:</label>
+                <input type="file" id="huntPhotoInput" accept="image/*">
+                <button class="btn btn-hunt" onclick="submitHuntPhoto()" style="width:100%; margin-top:5px;">📸 Submit Photo</button>
+                <div class="hunt-status" id="huntStatus"></div>
+            </div>
+        </div>
+
+        <!-- Checklist -->
+        <div class="panel">
+            <div class="panel-header">📋 Hunt Checklist</div>
+            <p style="font-size: 12px; color: #ccc; margin-bottom: 10px;">Find and photograph each item with your AngelGotchi. Points are awarded per unique find.</p>
+            <div class="hunt-checklist" id="huntChecklist">
+                <!-- Static full list — JS overlays checkmarks for logged-in users -->
+                <div style="font-weight:bold; color:var(--purple-dark); margin: 8px 0 4px; font-size: 12px;">🟢 COMMON — 5 pts each</div>
+                <div class="hunt-item" data-id="dandelion"><span>🌼 Dandelion</span><span class="points">5 pts</span></div>
+                <div class="hunt-item" data-id="ant_colony"><span>🐜 Ant Colony</span><span class="points">5 pts</span></div>
+                <div class="hunt-item" data-id="pinecone"><span>🌲 Pinecone</span><span class="points">5 pts</span></div>
+                <div class="hunt-item" data-id="fallen_leaf"><span>🍂 Colorful Fallen Leaf</span><span class="points">5 pts</span></div>
+                <div class="hunt-item" data-id="cloud_shape"><span>☁️ Cool Cloud Shape</span><span class="points">5 pts</span></div>
+
+                <div style="font-weight:bold; color:var(--purple-dark); margin: 12px 0 4px; font-size: 12px;">🟡 UNCOMMON — 10 pts each</div>
+                <div class="hunt-item" data-id="fern"><span>🌿 Fern</span><span class="points">10 pts</span></div>
+                <div class="hunt-item" data-id="white_oak"><span>🌳 White Oak Tree</span><span class="points">10 pts</span></div>
+                <div class="hunt-item" data-id="mushroom"><span>🍄 Wild Mushroom</span><span class="points">10 pts</span></div>
+                <div class="hunt-item" data-id="spider_web"><span>🕸️ Spider Web</span><span class="points">10 pts</span></div>
+                <div class="hunt-item" data-id="moss"><span>🪨 Moss on a Rock</span><span class="points">10 pts</span></div>
+                <div class="hunt-item" data-id="beetle"><span>🪲 Beetle</span><span class="points">10 pts</span></div>
+                <div class="hunt-item" data-id="feather"><span>🪶 Bird Feather</span><span class="points">10 pts</span></div>
+                <div class="hunt-item" data-id="creek"><span>💧 Creek or Stream</span><span class="points">10 pts</span></div>
+
+                <div style="font-weight:bold; color:var(--purple-dark); margin: 12px 0 4px; font-size: 12px;">🟠 RARE — 20 pts each</div>
+                <div class="hunt-item" data-id="monarch"><span>🦋 Monarch Butterfly</span><span class="points">20 pts</span></div>
+                <div class="hunt-item" data-id="ladybug"><span>🐞 Ladybug</span><span class="points">20 pts</span></div>
+                <div class="hunt-item" data-id="potato_bug"><span>🐛 Potato Bug (Roly-Poly)</span><span class="points">20 pts</span></div>
+                <div class="hunt-item" data-id="frog"><span>🐸 Frog or Toad</span><span class="points">20 pts</span></div>
+                <div class="hunt-item" data-id="caterpillar"><span>🐛 Caterpillar</span><span class="points">20 pts</span></div>
+                <div class="hunt-item" data-id="animal_tracks"><span>🐾 Animal Tracks</span><span class="points">20 pts</span></div>
+                <div class="hunt-item" data-id="poison_ivy"><span>☠️ Poison Ivy (DON'T TOUCH!)</span><span class="points">20 pts</span></div>
+                <div class="hunt-item" data-id="sunset"><span>🌅 Sunset or Sunrise</span><span class="points">20 pts</span></div>
+
+                <div style="font-weight:bold; color:var(--purple-dark); margin: 12px 0 4px; font-size: 12px;">🔴 EPIC — 35 pts each</div>
+                <div class="hunt-item" data-id="hummingbird"><span>🐦 Hummingbird</span><span class="points">35 pts</span></div>
+                <div class="hunt-item" data-id="praying_mantis"><span>🦗 Praying Mantis</span><span class="points">35 pts</span></div>
+                <div class="hunt-item" data-id="bee_on_flower"><span>🐝 Bee on a Flower</span><span class="points">35 pts</span></div>
+                <div class="hunt-item" data-id="hawk"><span>🦅 Hawk or Eagle</span><span class="points">35 pts</span></div>
+                <div class="hunt-item" data-id="deer"><span>🦌 Deer</span><span class="points">35 pts</span></div>
+                <div class="hunt-item" data-id="night_sky"><span>🌙 Night Sky with Stars</span><span class="points">35 pts</span></div>
+
+                <div style="font-weight:bold; color:var(--purple-dark); margin: 12px 0 4px; font-size: 12px;">🟣 LEGENDARY — 50 pts each</div>
+                <div class="hunt-item" data-id="owl"><span>🦉 Owl</span><span class="points">50 pts</span></div>
+                <div class="hunt-item" data-id="snake"><span>🐍 Snake</span><span class="points">50 pts</span></div>
+                <div class="hunt-item" data-id="fox_coyote"><span>🦊 Fox or Coyote</span><span class="points">50 pts</span></div>
+                <div class="hunt-item" data-id="rainbow"><span>🌈 Rainbow</span><span class="points">50 pts</span></div>
+                <div class="hunt-item" data-id="bonus_rare"><span>✨ Mystery Bonus Find</span><span class="points">50 pts</span></div>
+            </div>
+        </div>
+
+        <!-- Gallery -->
+        <div class="panel-alt">
+            <div class="panel-header">🖼️ Community Gallery</div>
+            <div class="gallery-grid" id="huntGallery">
+                <div style="grid-column: 1/-1; text-align:center; padding:20px; color:#ccc; font-size:12px;">Loading gallery...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Admin Tab ===== -->
+    <div class="tab-content" id="tab-admin">
+        <div class="panel">
+            <div class="panel-header">🔒 Admin Portal</div>
+
+            <div id="adminLoginSection">
+                <label style="color:#fff; font-size:12px;">Admin Token</label>
+                <input type="password" id="adminTokenInput" placeholder="Enter admin token" style="width:100%; padding:8px; border-radius:6px; border:1px solid #555; background:#1a1a2e; color:#fff; margin:6px 0;">
+                <button onclick="adminLogin()" style="width:100%; padding:10px; border:none; border-radius:8px; background:var(--purple-glow); color:#fff; font-weight:bold; cursor:pointer;">Authenticate</button>
+                <div id="adminAuthStatus" style="margin-top:8px; font-size:12px;"></div>
+            </div>
+
+            <div id="adminPanel" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <span style="color:#aaa; font-size:12px;" id="adminSubCount">0 pending submissions</span>
+                    <button onclick="loadAdminSubmissions()" style="padding:6px 14px; border:none; border-radius:6px; background:var(--purple-glow); color:#fff; font-size:12px; cursor:pointer;">🔄 Refresh</button>
+                </div>
+                <div id="adminSubmissions"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="site-footer">
+    ☆ 2026 - 1333 | AngelGotchi Terminal | <a href="https://1333covenant.com/">1333covenant.com</a> ☆
+</div>
+
+<!-- Load esptool-js from jsdelivr (serves original Espressif build, no rebundling) -->
+<script type="module">
+    // jsdelivr serves the ORIGINAL npm file — unlike esm.sh which rebundles and corrupts base64 stub data
+    import { Transport, ESPLoader } from 'https://cdn.jsdelivr.net/npm/esptool-js@0.5.7/bundle.js';
+    window._esptool = { Transport, ESPLoader };
+    console.log('esptool-js loaded OK. Transport:', typeof Transport, 'ESPLoader:', typeof ESPLoader);
+</script>
+
+<script>
+    // ============================================
+    // ESPTool logic
+    // ============================================
+    function getEsptool() {
+        const mod = window._esptool;
+        if (!mod) {
+            throw new Error('esptool-js not ready yet — please wait a few seconds for the library to load, then try again.');
+        }
+        return { Transport: mod.Transport, ESPLoader: mod.ESPLoader };
+    }
+
+    // ============================================
+    // Global Variables
+    // ============================================
+    let port = null;
+    let reader = null;
+    let isConnected = false;
+    let currentSteps = 0;
+    let records = [];
+
+    // API Configuration - Your Render backend URL
+    const API_BASE_URL = 'https://terminal-kvrs.onrender.com/api';
+
+    // ============================================
+    // Initialization
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        checkBrowserSupport();
+        initializeApp();
+    });
+
+    function checkBrowserSupport() {
+        if (!('serial' in navigator)) {
+            document.getElementById('browserWarning').style.display = 'block';
+            document.getElementById('connectBtn').disabled = true;
+            document.getElementById('flashBtn').disabled = true;
+            addToConsole('Web Serial API not supported in this browser', 'error');
+        }
+    }
+
+    async function initializeApp() {
+        // Load local records and leaderboard
+        records = JSON.parse(localStorage.getItem('angelgotchi_records') || '[]');
+        updateRecordsDisplay();
+        updateTotalSteps();
+        loadLeaderboard();
+
+        // Restore saved username
+        const savedName = localStorage.getItem('angelgotchi_username');
+        if (savedName) {
+            document.getElementById('usernameInput').value = savedName;
+        }
+
+        addToConsole('AngelGotchi Terminal ready', 'success');
+
+        // Auth + Hunt init
+        updateAuthUI();
+        loadHuntData();
+    }
+
+    // ============================================
+    // Tab Navigation
+    // ============================================
+    function showTab(tabName, btnEl) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.topnav button').forEach(btn => btn.classList.remove('active'));
+
+        document.getElementById('tab-' + tabName).classList.add('active');
+        if (btnEl) btnEl.classList.add('active');
+    }
+
+
+
+    // ============================================
+    // ESP32-S3 Device Connection (Web Serial API)
+    // ============================================
+    async function connectDevice() {
+        try {
+            addToConsole('Requesting ESP32-S3 serial port...', 'info');
+            updateStatus('connecting', 'Connecting...');
+
+            // Request port with filters for ESP32-S3 and common USB-UART chips
+            let selectedPort;
+            try {
+                selectedPort = await navigator.serial.requestPort({
+                    filters: [
+                        { usbVendorId: 0x303A },                       // Espressif ESP32-S3 native USB
+                        { usbVendorId: 0x303A, usbProductId: 0x1001 }, // ESP32-S3 CDC
+                        { usbVendorId: 0x10C4 },                       // CP210x (common ESP boards)
+                        { usbVendorId: 0x1A86 },                       // CH340 (common ESP boards)
+                        { usbVendorId: 0x0403 },                       // FTDI (some ESP boards)
+                    ]
+                });
+            } catch (filterErr) {
+                // If no matching device, show all ports
+                if (filterErr.name === 'NotFoundError') {
+                    addToConsole('No matching device with filters, showing all ports...', 'info');
+                    selectedPort = await navigator.serial.requestPort();
+                } else {
+                    throw filterErr;
+                }
+            }
+
+            port = selectedPort;
+
+            // Open with standard ESP32-S3 serial parameters
+            await port.open({
+                baudRate: 115200,
+                dataBits: 8,
+                stopBits: 1,
+                parity: 'none',
+                flowControl: 'none'
+            });
+
+            // Log device info
+            const info = port.getInfo();
+            if (info.usbVendorId) {
+                addToConsole(`Device — VID: 0x${info.usbVendorId.toString(16).toUpperCase()}, PID: 0x${info.usbProductId.toString(16).toUpperCase()}`, 'info');
+                if (info.usbVendorId === 0x303A) {
+                    addToConsole('✓ Espressif ESP32-S3 native USB confirmed!', 'success');
+                }
+            }
+
+            addToConsole('ESP32-S3 connected successfully!', 'success');
+            isConnected = true;
+            updateStatus('connected', 'Connected');
+
+            document.getElementById('connectBtn').disabled = true;
+            document.getElementById('disconnectBtn').disabled = false;
+            document.getElementById('readBtn').disabled = false;
+            document.getElementById('recordBtn').disabled = false;
+            document.getElementById('resetDeviceBtn').disabled = false;
+
+            startReading();
+
+        } catch (error) {
+            if (error.name === 'NotAllowedError') {
+                addToConsole('Connection cancelled by user', 'info');
+            } else {
+                addToConsole('Connection failed: ' + error.message, 'error');
+            }
+            updateStatus('disconnected', 'Connection Failed');
+        }
+    }
+
+    async function disconnectDevice() {
+        if (reader) {
+            try { await reader.cancel(); reader.releaseLock(); } catch (e) {}
+            reader = null;
+        }
+
+        if (port) {
+            try { await port.close(); } catch (e) {}
+            port = null;
+        }
+
+        isConnected = false;
+        updateStatus('disconnected', 'Disconnected');
+
+        document.getElementById('connectBtn').disabled = false;
+        document.getElementById('disconnectBtn').disabled = true;
+        document.getElementById('readBtn').disabled = true;
+        document.getElementById('recordBtn').disabled = true;
+        document.getElementById('resetDeviceBtn').disabled = true;
+
+        addToConsole('Device disconnected', 'info');
+    }
+
+    function updateStatus(status, text) {
+        const panel = document.getElementById('statusPanel');
+        const dot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const message = document.getElementById('statusMessage');
+
+        panel.className = 'status-panel ' + status;
+        dot.className = 'status-dot ' + status;
+        statusText.textContent = text;
+
+        if (status === 'connected') {
+            message.textContent = 'Device ready — go to Steps tab to read data';
+        } else if (status === 'connecting') {
+            message.textContent = 'Establishing connection...';
+        } else {
+            message.textContent = 'Click "Connect ESP32-S3" to begin';
+        }
+    }
+
+    async function startReading() {
+        if (!port || !port.readable) return;
+
+        const decoder = new TextDecoder();
+        reader = port.readable.getReader();
+
+        try {
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) { reader.releaseLock(); break; }
+                processSerialData(decoder.decode(value));
+            }
+        } catch (error) {
+            if (isConnected) {
+                addToConsole('Read error: ' + error.message, 'error');
+            }
+        } finally {
+            if (reader) { try { reader.releaseLock(); } catch (e) {} }
+        }
+    }
+
+    let serialBuffer = '';
+
+    function processSerialData(data) {
+        serialBuffer += data;
+        const lines = serialBuffer.split('\n');
+        serialBuffer = lines.pop(); // keep incomplete line
+
+        lines.forEach(line => {
+            line = line.trim();
+            if (!line) return;
+
+            addToConsole('[Device] ' + line);
+
+            // Parse step count — "steps: 1234", "STEPS:1234", or plain number
+            const match = line.match(/steps?[\s:=]*(\d+)/i);
+            if (match) {
+                currentSteps = parseInt(match[1]);
+                document.getElementById('stepCount').textContent = currentSteps.toLocaleString();
+            } else if (/^\d+$/.test(line)) {
+                currentSteps = parseInt(line);
+                document.getElementById('stepCount').textContent = currentSteps.toLocaleString();
+            }
+        });
+    }
+
+    // ============================================
+    // Step Data Functions
+    // ============================================
+    async function readStepData() {
+        if (!isConnected || !port) {
+            addToConsole('Device not connected', 'error');
+            return;
+        }
+
+        try {
+            addToConsole('Reading steps from EEPROM...', 'info');
+            const encoder = new TextEncoder();
+            const w = port.writable.getWriter();
+            await w.write(encoder.encode('READ_STEPS\n'));
+            w.releaseLock();
+            addToConsole('Read command sent — waiting for response...', 'info');
+        } catch (error) {
+            addToConsole('Read failed: ' + error.message, 'error');
+        }
+    }
+
+    async function recordSteps() {
+        if (currentSteps === 0) { addToConsole('No steps to record', 'error'); return; }
+
+        const username = document.getElementById('usernameInput').value.trim();
+        if (!username) {
+            addToConsole('Please enter a display name first', 'error');
+            return;
+        }
+
+        // Save username for next time
+        localStorage.setItem('angelgotchi_username', username);
+
+        // Save locally
+        const record = { timestamp: new Date().toISOString(), steps: currentSteps, username: username };
+        records.push(record);
+        localStorage.setItem('angelgotchi_records', JSON.stringify(records));
+
+        // Submit to scoreboard
+        try {
+            await fetch(`${API_BASE_URL}/score`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, steps: currentSteps })
+            });
+            addToConsole('Score submitted to leaderboard!', 'success');
+        } catch (error) {
+            addToConsole('Could not reach server — saved locally', 'info');
+        }
+
+        updateRecordsDisplay();
+        updateTotalSteps();
+        loadLeaderboard();
+        addToConsole('Recorded ' + currentSteps.toLocaleString() + ' steps for ' + username + '!', 'success');
+    }
+
+    async function resetDeviceSteps() {
+        if (!isConnected || !port) { addToConsole('Device not connected', 'error'); return; }
+        if (!confirm('Reset step counter on device to 0?')) return;
+
+        try {
+            const encoder = new TextEncoder();
+            const w = port.writable.getWriter();
+            await w.write(encoder.encode('RESET_STEPS\n'));
+            w.releaseLock();
+            currentSteps = 0;
+            document.getElementById('stepCount').textContent = '0';
+            addToConsole('Device step counter reset', 'success');
+        } catch (error) {
+            addToConsole('Reset failed: ' + error.message, 'error');
+        }
+    }
+
+    // ============================================
+    // Data Management (local storage only)
+    // ============================================
+
+    function updateRecordsDisplay() {
+        const recordList = document.getElementById('recordList');
+        recordList.innerHTML = '';
+
+        if (records.length === 0) {
+            recordList.innerHTML = '<div class="data-item"><span>No records yet — connect device to start tracking!</span></div>';
+            return;
+        }
+
+        records.slice(-10).reverse().forEach((record) => {
+            const item = document.createElement('div');
+            item.className = 'data-item';
+            const time = new Date(record.timestamp).toLocaleString();
+            item.innerHTML = `<span>${time}</span><span class="steps">${record.steps.toLocaleString()} steps</span>`;
+            recordList.appendChild(item);
+        });
+    }
+
+    function updateTotalSteps() {
+        const total = records.reduce((sum, r) => sum + r.steps, 0);
+        document.getElementById('totalSteps').textContent = total.toLocaleString();
+    }
+
+    async function loadLeaderboard() {
+        const leaderboardList = document.getElementById('leaderboardList');
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/leaderboard`);
+            if (response.ok) {
+                const data = await response.json();
+                displayLeaderboard(data.users || []);
+                return;
+            }
+        } catch (error) {
+            console.error('Leaderboard error:', error);
+        }
+
+        leaderboardList.innerHTML = '<div class="data-item"><span>Leaderboard waking up... please wait 30s and refresh.</span></div>';
+    }
+
+    function displayLeaderboard(users) {
+        const leaderboardList = document.getElementById('leaderboardList');
+        leaderboardList.innerHTML = '';
+
+        if (users.length === 0) {
+            leaderboardList.innerHTML = '<div class="data-item"><span>No leaderboard data</span></div>';
+            return;
+        }
+
+        users.slice(0, 10).forEach((user, index) => {
+            const item = document.createElement('div');
+            item.className = 'data-item';
+            const name = user.displayName || user.username;
+            const score = user.overallScore != null ? user.overallScore.toLocaleString() : (user.totalSteps || 0).toLocaleString();
+            item.innerHTML = `
+                <span class="rank">#${index + 1}</span>
+                <span>${name}</span>
+                <span class="steps">${score} pts</span>
+            `;
+            leaderboardList.appendChild(item);
+        });
+    }
+
+    // ============================================
+    // Firmware Flashing Functions
+    // esptool-js handles DTR/RTS reset into bootloader
+    // automatically in main() — no BOOT button needed
+    // ============================================
+
+    // Helper: close the active serial connection so esptool can re-open the port
+    async function ensurePortClosed() {
+        if (reader) {
+            try { await reader.cancel(); reader.releaseLock(); } catch (e) {}
+            reader = null;
+        }
+        if (port) {
+            try { await port.close(); } catch (e) {}
+            port = null;
+        }
+        isConnected = false;
+        // Update UI to reflect disconnected state
+        document.getElementById('connectBtn').disabled = false;
+        document.getElementById('disconnectBtn').disabled = true;
+        document.getElementById('readBtn').disabled = true;
+        document.getElementById('recordBtn').disabled = true;
+        document.getElementById('resetDeviceBtn').disabled = true;
+        updateStatus('disconnected', 'Disconnected');
+    }
+
+    // Terminal interface for esptool-js logging
+    function makeFlashTerminal() {
+        return {
+            clean() {},
+            writeLine(data) { addToFlashConsole(data); },
+            write(data) { addToFlashConsole(data); }
+        };
+    }
+
+    async function flashFirmware() {
+        const fileInput = document.getElementById('flashFileInput');
+        const offsetInput = document.getElementById('flashOffsetInput');
+
+        if (!fileInput.files.length) { 
+            addToFlashConsole('Please select a firmware file', 'error'); 
+            return; 
+        }
+
+        const file = fileInput.files[0];
+        const offset = parseInt(offsetInput.value, 16);
+        if (isNaN(offset)) { 
+            addToFlashConsole('Invalid flash offset. Use 0x0 or 0x10000', 'error'); 
+            return; 
+        }
+
+        try {
+            // 0. Close any existing serial connection first
+            if (isConnected || port) {
+                addToFlashConsole('Closing active serial connection...', 'info');
+                addToConsole('Disconnecting for firmware flash...', 'info');
+                await ensurePortClosed();
+            }
+
+            addToFlashConsole('Initializing flasher...', 'info');
+            showFlashProgress(0);
+
+            // 1. Load library (synchronous — UMD bundle already loaded)
+            const esptool = getEsptool();
+
+            // 2. Request port
+            addToFlashConsole('Select your ESP32-S3 and click Connect...', 'info');
+            let flashPort;
+            try {
+                flashPort = await navigator.serial.requestPort({
+                    filters: [
+                        { usbVendorId: 0x303A }, // ESP32-S3 Native USB
+                        { usbVendorId: 0x10C4 }, // CP210x
+                        { usbVendorId: 0x1A86 }, // CH340
+                        { usbVendorId: 0x0403 }, // FTDI
+                    ]
+                });
+            } catch (err) {
+                if (err.name === 'NotFoundError') {
+                    addToFlashConsole('No port selected.', 'error');
+                    return;
+                }
+                throw err;
+            }
+
+            if (!flashPort) throw new Error('Could not get port access');
+
+            // 3. Initialize Transport
+            // Some versions of esptool-js require only the port
+            const transport = new esptool.Transport(flashPort);
+            
+            // 4. Initialize Loader
+            const esploader = new esptool.ESPLoader({
+                transport: transport,
+                baudrate: 115200,
+                terminal: makeFlashTerminal(),
+                rom_baudrate: 115200
+            });
+
+            addToFlashConsole('Connecting to device (auto-reset entering bootloader)...', 'info');
+            
+            // 5. Connect
+            const chip = await esploader.main();
+            addToFlashConsole('✓ Connected to ' + chip, 'success');
+
+            // 6. Read file as binary string (required by esptool-js 0.5.x)
+            const fileBuffer = await file.arrayBuffer();
+            const fileData = new Uint8Array(fileBuffer);
+            // Convert to binary string — esptool-js expects string data
+            let binaryString = '';
+            for (let i = 0; i < fileData.length; i++) {
+                binaryString += String.fromCharCode(fileData[i]);
+            }
+
+            addToFlashConsole('Flashing ' + file.name + ' (' + fileData.length + ' bytes) at ' + offsetInput.value + '...', 'info');
+
+            await esploader.writeFlash({
+                fileArray: [{ data: binaryString, address: offset }],
+                flashSize: 'keep',
+                flashMode: 'keep',
+                flashFreq: 'keep',
+                compress: true,
+                reportProgress: (fileIndex, written, total) => {
+                    const percent = Math.round((written / total) * 100);
+                    showFlashProgress(percent);
+                    if (percent % 10 === 0) console.log('Flash progress: ' + percent + '%');
+                }
+            });
+
+            showFlashProgress(100);
+            addToFlashConsole('✨ Firmware flashed successfully!', 'success');
+            addToFlashConsole('Your AngelGotchi is rebooting now...', 'info');
+
+            // 7. Cleanup
+            try { await esploader.after(); } catch (e) {}
+            await transport.disconnect();
+
+        } catch (error) {
+            console.error('Flash error:', error);
+            addToFlashConsole('Flash failed: ' + error.message, 'error');
+            if (error.message.includes('getInfo')) {
+                addToFlashConsole('Tip: This usually means the library is still initializing. Try refreshing the page.', 'info');
+            }
+            hideFlashProgress();
+        }
+    }
+
+    async function eraseFlash() {
+        if (!confirm('WARNING: This will erase ALL data on the ESP32-S3. Continue?')) return;
+
+        try {
+            // Close any existing serial connection first
+            if (isConnected || port) {
+                addToFlashConsole('Closing active serial connection...', 'info');
+                addToConsole('Disconnecting for flash erase...', 'info');
+                await ensurePortClosed();
+            }
+
+            addToFlashConsole('Starting erase sequence...', 'info');
+            const esptool = getEsptool();
+
+            addToFlashConsole('Please select your device...', 'info');
+            const flashPort = await navigator.serial.requestPort({
+                filters: [{ usbVendorId: 0x303A }, { usbVendorId: 0x10C4 }, { usbVendorId: 0x1A86 }]
+            });
+
+            const transport = new esptool.Transport(flashPort);
+            const esploader = new esptool.ESPLoader({
+                transport: transport,
+                baudrate: 115200,
+                terminal: makeFlashTerminal(),
+                rom_baudrate: 115200
+            });
+
+            addToFlashConsole('Connecting...', 'info');
+            await esploader.main();
+            addToFlashConsole('Connected. Erasing...', 'info');
+            await esploader.eraseFlash();
+            addToFlashConsole('✓ Flash erased successfully!', 'success');
+
+            try { await esploader.after(); } catch (e) {}
+            await transport.disconnect();
+        } catch (error) {
+            addToFlashConsole('Erase failed: ' + error.message, 'error');
+        }
+    }
+
+    function showFlashProgress(percent) {
+        const progress = document.getElementById('flashProgress');
+        const bar = document.getElementById('flashProgressBar');
+        progress.style.display = 'block';
+        bar.style.width = percent + '%';
+        bar.textContent = percent + '%';
+    }
+
+    function hideFlashProgress() {
+        document.getElementById('flashProgress').style.display = 'none';
+    }
+
+    // ============================================
+    // Console Functions
+    // ============================================
+    function addToConsole(message, type = '') {
+        const consoleEl = document.getElementById('console');
+        const line = document.createElement('div');
+        line.className = 'console-line ' + type;
+        line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+        consoleEl.appendChild(line);
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    function addToFlashConsole(message, type = '') {
+        const consoleEl = document.getElementById('flashConsole');
+        const line = document.createElement('div');
+        line.className = 'console-line ' + type;
+        line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+        consoleEl.appendChild(line);
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    // ============================================
+    // Auth State
+    // ============================================
+    let authToken = localStorage.getItem('angelgotchi_token') || null;
+    let authUser = localStorage.getItem('angelgotchi_user') || null;
+    let isRegistering = false;
+
+    function updateAuthUI() {
+        const loggedIn = !!authToken;
+        document.getElementById('authPanel').style.display = loggedIn ? 'none' : 'block';
+        document.getElementById('profilePanel').style.display = loggedIn ? 'block' : 'none';
+        document.getElementById('huntLoginPrompt').style.display = loggedIn ? 'none' : 'block';
+        document.getElementById('huntUploadForm').style.display = loggedIn ? 'block' : 'none';
+
+        if (loggedIn) {
+            loadProfile();
+            // Set the connect tab username too
+            const uInput = document.getElementById('usernameInput');
+            if (uInput && !uInput.value) uInput.value = authUser;
+        }
+    }
+
+    function toggleAuthMode() {
+        isRegistering = !isRegistering;
+        document.getElementById('authTitle').textContent = isRegistering ? '✦ Register' : '✦ Log In';
+        document.getElementById('authSubmitBtn').textContent = isRegistering ? 'Create Account' : 'Log In';
+        document.getElementById('authToggleText').textContent = isRegistering ? 'Already have an account?' : "Don't have an account?";
+        document.getElementById('authToggleLink').textContent = isRegistering ? 'Log In' : 'Register';
+        document.getElementById('authInviteCode').style.display = isRegistering ? 'block' : 'none';
+        document.getElementById('authError').textContent = '';
+    }
+
+    async function handleAuth() {
+        const username = document.getElementById('authUsername').value.trim();
+        const password = document.getElementById('authPassword').value;
+        const errEl = document.getElementById('authError');
+        errEl.textContent = '';
+
+        if (!username || !password) { errEl.textContent = 'Fill in both fields'; return; }
+        if (isRegistering) {
+            const code = document.getElementById('authInviteCode').value.trim();
+            if (!code) { errEl.textContent = 'Invite code is required to register'; return; }
+        }
+
+        const endpoint = isRegistering ? '/api/register' : '/api/login';
+        const body = { username, password };
+        if (isRegistering) body.inviteCode = document.getElementById('authInviteCode').value.trim();
+
+        try {
+            const resp = await fetch(API_BASE_URL.replace('/api', '') + endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const data = await resp.json();
+            if (!resp.ok) { errEl.textContent = data.error || 'Failed'; return; }
+
+            authToken = data.token;
+            authUser = data.username;
+            localStorage.setItem('angelgotchi_token', authToken);
+            localStorage.setItem('angelgotchi_user', authUser);
+            localStorage.setItem('angelgotchi_username', data.displayName);
+            updateAuthUI();
+            loadHuntData();
+        } catch (e) {
+            errEl.textContent = 'Server unavailable — try again in 30s';
+        }
+    }
+
+    function logout() {
+        authToken = null;
+        authUser = null;
+        localStorage.removeItem('angelgotchi_token');
+        localStorage.removeItem('angelgotchi_user');
+        updateAuthUI();
+    }
+
+    // ============================================
+    // Profile
+    // ============================================
+    async function loadProfile() {
+        if (!authUser) return;
+        try {
+            const resp = await fetch(`${API_BASE_URL}/profile/${authUser}`);
+            if (!resp.ok) return;
+            const data = await resp.json();
+
+            document.getElementById('profileGreeting').textContent = `✨ Hello, ${data.displayName}!`;
+            document.getElementById('profileJoined').textContent = new Date(data.createdAt).toLocaleDateString();
+            document.getElementById('profileSteps').textContent = data.totalSteps.toLocaleString();
+            document.getElementById('profileHuntScore').textContent = data.huntScore;
+            document.getElementById('profileOverall').textContent = data.overallScore.toLocaleString();
+
+            const subList = document.getElementById('profileSubmissions');
+            if (data.huntSubmissions.length === 0) {
+                subList.innerHTML = '<div class="data-item"><span>No submissions yet — go to the Hunt tab!</span></div>';
+            } else {
+                subList.innerHTML = data.huntSubmissions.map(s =>
+                    `<div class="data-item"><span>${s.itemName}</span><span class="steps">+${s.points} pts</span></div>`
+                ).join('');
+            }
+        } catch (e) { console.error('Profile load error:', e); }
+    }
+
+    // ============================================
+    // Scavenger Hunt
+    // ============================================
+    let huntItems = [];
+    let userSubmissions = [];
+
+    async function loadHuntData() {
+        try {
+            // Load hunt items
+            const itemsResp = await fetch(`${API_BASE_URL}/hunt/items`);
+            if (itemsResp.ok) {
+                const data = await itemsResp.json();
+                huntItems = data.items;
+                populateHuntSelect();
+            }
+
+            // Load user submissions if logged in
+            if (authUser) {
+                const profileResp = await fetch(`${API_BASE_URL}/profile/${authUser}`);
+                if (profileResp.ok) {
+                    const pData = await profileResp.json();
+                    userSubmissions = pData.huntSubmissions || [];
+                }
+            }
+
+            renderHuntChecklist();
+            loadGallery();
+        } catch (e) { console.error('Hunt data error:', e); }
+    }
+
+    function populateHuntSelect() {
+        const sel = document.getElementById('huntItemSelect');
+        sel.innerHTML = '<option value="">— Select a scavenger hunt item —</option>';
+        huntItems.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.id;
+            opt.textContent = `${item.name}  (+${item.points} pts)`;
+            sel.appendChild(opt);
+        });
+    }
+
+    function renderHuntChecklist() {
+        const el = document.getElementById('huntChecklist');
+        // Overlay checkmarks on static checklist items for logged-in users
+        el.querySelectorAll('.hunt-item[data-id]').forEach(div => {
+            const itemId = div.getAttribute('data-id');
+            const done = userSubmissions.some(s => s.itemId === itemId);
+            if (done) {
+                div.classList.add('completed');
+                const label = div.querySelector('span');
+                if (label && !label.querySelector('.check')) {
+                    label.insertAdjacentHTML('afterbegin', '<span class="check">✓</span> ');
+                }
+            } else {
+                div.classList.remove('completed');
+                const check = div.querySelector('.check');
+                if (check) check.remove();
+            }
+        });
+    }
+
+    async function submitHuntPhoto() {
+        const statusEl = document.getElementById('huntStatus');
+        statusEl.textContent = '';
+        statusEl.style.color = '';
+
+        if (!authToken) { statusEl.textContent = 'Please log in first'; statusEl.style.color = '#ff4444'; return; }
+
+        const itemId = document.getElementById('huntItemSelect').value;
+        if (!itemId) { statusEl.textContent = 'Select a hunt item'; statusEl.style.color = '#ff4444'; return; }
+
+        const fileInput = document.getElementById('huntPhotoInput');
+        if (!fileInput.files.length) { statusEl.textContent = 'Choose a photo'; statusEl.style.color = '#ff4444'; return; }
+
+        const formData = new FormData();
+        formData.append('photo', fileInput.files[0]);
+        formData.append('itemId', itemId);
+        formData.append('username', authUser);
+
+        statusEl.textContent = 'Uploading...';
+        statusEl.style.color = '#f1baff';
+
+        try {
+            const resp = await fetch(API_BASE_URL.replace('/api', '') + '/api/hunt/submit', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + authToken },
+                body: formData
+            });
+            const data = await resp.json();
+            if (!resp.ok) { statusEl.textContent = data.error || 'Upload failed'; statusEl.style.color = '#ff4444'; return; }
+
+            statusEl.textContent = `✓ Submitted! Awaiting admin approval.`;
+            statusEl.style.color = 'var(--neon-green)';
+            fileInput.value = '';
+            document.getElementById('huntItemSelect').value = '';
+
+            // Refresh
+            loadHuntData();
+            loadProfile();
+            loadLeaderboard();
+        } catch (e) {
+            statusEl.textContent = 'Server error — try again';
+            statusEl.style.color = '#ff4444';
+        }
+    }
+
+    async function loadGallery() {
+        const el = document.getElementById('huntGallery');
+        try {
+            const resp = await fetch(`${API_BASE_URL}/hunt/gallery`);
+            if (!resp.ok) throw new Error();
+            const data = await resp.json();
+
+            if (!data.gallery.length) {
+                el.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:#ccc; font-size:12px;">No photos submitted yet. Be the first!</div>';
+                return;
+            }
+
+            el.innerHTML = data.gallery.slice(0, 20).map(g => `
+                <div class="gallery-card">
+                    <img src="${API_BASE_URL.replace('/api', '')}${g.photo}" alt="${g.itemName}" loading="lazy">
+                    <div class="gallery-info">
+                        <strong>${g.itemName}</strong>
+                        <span>by ${g.username} · +${g.points} pts</span>
+                    </div>
+                </div>
+            `).join('');
+        } catch (e) {
+            el.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:#ccc; font-size:12px;">Gallery loading...</div>';
+        }
+    }
+
+    // ============================================
+    // Admin Portal
+    // ============================================
+    let adminToken = localStorage.getItem('angelgotchi_admin_token') || '';
+
+    // Show admin nav if ?admin in URL
+    if (new URLSearchParams(window.location.search).has('admin')) {
+        document.getElementById('adminNavItem').style.display = '';
+        if (adminToken) {
+            document.getElementById('adminLoginSection').style.display = 'none';
+            document.getElementById('adminPanel').style.display = '';
+        }
+    }
+
+    function adminLogin() {
+        const input = document.getElementById('adminTokenInput');
+        const status = document.getElementById('adminAuthStatus');
+        const token = input.value.trim();
+        if (!token) { status.textContent = 'Enter a token'; status.style.color = '#ff4444'; return; }
+        adminToken = token;
+        localStorage.setItem('angelgotchi_admin_token', token);
+        // Verify by trying to load submissions
+        loadAdminSubmissions().then(ok => {
+            if (ok) {
+                document.getElementById('adminLoginSection').style.display = 'none';
+                document.getElementById('adminPanel').style.display = '';
+            } else {
+                status.textContent = 'Invalid token';
+                status.style.color = '#ff4444';
+                adminToken = '';
+                localStorage.removeItem('angelgotchi_admin_token');
+            }
+        });
+    }
+
+    async function loadAdminSubmissions() {
+        const el = document.getElementById('adminSubmissions');
+        const countEl = document.getElementById('adminSubCount');
+        try {
+            const resp = await fetch(`${API_BASE_URL}/admin/submissions`, {
+                headers: { 'x-admin-token': adminToken }
+            });
+            if (resp.status === 403) return false;
+            if (!resp.ok) throw new Error();
+            const data = await resp.json();
+            const subs = data.submissions || [];
+            countEl.textContent = `${subs.length} pending submission${subs.length !== 1 ? 's' : ''}`;
+
+            if (!subs.length) {
+                el.innerHTML = '<div style="text-align:center; padding:30px; color:#aaa; font-size:13px;">No pending submissions 🎉</div>';
+                return true;
+            }
+
+            el.innerHTML = subs.map(s => `
+                <div style="background:rgba(255,255,255,0.06); border-radius:10px; padding:12px; margin-bottom:12px; border:1px solid rgba(255,255,255,0.1);">
+                    <div style="display:flex; gap:12px; align-items:flex-start;">
+                        <img src="${API_BASE_URL.replace('/api', '')}${s.photo}" style="width:120px; height:120px; object-fit:cover; border-radius:8px; border:1px solid #555; cursor:pointer;" onclick="window.open(this.src)" alt="${s.itemName}">
+                        <div style="flex:1; color:#fff;">
+                            <div style="font-weight:bold; font-size:14px; margin-bottom:4px;">${s.itemName}</div>
+                            <div style="font-size:12px; color:#ccc;">by <strong>${s.username}</strong></div>
+                            <div style="font-size:12px; color:var(--purple-dark);">+${s.points} pts · ${s.rarity}</div>
+                            <div style="font-size:11px; color:#888; margin-top:2px;">${new Date(s.submittedAt).toLocaleString()}</div>
+                            <div style="margin-top:10px; display:flex; gap:8px;">
+                                <button onclick="adminAction('approve','${s.username}',${s.index})" style="padding:6px 16px; border:none; border-radius:6px; background:#22c55e; color:#fff; font-weight:bold; cursor:pointer; font-size:12px;">✓ Approve</button>
+                                <button onclick="adminAction('reject','${s.username}',${s.index})" style="padding:6px 16px; border:none; border-radius:6px; background:#ef4444; color:#fff; font-weight:bold; cursor:pointer; font-size:12px;">✗ Reject</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            return true;
+        } catch (e) {
+            el.innerHTML = '<div style="text-align:center; padding:20px; color:#ff4444; font-size:12px;">Failed to load submissions</div>';
+            return false;
+        }
+    }
+
+    async function adminAction(action, username, index) {
+        try {
+            const resp = await fetch(`${API_BASE_URL}/admin/${action}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'x-admin-token': adminToken },
+                body: JSON.stringify({ username, index })
+            });
+            const data = await resp.json();
+            if (!resp.ok) { alert(data.error || 'Action failed'); return; }
+            loadAdminSubmissions();
+        } catch (e) {
+            alert('Server error');
+        }
+    }
+
+    // ============================================
+    // Cleanup on page unload
+    // ============================================
+    window.addEventListener('beforeunload', async () => {
+        if (reader) { try { await reader.cancel(); reader.releaseLock(); } catch (e) {} }
+        if (port) { try { await port.close(); } catch (e) {} }
+    });
+</script>
+</body>
+</html>
