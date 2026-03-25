@@ -136,7 +136,7 @@ app.use(cors({
         else cb(new Error('CORS blocked'));
     },
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-token']
 }));
 
 app.use(express.json({ limit: '1mb' }));
